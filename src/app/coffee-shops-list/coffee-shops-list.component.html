@@ -71,12 +71,12 @@
                 <input type="text" formControlName="description" class="form-control" id="description">
               </div>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Геолокация</label>
-                <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button>
-                <span>{{ location }}</span>
-                <div *ngIf="isMapDisplayed">
-                  <app-map-modal [parent]="this"></app-map-modal>
-                </div>
+                <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
+                <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
+                <span>{{ location }}</span><br>
+                <!-- <div *ngIf="isMapDisplayed"> -->
+                <app-mutable-map [(location)]="location" [editable]="true" [name]="'map for add form'"></app-mutable-map>
+                <!-- </div> -->
                 <!-- <input type="text" formControlName="location" class="form-control" id="location"> -->
               </div>
               <div class="mb-3">
@@ -100,7 +100,7 @@
                 <input type="text" formControlName="manager" class="form-control" id="manager">
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hideMap()">Закрыть</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addCoffeeShop()">Добавить кофейню</button>
               </div>
             </form>
@@ -129,11 +129,11 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Геолокация</label>
-                <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button>
+                <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
                 <span>{{ location }}</span>
-                <div *ngIf="isMapDisplayed">
-                  <app-map-modal [parent]="this"></app-map-modal>
-                </div>
+                <!-- <div *ngIf="isMapDisplayed"> -->
+                  <app-mutable-map [(location)]="location" [editable]="true" [name]="'map for edit form'"></app-mutable-map>
+                <!-- </div> -->
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label address">Адрес</label>
@@ -185,7 +185,7 @@
 
     <!-- Details coffee shop Modal -->
     <div id="detailsModal" class="modal fade" id="detailsCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Подробная информация о кофейне</h5>
@@ -204,6 +204,9 @@
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
                 <span>{{ location }}</span>
+                
+                <app-unmutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-unmutable-map>
+                
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Адрес</label>

@@ -7,7 +7,6 @@ import { allWeekDays, WeekDay, WeekDayCodes, WeekDayCodesf } from '../model/hour
 import { WorkingHours } from '../model/hours/working-hours';
 import { CoffeeShopService } from '../service/coffeeShops/coffee-shop.service';
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
-import { MapModalComponent } from '../map/map-modal/map-modal.component';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -26,8 +25,8 @@ export class CoffeeShopsListComponent implements OnInit {
 
   location!: string;
 
-  @ViewChild(MapModalComponent)
-  map!: MapModalComponent;
+  // @ViewChild(MapModalComponent)
+  // map!: MapModalComponent;
 
   isMapDisplayed = false;
   coordinatesButtonText = "Добавить геолокацию";
@@ -80,6 +79,8 @@ export class CoffeeShopsListComponent implements OnInit {
       this.schedule.workingHours.push(workingHours)
     })
     this.location = ""
+
+    this.hideMap();
   }
 
   addCoffeeShop() {
@@ -97,6 +98,7 @@ export class CoffeeShopsListComponent implements OnInit {
   }
 
   prepareEditDeleteForm(coffeeShopSummary: CoffeeShopSummary) {
+    this.hideMap();
     this.selectedCoffeeShopId = coffeeShopSummary.id;
     this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe(
       coffeeShop => {
@@ -113,7 +115,7 @@ export class CoffeeShopsListComponent implements OnInit {
         this.location = coffeeShop.location['lat'] + ',' + coffeeShop.location['lng'];
       },
       error => {
-
+        
       }
     )
   }
@@ -181,14 +183,19 @@ export class CoffeeShopsListComponent implements OnInit {
     console.log(addressData);
   }
 
-  displayMap() {
-    this.isMapDisplayed = !this.isMapDisplayed;
-    if (this.isMapDisplayed) {
-      this.coordinatesButtonText = "Закрыть карту";
-    }
-    else {
-      this.coordinatesButtonText = "Добавить геолокацию";
-    }
+  // displayMap() {
+  //   this.isMapDisplayed = !this.isMapDisplayed;
+  //   if (this.isMapDisplayed) {
+  //     this.coordinatesButtonText = "Закрыть карту";
+  //   }
+  //   else {
+  //     this.coordinatesButtonText = "Добавить геолокацию";
+  //   }
+  // }
+
+  hideMap() {
+    this.isMapDisplayed = false;
+    this.coordinatesButtonText = "Добавить геолокацию";
   }
 
 }

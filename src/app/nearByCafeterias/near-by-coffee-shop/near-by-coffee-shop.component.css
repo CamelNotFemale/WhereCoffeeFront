@@ -1,0 +1,20 @@
+/* app-unmutable-map {
+    display: flex;
+    float: left;
+}
+
+app-user-coffee-shops-list {
+    display: flex;
+    float: right;
+} */
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.container .btn {
+    position:absolute;
+    bottom: 10px;
+    right: 10px;
+}

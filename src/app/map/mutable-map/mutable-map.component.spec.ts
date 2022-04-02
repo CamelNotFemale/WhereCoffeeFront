@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MapModalComponent } from './map-modal.component';
+import { MutableMapComponent } from './mutable-map.component';
 
-describe('MapModalComponent', () => {
-  let component: MapModalComponent;
-  let fixture: ComponentFixture<MapModalComponent>;
+describe('MutableMapComponent', () => {
+  let component: MutableMapComponent;
+  let fixture: ComponentFixture<MutableMapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapModalComponent ]
+      declarations: [ MutableMapComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MapModalComponent);
+    fixture = TestBed.createComponent(MutableMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

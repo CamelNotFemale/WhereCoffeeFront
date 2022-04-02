@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { CoffeeShopsListComponent } from './coffee-shops-list/coffee-shops-list.component';
 import { AuthGuard } from './guards/auth-guard';
 import { Role } from './model/role/Role';
+import { NearByCoffeeShopComponent } from './nearByCafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
 const routes: Routes = [
   {
     path: '', 
@@ -23,6 +24,12 @@ const routes: Routes = [
   {
     path: 'home', 
     component: HomeComponent
+  },
+  {
+    path: 'userButton', 
+    component: NearByCoffeeShopComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.User] }
   },
   {
     path: 'coffeeShopsList', 

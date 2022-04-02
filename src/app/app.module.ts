@@ -13,7 +13,11 @@ import { CoffeeShopsListComponent } from './coffee-shops-list/coffee-shops-list.
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-import { MapModalComponent } from './map/map-modal/map-modal.component';
+import { MutableMapComponent } from './map/mutable-map/mutable-map.component';
+import { UnmutableMapComponent } from './map/unmutable-map/unmutable-map.component';
+import { NearByCoffeeShopComponent } from './nearByCafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
+import { UserMapComponent } from './nearByCafeterias/user-map/user-map.component';
+import { UserCoffeeShopsListComponent } from './nearByCafeterias/user-coffee-shops-list/user-coffee-shops-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { MapModalComponent } from './map/map-modal/map-modal.component';
     HomeComponent,
     NavComponent,
     CoffeeShopsListComponent,
-    MapModalComponent
+    MutableMapComponent,
+    UnmutableMapComponent,
+    NearByCoffeeShopComponent,
+    UserMapComponent,
+    UserCoffeeShopsListComponent
   ],
   imports: [
     BrowserModule,
