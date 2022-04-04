@@ -4,20 +4,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { NavComponent } from './nav/nav.component';
+import { RegisterComponent } from './component/register/register.component';
+import { LoginComponent } from './component/login/login.component';
+import { HomeComponent } from './component/home/home.component';
+import { NavComponent } from './component/nav/nav.component';
 import { HttpClientModule } from '@angular/common/http';
-import { CoffeeShopsListComponent } from './coffee-shops-list/coffee-shops-list.component';
+import { CoffeeShopsListComponent } from './component/coffee-shops-list/coffee-shops-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDadataModule } from '@kolkov/ngx-dadata';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-import { MutableMapComponent } from './map/mutable-map/mutable-map.component';
-import { UnmutableMapComponent } from './map/unmutable-map/unmutable-map.component';
-import { NearByCoffeeShopComponent } from './nearByCafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
-import { UserMapComponent } from './nearByCafeterias/user-map/user-map.component';
-import { UserCoffeeShopsListComponent } from './nearByCafeterias/user-coffee-shops-list/user-coffee-shops-list.component';
+import { MutableMapComponent } from './component/map/mutable-map/mutable-map.component';
+import { ImmutableMapComponent } from './component/map/immutable-map/immutable-map.component';
+import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
+import { UserMapComponent } from './component/nearby-cafeterias/user-map/user-map.component';
+import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user-coffee-shops-list/user-coffee-shops-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { UserCoffeeShopsListComponent } from './nearByCafeterias/user-coffee-sho
     NavComponent,
     CoffeeShopsListComponent,
     MutableMapComponent,
-    UnmutableMapComponent,
+    ImmutableMapComponent,
     NearByCoffeeShopComponent,
     UserMapComponent,
     UserCoffeeShopsListComponent

@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { YaReadyEvent } from 'angular8-yandex-maps';
-import { CoffeeShopsListComponent } from 'src/app/coffee-shops-list/coffee-shops-list.component';
 
 @Component({
-  selector: 'app-unmutable-map',
-  templateUrl: './unmutable-map.component.html',
-  styleUrls: ['./unmutable-map.component.css']
+  selector: 'app-immutable-map',
+  templateUrl: './immutable-map.component.html',
+  styleUrls: ['./immutable-map.component.css']
 })
-export class UnmutableMapComponent implements OnInit {
+export class ImmutableMapComponent implements OnInit {
 
   public map!: ymaps.Map;
 
@@ -16,8 +15,6 @@ export class UnmutableMapComponent implements OnInit {
 
   @Input()
   location!: string;
-
-  
 
   @Input()
   editable!: boolean;

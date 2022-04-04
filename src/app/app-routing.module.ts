@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { CoffeeShopsListComponent } from './coffee-shops-list/coffee-shops-list.component';
+import { HomeComponent } from './component/home/home.component';
+import { RegisterComponent } from './component/register/register.component';
+import { LoginComponent } from './component/login/login.component';
+import { CoffeeShopsListComponent } from './component/coffee-shops-list/coffee-shops-list.component';
 import { AuthGuard } from './guards/auth-guard';
 import { Role } from './model/role/Role';
-import { NearByCoffeeShopComponent } from './nearByCafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
+import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
 const routes: Routes = [
   {
     path: '', 

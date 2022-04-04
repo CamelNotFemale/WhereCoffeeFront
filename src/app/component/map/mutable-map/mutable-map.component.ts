@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { YaReadyEvent } from 'angular8-yandex-maps';
-import { CoffeeShopsListComponent } from 'src/app/coffee-shops-list/coffee-shops-list.component';
 
 @Component({
   selector: 'app-mutable-map',
@@ -17,8 +16,8 @@ export class MutableMapComponent implements OnInit {
   @Input()
   location!: string
 
-  @Output()
-  locationChange = new EventEmitter<string>();
+  // @Output()
+  // locationChange = new EventEmitter<string>();
 
   @Input()
   editable!: boolean;
@@ -32,6 +31,16 @@ export class MutableMapComponent implements OnInit {
     console.log("Mutable map component init. Editable: ", this.editable, ". Name: ", this.name);
   }
 
+  ngOnChanges() {
+    console.log("Unmutable map component reinit. Editable: ", this.editable, ". Name: ", this.name);
+    if (this.location) {
+      console.log(this.location);
+      this.lat = Number(this.location.split(',')[0]);
+      this.lng = Number(this.location.split(',')[1]);
+      console.log(this.lat, this.lng);
+    }
+  }
+
   onMapReady(event: YaReadyEvent<ymaps.Map>): void {
     console.log("Mutable map component ready. Editable: ", this.editable, ". Name: ", this.name);
 
@@ -42,7 +51,7 @@ export class MutableMapComponent implements OnInit {
         var coords = e.get('coords');
         var coordinatesString = coords.join(',');
         this.location = coordinatesString;
-        this.locationChange.emit(this.location);
+        //this.locationChange.emit(this.location);
         this.lat = coords[0];
         this.lng = coords[1];
         console.log(coordinatesString);

@@ -1,9 +1,9 @@
 import { EmitterVisitorContext } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { Emitters } from '../emitter/emitters';
-import { User } from '../model/user/user';
-import { AuthService } from '../service/auth/auth.service';
-import { UserService } from '../service/user/user.service';
+import { Emitters } from '../../emitter/emitters';
+import { User } from '../../model/user/user';
+import { AuthService } from '../../service/auth/auth.service';
+import { UserService } from '../../service/user/user.service';
 
 @Component({
   selector: 'app-home',
