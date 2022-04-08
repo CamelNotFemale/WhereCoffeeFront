@@ -1,4 +1,7 @@
+import { Grade } from "../grade/grade";
 import { WorkingHours } from "../hours/working-hours";
+import { PerkData } from "../perks/PerkData";
+import { PerkType } from "../perks/PerkType";
 import { User } from "../user/user";
 
 export class CoffeeShop {
@@ -14,6 +17,7 @@ export class CoffeeShop {
         public rating: number,
         public manager: User,
         public workingHours: Array<WorkingHours>,
-        public grades: Array<number>
+        public grades: Array<Grade>,
+        public perks: Array<PerkType>
         ) { }
 }

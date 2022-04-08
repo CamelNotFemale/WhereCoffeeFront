@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
+import { CoffeeShopDetailsForUserComponent } from '../coffee-shop-details-for-user/coffee-shop-details-for-user.component';
 
 @Component({
   selector: 'app-user-coffee-shops-list',
@@ -30,7 +32,7 @@ export class UserCoffeeShopsListComponent implements OnInit {
 
   private _location!: string;
 
-  constructor(public coffeeShopService: CoffeeShopService) { }
+  constructor(public coffeeShopService: CoffeeShopService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     
@@ -43,6 +45,29 @@ export class UserCoffeeShopsListComponent implements OnInit {
         this.nearByCoffeeShops = response;
       }
     )
+  }
+
+  openCoffeShopModalDetails(coffeeShopSummary: CoffeeShopSummary) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop : true,
+      keyboard : false,
+      size: 'xl'
+    }
+
+    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe( 
+      (coffeeShop) => {
+        const modalRef: NgbModalRef = this.modalService.open(CoffeeShopDetailsForUserComponent, ngbModalOptions);
+        console.log("ModalRef:", modalRef);
+
+        modalRef.componentInstance.coffeeShop = coffeeShop;
+        console.log("Getting coffee shop", coffeeShop);
+
+        modalRef.result.then( (result) => {
+          console.log("Coffee shop for user Modal window is closed")
+        })
+        .catch(error => console.log(error))
+    })
+
   }
 
 }

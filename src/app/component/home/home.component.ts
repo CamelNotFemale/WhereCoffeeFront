@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
       console.log("home")
       this.userService.getData(this.authService.user.id!).subscribe(
         (userData: User) => {
-          this.message = `Hi ${userData.name}`;
+          this.message = `Hi ${userData.username}`;
         },
         (err: any) => {
           this.message = 'Failed to fetch user data';

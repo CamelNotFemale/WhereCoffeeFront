@@ -18,6 +18,7 @@ import { ImmutableMapComponent } from './component/map/immutable-map/immutable-m
 import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
 import { UserMapComponent } from './component/nearby-cafeterias/user-map/user-map.component';
 import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user-coffee-shops-list/user-coffee-shops-list.component';
+import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias/coffee-shop-details-for-user/coffee-shop-details-for-user.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user
     ImmutableMapComponent,
     NearByCoffeeShopComponent,
     UserMapComponent,
-    UserCoffeeShopsListComponent
+    UserCoffeeShopsListComponent,
+    CoffeeShopDetailsForUserComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user
     AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CoffeeShopDetailsForUserComponent]
 })
 export class AppModule { }

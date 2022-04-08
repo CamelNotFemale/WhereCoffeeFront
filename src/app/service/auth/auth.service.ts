@@ -32,15 +32,15 @@ export class AuthService {
     console.log("AuthService initialized. Current user: ", this.userData.value)
   }
 
-  login(name: string, password:string): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(AUTH_API + '/login', {name, password}).pipe(
+  login(username: string, password:string): Observable<LoginResponse> {
+    return this.httpClient.post<LoginResponse>(AUTH_API + '/login', {username, password}).pipe(
       tap((response => this.onLogin(response))),
       catchError(this.handleError)
     )
   }
 
-  register(name: string, email: string, password: string): Observable<any> {
-    return this.httpClient.post(AUTH_API + '/register', {name, email, password}).pipe(
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.httpClient.post(AUTH_API + '/register', {username, email, password}).pipe(
       catchError(this.handleError)
     );
   }

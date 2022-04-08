@@ -1,0 +1,119 @@
+
+      <div class="cafeteriaModal">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ coffeeShop.name }}</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="commentForm">
+          <div class="cafeteriaInfo">
+            <div class="info">
+              <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
+            </div>
+            
+            <div class="info">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td><b>Описание</b></td>
+                    <td>{{ coffeeShop.description }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Адрес</b></td>
+                    <td>{{ coffeeShop.address }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Номер телефона</b></td>
+                    <td>{{ coffeeShop.phone }}</td>
+                  </tr>
+                  <tr *ngIf="coffeeShop.url">
+                    <td><b>Сайт</b></td>
+                    <td>{{ coffeeShop.url }}</td>
+                  </tr>
+                  <!-- <div *ngIf="coffeeShop.perks">
+                    <tr *ngFor="let perk of coffeeShop.perks">
+                      <td><b>Особенности</b></td>
+                      <td>{{ perk }}</td>
+                    </tr>
+                  </div> -->
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+
+          <div class="writeComment col-sm-10">
+            <input type="text" formControlName="comment" class="form-control" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
+            <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
+
+            <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
+              
+            <div *ngFor="let perk of perks">
+              <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}}></i></button>
+              <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}}></i></button>
+            </div>
+              
+            
+
+          </div>
+          
+        </form>
+      </div>
+
+      <h3 class="reviewList">Отзывы</h3>
+
+      <div>
+        <table class="gradesTable">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 25%">Имя пользователя</th>
+              <th scope="col" style="width: 25%">Отзыв</th>
+              <th scope="col" style="width: 25%">Оценка</th>
+              <th scope="col" style="width: 25%">Дата отзыва</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let userGrade of grades">
+              <th scope="row">{{userGrade.user.username}</th>
+              <td>{{userGrade.comment}}</td>
+              <td>{{userGrade.grade}}</td>
+              <td>{{userGrade.date}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <blockquote>
+          <p>
+            <span style="margin-left: 50px;">{{userGrade.user.name}}</span>
+            <span style="margin-left: 50px;">{{userGrade.comment}}</span>
+            <span style="margin-left: 50px;">{{userGrade.grade}}</span>
+            <span style="margin-left: 50px;">{{userGrade.date}}</span>
+          </p>
+        </blockquote> -->
+        
+
+        
+      </div>
+
+
+
+  <!-- <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="mb-3">
+          <label for="dateOfBirth">Date of birth</label>
+          <div class="input-group">
+            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+  </ng-template> -->

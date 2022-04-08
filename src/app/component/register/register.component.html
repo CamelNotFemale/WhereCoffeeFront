@@ -4,7 +4,7 @@
     <div *ngIf="registerFailed" class="alert alert-danger">
       <span>{{registerFailureDescription}}</span>
     </div>
-    <input formControlName="name" class="form-control" placeholder="Name" required>
+    <input formControlName="username" class="form-control" placeholder="Name" required>
     <div
       *ngIf="getName!.invalid && (getName!.touched || getName!.dirty)" class="alert alert-danger"
     >

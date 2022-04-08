@@ -19,14 +19,14 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formBiulder.group({
-      name: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 
   get getName() {
-    return this.form.get('name');
+    return this.form.get('username');
   }
 
   get getEmail() {

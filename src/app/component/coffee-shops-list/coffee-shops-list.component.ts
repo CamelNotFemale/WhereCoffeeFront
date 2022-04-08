@@ -170,7 +170,8 @@ export class CoffeeShopsListComponent implements OnInit {
       shopData.rating,
       shopData.manager,
       workingHours,
-      shopData.grades
+      shopData.grades,
+      shopData.perks
     );
 
     console.log(newCoffeeShop);
