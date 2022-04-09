@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
@@ -64,9 +64,18 @@ export class CoffeeShopService {
   }
 
   addReview(coffeeShopId: number, gradeRequest: GradeRequest): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+    console.log("Userdata: ", userData);
+
+    console.log("Token", userData.token);
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
     console.log("Sending request to publish review on coffee shop with id ", coffeeShopId,
       gradeRequest);
-    let response = this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review", gradeRequest)
+    let response = this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review", gradeRequest, {headers: headers})
     response.subscribe(result => {
       console.log("Recieved response to add review", result);
     }, error => {
