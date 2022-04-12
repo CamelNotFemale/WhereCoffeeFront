@@ -7,6 +7,7 @@ import { CoffeeShopsListComponent } from './component/coffee-shops-list/coffee-s
 import { AuthGuard } from './guards/auth-guard';
 import { Role } from './model/role/Role';
 import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
+import { ProfileComponent } from './component/profile/profile.component';
 const routes: Routes = [
   {
     path: '', 
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'register', 
     component: RegisterComponent
+  },
+  {
+    path: 'profile', 
+    component: ProfileComponent
   },
   {
     path: 'home', 
