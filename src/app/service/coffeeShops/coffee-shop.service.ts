@@ -89,16 +89,16 @@ export class CoffeeShopService {
       'Authorization': `Bearer ${userData.token}`
     })
 
-    return this.httpClient.patch(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review", changedGrade, {headers: headers});
+    return this.httpClient.patch(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review" + "/" + changedGrade.userId, changedGrade, {headers: headers});
   }
 
-  deleteReview(coffeeShopId: number): Observable<any> {
+  deleteReview(coffeeShopId: number, userId: number): Observable<any> {
     let userData = JSON.parse(localStorage.getItem('userData')!)
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${userData.token}`
     })
 
-    return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review", {headers: headers});
+    return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review" + "/" + userId, {headers: headers});
   }
 }

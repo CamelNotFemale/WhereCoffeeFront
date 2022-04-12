@@ -53,9 +53,9 @@ export class ProfileComponent implements OnInit {
       email: [this.user?.email, [Validators.required, Validators.email]],
       phone: [this.user?.phone, [Validators.required]],
       birthDay: [date, [Validators.required]],
-      oldPassword: ['', [Validators.required, Validators.minLength(6)]],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
+      oldPassword: ['', [Validators.minLength(6)]],
+      newPassword: ['', [Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.minLength(6)]]
     })
   }
 
@@ -87,6 +87,7 @@ export class ProfileComponent implements OnInit {
   submit(): void {
     if (!this.passwordsMatch) {
       console.log('passwords do not match')
+      
     }
     else {
       let userData = JSON.parse(localStorage.getItem('userData')!)
