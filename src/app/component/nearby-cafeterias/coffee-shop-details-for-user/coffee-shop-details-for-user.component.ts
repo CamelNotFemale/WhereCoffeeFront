@@ -20,12 +20,15 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
 
   commentForm!: FormGroup;
   grades!: Array<Grade>;
+  commentatorName!: string;
+  editableComment!: string;
+  currentRate!: number;
 
   @Input() 
   coffeeShop!: CoffeeShop;
   location!: string;
 
-  currentRate!: number;
+  editState: boolean = false;
 
   perks: Array<PerkData> = [
     {
@@ -79,8 +82,39 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
 
 
     let gradeRequest = new GradeRequest(comment, grade, userId, chosenPerks);
-    this.coffeeShopService.addReview(this.coffeeShop.id, gradeRequest);
+    this.coffeeShopService.addReview(this.coffeeShop.id, gradeRequest).subscribe(
+      () => {
+        this.getAllReview();
+      },
+      error => {
+        console.log("Failed to add review");
+      }
+    );
 
+    this.clearGradeInputForm();
+  }
+
+  getAllReview() {
+    this.coffeeShopService.getCoffeeShop(this.coffeeShop.id).subscribe(
+      response => {
+        console.log("Getting coffee shop on review:", response);
+        console.log("Perks:", this.coffeeShop.perks);
+        this.grades = response.grades;
+        console.log("Coffee shop grades:", this.grades);
+      }
+    )
+
+    this.authService.currentUser.subscribe(
+      (userData) => {
+        this.commentatorName = userData?.username as string;
+        console.log("Имя комментирующего:", this.commentatorName);
+      }
+    );
+
+    
+  }
+
+  clearGradeInputForm() {
     this.commentForm.controls['comment'].setValue('');
     this.currentRate = 0;
     this.perks[0].state = false;
@@ -88,14 +122,52 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     this.perks[2].state = false;
   }
 
-  getAllReview() {
-    let resultCoffeeShop = this.coffeeShopService.getCoffeeShop(this.coffeeShop.id).subscribe(
-      response => {
-        console.log("Getting coffee shop on review:", response);
-        this.grades = response.grades;
+  prepareEditGrade(userGrade: Grade) {
+    this.editState = !this.editState;
+    console.log("Изменение комментария: ", this.editState);
+
+    this.editableComment = userGrade.comment;
+    this.currentRate = userGrade.grade;
+    console.log(this.editableComment);
+  }
+
+  editGrade() {
+    console.log(this.editableComment);
+
+    let userId = this.authService.user!.id;
+    let comment = this.editableComment;
+    let grade = this.currentRate;
+
+    let chosenPerks = this.perks
+      .filter(perk => perk.state)
+      .map(perk => perk.type);
+
+    console.log(this.perks, chosenPerks);
+
+
+    let gradeRequest = new GradeRequest(comment, grade, userId, chosenPerks);
+    this.coffeeShopService.updateReview(this.coffeeShop.id, gradeRequest).subscribe(
+      value => {
+        this.getAllReview();
+        console.log("Grade updated");
+      }, 
+      error => {
+        console.log("FAILED TO UPDATE GRADE", error);
       }
     )
-    
+
+    this.editState = !this.editState;
+  }
+
+  deleteGrade() {
+    this.coffeeShopService.deleteReview(this.coffeeShop.id).subscribe(
+      value => {
+        this.getAllReview();
+      },
+      error => {
+        console.log("FAILED TO DELETE REVIEW IN COFFEE SHOP WITH ID ", this.coffeeShop.id, error);
+      }
+    )
   }
 
 }
