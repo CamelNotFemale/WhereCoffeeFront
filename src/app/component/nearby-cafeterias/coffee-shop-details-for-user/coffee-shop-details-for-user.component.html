@@ -79,11 +79,11 @@
                 <p>
                     <a class="float-left">
                       <strong>{{userGrade.user.username}}</strong>
-                      <span *ngIf="userGrade.user.username===commentatorName" class="editCommentIcon">
+                      <span *ngIf="authService.user?.isAdmin || userGrade.user.username===commentatorName" class="editCommentIcon">
                         <button type="button" class="btn btn-primary btn-sm" (click)="prepareEditGrade(userGrade)">
                           <i class="bi bi-pencil"></i>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteGrade()">
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteGrade(userGrade.user.id)">
                           <i class="bi bi-trash"></i>
                         </button>
                       </span>
@@ -135,7 +135,7 @@
                 <p *ngIf="editState && userGrade.user.username===commentatorName">
                   
                   <input type="text" value={{userGrade.comment}} [(ngModel)]="editableComment" class="form-control">
-                  <button type="button" class="btn btn-success editComment" (click)="editGrade()">Изменить оценку</button>
+                  <button type="button" class="btn btn-success editComment" (click)="editGrade(userGrade.user.id)">Изменить оценку</button>
                 </p>
             </div>
         </div>

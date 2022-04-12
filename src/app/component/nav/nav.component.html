@@ -17,7 +17,7 @@
           <a routerLink="/coffeeShopsList" class="nav-link" *ngIf="isAdmin">Список всех кофеен</a>
         </li>
         <li class="nav-item">
-          <a routerLink="/userButton" class="nav-link" *ngIf="isUser">Кофейни рядом</a>
+          <a routerLink="/userButton" class="nav-link" *ngIf="isUser || isAdmin">Кофейни рядом</a>
         </li>
         <li class="nav-item">
           <a routerLink="/home" class="nav-link">Общая кнопка</a>

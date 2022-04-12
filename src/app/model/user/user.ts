@@ -6,12 +6,7 @@ export class User {
     // name!: string;
     // email!: string;
     // password!: string;
-    // role!: Role;    
-    // id!: number;
-    // name!: string;
-    // email!: string;
-    // password!: string;
-    // role!: Role;    
+    // role!: Role;   
     public firstName!: string;
     public surname!: string;
     public patronymic!: string;

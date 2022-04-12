@@ -131,10 +131,9 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     console.log(this.editableComment);
   }
 
-  editGrade() {
+  editGrade(userId: number) {
     console.log(this.editableComment);
 
-    let userId = this.authService.user!.id;
     let comment = this.editableComment;
     let grade = this.currentRate;
 
@@ -159,8 +158,8 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     this.editState = !this.editState;
   }
 
-  deleteGrade() {
-    this.coffeeShopService.deleteReview(this.coffeeShop.id).subscribe(
+  deleteGrade(userId: number) {
+    this.coffeeShopService.deleteReview(this.coffeeShop.id, userId).subscribe(
       value => {
         this.getAllReview();
       },
