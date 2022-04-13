@@ -21,7 +21,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12"><label class="labels">Email</label><input formControlName="email" type="text" class="form-control" placeholder="enter email id" value=""></div>
-                        <div class="col-md-12"><label class="labels">Mobile Number</label><input formControlName="phone" type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input formControlName="phone" type="tel" class="form-control" placeholder="enter phone number" value=""></div>
                         <div class="col-md-12"><label class="labels">Date of Birth</label><input formControlName="birthDay" type="date" class="form-control" value=""></div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
@@ -41,10 +41,18 @@
                             <span *ngIf="!passwordsMatch">
                                 >Passwords do not match
                             </span>
-                            <span *ngIf="getNewPassword!.errors?.['minlength'] || getOldPassword!.errors?.['minlength']">
-                                >Password must consist of at least 6 digits
-                              </span>
+                            <span *ngIf="getNewPassword!.invalid || getOldPassword!.invalid">
+                                >Password must consist of at least 6 digits [0-9a-zA-Z!@#$%^&*]
+                            </span>
                         </div>
+                    </div>
+                    <div *ngIf="getEmail!.invalid || getPhone!.dirty && getPhone!.invalid" class="alert alert-danger">
+                        <span *ngIf="getPhone!.invalid">
+                            >Phone is invalid
+                        </span>
+                        <span *ngIf="getEmail!.invalid">
+                            >Email is invalid
+                        </span>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
                     <div *ngIf="successfullUpdate" class="alert alert-success">Successfull profile update!</div>

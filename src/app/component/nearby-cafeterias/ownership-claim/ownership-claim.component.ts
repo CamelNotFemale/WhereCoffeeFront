@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 
@@ -18,23 +18,29 @@ export class OwnershipClaimComponent implements OnInit {
 
   ngOnInit(): void {
     this.claimForm = this.formBuilder.group({
-      messengerLogin: [""]
+      messengerLogin: ["", [Validators.required, Validators.minLength(6)]]
     })
+  }
+  
+  get getMessengerLogin() {
+    return this.claimForm.get("messengerLogin");
   }
 
   sendClaim(): void {
-    this.coffeeShopService.sendOwnershipClaim(this.cafeId, this.claimForm.getRawValue()).subscribe(
-      (res: any) => {
-        alert("Заявка успешно отправлена!")
-        this.activeModal.close()
-      },
-      (err: HttpErrorResponse) => {
-        if (err.status == 409) {
-          alert("Ошибка, заявка уже была отправлена!")
+    if (this.claimForm.valid) {
+      this.coffeeShopService.sendOwnershipClaim(this.cafeId, this.claimForm.getRawValue()).subscribe(
+        (res: any) => {
+          alert("Заявка успешно отправлена!")
           this.activeModal.close()
+        },
+        (err: HttpErrorResponse) => {
+          if (err.status == 409) {
+            alert("Ошибка, заявка уже была отправлена!")
+            this.activeModal.close()
+          }
+          console.log(err)
         }
-        console.log(err)
-      }
-    )
+      )
+    }
   }
 }

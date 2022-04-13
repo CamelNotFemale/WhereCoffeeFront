@@ -7,8 +7,16 @@
         <p>Для подтверждения права собственности свяжитесь с нами в Telegram: <a class="text-primary">@testLogin</a></p>
         <p>Также просим вас оставить свой логин Telegram.</p>
         <input type="text" formControlName="messengerLogin" class="form-control" placeholder="введите логин Telegram" aria-label="Ввод логина Telegram">
+        <div *ngIf="(getMessengerLogin!.dirty || getMessengerLogin!.touched) && getMessengerLogin!.invalid" class="alert alert-danger">
+            <span *ngIf="getMessengerLogin!.errors?.['required']">
+                >Login is required
+            </span>
+            <span *ngIf="getMessengerLogin!.errors?.['minlength']">
+                >Login must consist of at least 6 digits
+            </span>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="sendClaim()">Отправить заявку</button>
+    <button type="button" [disabled]="!claimForm.valid" class="btn btn-primary" (click)="sendClaim()">Отправить заявку</button>
 </div>
