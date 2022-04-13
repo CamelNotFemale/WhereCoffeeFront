@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <h5 class="modal-title">Заявка владельца</h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss('Cross click')" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="claimForm">
+        <p>Для подтверждения права собственности свяжитесь с нами в Telegram: <a class="text-primary">@testLogin</a></p>
+        <p>Также просим вас оставить свой логин Telegram.</p>
+        <input type="text" formControlName="messengerLogin" class="form-control" placeholder="введите логин Telegram" aria-label="Ввод логина Telegram">
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="sendClaim()">Отправить заявку</button>
+</div>

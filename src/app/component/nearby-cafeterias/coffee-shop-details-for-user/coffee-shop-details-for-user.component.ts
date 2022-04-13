@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
@@ -10,6 +10,7 @@ import { PerkType } from 'src/app/model/perks/PerkType';
 import { User } from 'src/app/model/user/user';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
+import { OwnershipClaimComponent } from 'src/app/component/nearby-cafeterias/ownership-claim/ownership-claim.component'
 
 @Component({
   selector: 'app-coffee-shop-details-for-user',
@@ -51,7 +52,8 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     }
   ];
 
-  constructor(public activeModal: NgbActiveModal, 
+  constructor(public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     private formBuilder: FormBuilder, 
     public coffeeShopService: CoffeeShopService,
     public authService: AuthService) {
@@ -169,4 +171,21 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     )
   }
 
+  openOwnershipClaimModal(cafeId: number) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop : true,
+      keyboard : false,
+      size: 's'
+    }
+
+    const modalRef: NgbModalRef = this.modalService.open(OwnershipClaimComponent, ngbModalOptions);
+
+        modalRef.componentInstance.cafeId = cafeId;
+
+        modalRef.result.then( (result) => {
+          console.log("Ownership claim window is closed")
+        })
+        .catch(error => console.log(error))
+
+  }
 }

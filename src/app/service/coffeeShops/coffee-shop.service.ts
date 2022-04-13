@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
 import { getCoffeeShopsResponse } from 'src/app/dto/getCoffeeShop/getCoffeeShopsResponse';
+import { OwnershipClaim } from 'src/app/dto/ownershipClaim/ownership-claim';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 
@@ -100,5 +101,15 @@ export class CoffeeShopService {
     })
 
     return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "review" + "/" + userId, {headers: headers});
+  }
+
+  sendOwnershipClaim(coffeeShopId: number, claim: OwnershipClaim): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+    
+    return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "desire-to-own", claim, {headers: headers})
   }
 }
