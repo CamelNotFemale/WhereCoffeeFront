@@ -47,18 +47,24 @@ export class ProfileComponent implements OnInit {
     }
     else date = '';
     this.form = this.formBuilder.group({
-      firstName: [this.user?.firstName, [Validators.required]],
-      surname: [this.user?.surname, [Validators.required]],
-      patronymic: [this.user?.patronymic, [Validators.required]],
+      firstName: [this.user?.firstName],
+      surname: [this.user?.surname],
+      patronymic: [this.user?.patronymic],
       email: [this.user?.email, [Validators.required, Validators.email]],
-      phone: [this.user?.phone, [Validators.required]],
-      birthDay: [date, [Validators.required]],
-      oldPassword: ['', [Validators.minLength(6)]],
-      newPassword: ['', [Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.minLength(6)]]
+      phone: [this.user?.phone, [Validators.pattern(/(?:(\+d)|\d)[\d\-\(\) ]{10,}/)]],
+      birthDay: [date],
+      oldPassword: ['', [Validators.pattern("[0-9a-zA-Z!@#$%^&*]{6,}")]],
+      newPassword: ['', [Validators.pattern("[0-9a-zA-Z!@#$%^&*]{6,}")]],
+      confirmPassword: ['', [Validators.pattern("[0-9a-zA-Z!@#$%^&*]{6,}")]]
     })
   }
-
+  
+  get getEmail() {
+    return this.form.get("email");
+  }
+  get getPhone() {
+    return this.form.get("phone");
+  }
   get getOldPassword() {
     return this.form.get('oldPassword');
   }
@@ -85,8 +91,8 @@ export class ProfileComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.passwordsMatch) {
-      console.log('passwords do not match')
+    if (!this.passwordsMatch || !this.form.valid) {
+      console.log('form is invalid')
       
     }
     else {
