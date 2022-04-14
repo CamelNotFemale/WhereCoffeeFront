@@ -2,6 +2,7 @@
   "name": "ncedu-app",
   "version": "0.0.0",
   "scripts": {
+    "heroku-postbuild": "ng build",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
