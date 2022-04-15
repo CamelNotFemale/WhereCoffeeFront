@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { Role } from 'src/app/model/role/Role';
 import { LoginResponse } from 'src/app/dto/loginResponse/login-response';
 import { User } from 'src/app/model/user/user';
+import { environment } from 'src/environments/environment';
 
-const AUTH_API = 'http://localhost:8080/api';
+const AUTH_API = environment.apiUrl + '/api';
 
 @Injectable({
   providedIn: 'root'

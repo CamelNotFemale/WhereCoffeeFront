@@ -5,14 +5,14 @@ import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
 import { getCoffeeShopsResponse } from 'src/app/dto/getCoffeeShop/getCoffeeShopsResponse';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoffeeShopService {
 
-  COFFEE_SHOP_URL: string = "http://localhost:8080/cafeterias";
+  COFFEE_SHOP_URL: string = environment.apiUrl + "/cafeterias";
 
   constructor(private httpClient: HttpClient) { }
 
