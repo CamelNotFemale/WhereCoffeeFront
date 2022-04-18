@@ -21,6 +21,7 @@ import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user
 import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias/coffee-shop-details-for-user/coffee-shop-details-for-user.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership-claim/ownership-claim.component';
+import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership
     UserCoffeeShopsListComponent,
     CoffeeShopDetailsForUserComponent,
     ProfileComponent,
-    OwnershipClaimComponent
+    OwnershipClaimComponent,
+    OwnerClaimListComponent
   ],
   imports: [
     BrowserModule,
