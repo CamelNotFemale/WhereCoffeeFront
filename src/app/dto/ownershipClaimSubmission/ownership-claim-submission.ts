@@ -1,4 +1,4 @@
-export class OwnershipClaim {
+export class OwnershipClaimSubmission {
     constructor(
         public messengerLogin: string) {}
 }

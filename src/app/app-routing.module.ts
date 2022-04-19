@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth-guard';
 import { Role } from './model/role/Role';
 import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
 import { ProfileComponent } from './component/profile/profile.component';
+import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
 const routes: Routes = [
   {
     path: '', 
@@ -42,6 +43,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
   },
+  {
+    path: 'ownerClaimList', 
+    component:  OwnerClaimListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin] }
+  }
 ];
 
 @NgModule({
