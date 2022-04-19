@@ -1,0 +1,17 @@
+.workDayName {
+    padding-right: 15px; 
+    margin-bottom: 0;
+    width: 100px;
+}
+
+.workDayInputBlock {
+    margin-bottom: 15px;
+}
+
+.helpButtons {
+    width: 160px;
+}
+
+button {
+    margin: 5px;
+}

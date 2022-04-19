@@ -48,7 +48,7 @@
           </tbody>
         </table>
       </div>
-      <div class="info">
+      <div *ngIf="coffeeShop.manager == null" class="info">
         <button type="button" class="btn btn-light" (click)="openOwnershipClaimModal(coffeeShop.id)">Я владелец</button>
       </div>
     </div>

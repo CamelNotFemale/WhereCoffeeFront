@@ -24,6 +24,7 @@ import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership
 import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CoffeeShopDetailsForUserComponent,
     ProfileComponent,
     OwnershipClaimComponent,
-    OwnedModeratorCoffeeShopsComponent
+    OwnedModeratorCoffeeShopsComponent,
+    OwnerClaimListComponent
   ],
   imports: [
     BrowserModule,

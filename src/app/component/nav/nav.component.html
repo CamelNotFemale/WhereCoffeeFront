@@ -11,13 +11,19 @@
           <a routerLink="/register" class="nav-link">Регистрация</a>
         </li>
       </ul>
-
+  
       <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="authenticated">
+        <div class="dropdown" *ngIf="isAdmin">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="admin-panel" data-bs-toggle="dropdown" aria-expanded="false">
+            Админ-панель
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="admin-panel">
+            <li><a routerLink="/coffeeShopsList" class="dropdown-item">Список всех кофеен</a></li>
+            <li><a routerLink="/ownerClaimList" class="dropdown-item">Заявки владельцев</a></li>
+          </ul>
+        </div>
         <li class="nav-item">
-          <a routerLink="/coffeeShopsList" class="nav-link" *ngIf="isAdmin">Список всех кофеен</a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/userButton" class="nav-link" *ngIf="isUser || isAdmin">Кофейни рядом</a>
+          <a routerLink="/userButton" class="nav-link">Кофейни рядом</a>
         </li>
         <li class="nav-item">
           <a routerLink="/myCoffeeShops" class="nav-link" *ngIf="isModerator">Мои кофейни</a>
