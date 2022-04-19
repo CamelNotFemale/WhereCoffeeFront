@@ -1,0 +1,76 @@
+
+
+<div class="p-4 container">
+  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPromotion" type="button">
+    Создать акцию
+  </button>
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Название кофейни</th>
+              <th scope="col">Адрес</th>
+              <th scope="col">Расписание работы</th>
+              <th scope="col">Телефон</th>
+            </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor= "let coffeeShop of coffeeShops">
+              <td>{{coffeeShop.id}}</td>
+              <td>
+                {{coffeeShop.name}}
+              </td>
+              <td>{{coffeeShop.address}}</td>
+              <td>
+                <ul *ngFor= "let workingDay of coffeeShop.workingHours">
+                    <li>
+                      {{workingDay.weekday}}: {{workingDay.start_time}}-{{workingDay.end_time}}
+                    </li>
+                </ul>
+              </td>
+              <td>{{coffeeShop.phone}}</td>
+          </tr>
+      </tbody>
+    </table>
+  </div>
+
+ <!-- Add coffee shop Modal -->
+ <div class="modal fade" id="createPromotion" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Добавить новую кофейню</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="promotionDetailsForm">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название акции акции</label>
+            <input type="text" formControlName="name" class="form-control" id="name" placeholder="Введите название акции">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание</label>
+            <input type="text" formControlName="description" class="form-control" id="description" placeholder="Введите описание акции">
+          </div>
+          <div class="row mb-3 promotionDates">
+            <div class="col-md-12 startDate"><label class="labels">Начало проведения акции</label><input formControlName="startDate" type="date" class="form-control" value=""></div>
+          </div>
+          <div class="row mb-3 promotionDates">
+            <div class="col-md-12 endDate"><label class="labels">Конец проведения акции</label><input formControlName="endDate" type="date" class="form-control" value=""></div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Выбор кофеен</label>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action" *ngFor= "let coffeeShop of coffeeShops">
+                <div class="d-flex w-100 justify-content-between">
+                  <p class="mb-1">{{coffeeShop.name}}</p>
+                  <small>{{coffeeShop.address}}</small>
+                </div>
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

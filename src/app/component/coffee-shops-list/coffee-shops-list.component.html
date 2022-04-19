@@ -1,7 +1,6 @@
-<h4 class="p-3 text-center">
+<h2 class="p-3 text-center">
   Список всех кофеен
-</h4>
-
+</h2>
 
 <div class="container d-flex justify-content-around">
     <button class="btn btn-primary" type="button">
@@ -11,7 +10,6 @@
       Новая кофейня
     </button>
 </div>
-
 
 <div class="p-4 container">
   <table class="table table-bordered">
@@ -97,7 +95,7 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" formControlName="manager" class="form-control" id="manager">
+                <input type="text" formControlName="managerId" class="form-control" id="managerId">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hideMap()">Закрыть</button>
@@ -153,7 +151,7 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" formControlName="manager" class="form-control" id="manager">
+                <input type="text" formControlName="managerId" class="form-control" id="managerId">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -226,7 +224,7 @@
               </div>
               <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" readonly formControlName="manager" class="form-control" id="manager">
+                <input type="text" readonly formControlName="managerId" class="form-control" id="managerId">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -237,6 +235,6 @@
       </div>
     </div>
 
-
+    <mat-paginator [pageSize]="10" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
   
 

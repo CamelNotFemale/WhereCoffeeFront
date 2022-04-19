@@ -13,6 +13,7 @@ import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-s
 export class CoffeeShopService {
 
   COFFEE_SHOP_URL: string = "http://localhost:8080/cafeterias";
+  COFFEE_SHOP_JSON_URL: string = "http://localhost:3000/coffeeShops";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -25,11 +26,11 @@ export class CoffeeShopService {
       );
   }
 
-  getCoffeeShops(): Observable<CoffeeShopSummary[]> {
+  getCoffeeShops(pageNumber: number): Observable<CoffeeShopSummary[]> {
     return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
       params: {
-        page: 0,
-        dist: 5000
+        page: pageNumber,
+        dist: 50000
       }
     }).pipe(
       map( (resp) => 
@@ -54,6 +55,19 @@ export class CoffeeShopService {
           return resp;
         })
     );
+  }
+
+  getCoffeeShopByManagerId(managerId: number) {
+    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_JSON_URL, 
+      {params: {
+        manager: managerId
+      }}
+      )
+      .pipe(
+        map( (resp) => {
+          return resp;
+        })
+      );
   }
 
   addCoffeeShop(coffeeShop: CoffeeShop): Observable<any> {
@@ -111,5 +125,14 @@ export class CoffeeShopService {
     })
     
     return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "desire-to-own", claim, {headers: headers})
+  }
+
+  getPagesCount(): Observable<number> {
+    return this.httpClient.get<number>(this.COFFEE_SHOP_URL + "/pages-count")
+      .pipe(
+        map( (resp) => {
+          return resp;
+        })
+      );
   }
 }

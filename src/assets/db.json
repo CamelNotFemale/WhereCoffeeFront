@@ -7,42 +7,88 @@
       "location": "3.4 4.222",
       "address": "ул. Мира, 23",
       "phone": "89765643521",
-      "manager": "Coffee Bon Admin",
+      "manager": "17",
       "workingHours": [
         {
-          "weekday": "ПН",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Monday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "ВТ",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Tuesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "СР",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Wednesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "ЧТ",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Tuesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "ПТ",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Friday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "СБ",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Saturday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         },
         {
-          "weekday": "ВС",
-          "startTime": "10:00",
-          "endTime": "20:00"
+          "weekday": "Sunday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        }
+      ]
+    },
+    {
+      "id":2,
+      "name": "Coffee Bon",
+      "desc": "№2",
+      "location": "3.45 4.3",
+      "address": "ул. Попова, 23",
+      "phone": "89761234567",
+      "manager": "17",
+      "workingHours": [
+        {
+          "weekday": "Monday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Tuesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Wednesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Tuesday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Friday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Saturday",
+          "start_time": "10:00",
+          "end_time": "20:00"
+        },
+        {
+          "weekday": "Sunday",
+          "start_time": "10:00",
+          "end_time": "20:00"
         }
       ]
     }

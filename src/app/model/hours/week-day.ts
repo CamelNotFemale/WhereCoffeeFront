@@ -16,13 +16,13 @@ export const allWeekDays: Array<WeekDay> = Object.values(WeekDay)
 type WeekDayProperties<T> = { [key in WeekDay] : T }
 
 export const WeekDayCodes: WeekDayProperties<string> = {
-    [WeekDay.Monday]: "ПН",
-    [WeekDay.Tuesday]: "ВТ",
-    [WeekDay.Wednesday]: "СР",
-    [WeekDay.Thursday]: "ЧТ",
-    [WeekDay.Friday]: "ПТ",
-    [WeekDay.Saturday]: "СБ",
-    [WeekDay.Sunday]: "ВС"
+    [WeekDay.Monday]: "Monday",
+    [WeekDay.Tuesday]: "Thursday",
+    [WeekDay.Wednesday]: "Wednesday",
+    [WeekDay.Thursday]: "Tuesday",
+    [WeekDay.Friday]: "Friday",
+    [WeekDay.Saturday]: "Saturday",
+    [WeekDay.Sunday]: "Sunday"
 }
 
 export const WeekDayCodesf: { [key in keyof typeof WeekDay]: string } = {

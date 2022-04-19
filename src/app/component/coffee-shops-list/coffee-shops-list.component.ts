@@ -7,6 +7,7 @@ import { allWeekDays, WeekDay, WeekDayCodes, WeekDayCodesf } from '../../model/h
 import { WorkingHours } from '../../model/hours/working-hours';
 import { CoffeeShopService } from '../../service/coffeeShops/coffee-shop.service';
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -24,6 +25,9 @@ export class CoffeeShopsListComponent implements OnInit {
   schedule!: Schedule;
 
   location!: string;
+
+  pageNumber!: number;
+  totalElements!: number;
 
   // @ViewChild(MapModalComponent)
   // map!: MapModalComponent;
@@ -55,13 +59,21 @@ export class CoffeeShopsListComponent implements OnInit {
       description: [''],
       address: [''],
       phone: [''],
-      manager: ['']
+      managerId: ['']
     })
 
     this.schedule = new Schedule();
     this.location = "";
+    
+    this.pageNumber = 0;
+    this.coffeeShopService.getPagesCount().subscribe(
+        result => {
+          this.totalElements = result;
+        }
+    );
+    
 
-    this.loadCoffeeShops();
+    this.loadCoffeeShops(this.pageNumber);
   }
 
   prepareAddForm() {
@@ -70,7 +82,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coffeeShopDetails.controls['description'].setValue('');
     this.coffeeShopDetails.controls['address'].setValue('');
     this.coffeeShopDetails.controls['phone'].setValue('');
-    this.coffeeShopDetails.controls['manager'].setValue('');
+    this.coffeeShopDetails.controls['managerId'].setValue('');
     this.schedule.workingHours = [];
 
     allWeekDays.forEach(weekDay => {
@@ -89,7 +101,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
       value => {
         console.log("New coffee shop added");
-        this.loadCoffeeShops();
+        this.loadCoffeeShops(this.pageNumber);
       },
       error => {
         console.error("FAILED TO ADD COFFEE SHOP", error);
@@ -109,9 +121,27 @@ export class CoffeeShopsListComponent implements OnInit {
         this.coffeeShopDetails.controls['description'].setValue(coffeeShop.description);
         this.coffeeShopDetails.controls['address'].setValue(coffeeShop.address);
         this.coffeeShopDetails.controls['phone'].setValue(coffeeShop.phone);
-        this.coffeeShopDetails.controls['manager'].setValue(coffeeShop.manager);
+        if (coffeeShop.manager != null) {
+          this.coffeeShopDetails.controls['managerId'].setValue(coffeeShop.manager.id);
+        }
 
         this.schedule.workingHours = coffeeShop.workingHours;
+
+        console.log(this.schedule.workingHours)
+        
+        allWeekDays.forEach(weekDay => {
+          let dayPresentInSchedule = this.schedule.workingHours.some(workingDay => {
+            return workingDay.weekday == WeekDayCodes[weekDay];
+          })
+          console.log("Id day present in schedule: ", dayPresentInSchedule, weekDay, WeekDayCodes[weekDay]);
+          if (!dayPresentInSchedule) {
+            let weekDayCode = WeekDayCodes[weekDay];
+            let workingHours = new WorkingHours(weekDayCode, null, null);
+            this.schedule.workingHours.push(workingHours);
+          }
+        });
+        console.log(this.schedule);
+
         this.location = coffeeShop.location['lat'] + ',' + coffeeShop.location['lng'];
       },
       error => {
@@ -124,7 +154,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.selectedCoffeeShopId = this.coffeeShopDetails.value.id;
     this.coffeeShopService.updateCoffeeShop(this.extractFormData()).subscribe(
       value => {
-        this.loadCoffeeShops();
+        this.loadCoffeeShops(this.pageNumber);
         console.log(this.coffeeShops);
       }, 
       error => {
@@ -137,7 +167,7 @@ export class CoffeeShopsListComponent implements OnInit {
   deleteCoffeeShop() {
     this.coffeeShopService.deleteCoffeeShop(this.selectedCoffeeShopId).subscribe(
       value => {
-        this.loadCoffeeShops();
+        this.loadCoffeeShops(this.pageNumber);
       },
       error => {
         console.log("FAILED TO DELETE COFFEE SHOP WITH ID ", this.selectedCoffeeShopId, error);
@@ -146,14 +176,21 @@ export class CoffeeShopsListComponent implements OnInit {
 
   }
 
-  private loadCoffeeShops() {
-    this.coffeeShopService.getCoffeeShops().subscribe(
+  private loadCoffeeShops(pageNumber: number) {
+    this.coffeeShopService.getCoffeeShops(pageNumber).subscribe(
       (response) => {
         console.log("All coffee shop: ", response);
         this.coffeeShops = response;
+        console.log("Total Elements: ", this.totalElements);
       }
     )
   }
+
+  nextPage(event: PageEvent) {
+		this.pageNumber = event.pageIndex;
+    console.log("Page Index: ", event.pageIndex);
+    this.loadCoffeeShops(this.pageNumber);
+	}
 
   private extractFormData(): CoffeeShop {
     let shopData = this.coffeeShopDetails.value;

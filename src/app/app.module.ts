@@ -21,6 +21,9 @@ import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user
 import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias/coffee-shop-details-for-user/coffee-shop-details-for-user.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership-claim/ownership-claim.component';
+import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership
     UserCoffeeShopsListComponent,
     CoffeeShopDetailsForUserComponent,
     ProfileComponent,
-    OwnershipClaimComponent
+    OwnershipClaimComponent,
+    OwnedModeratorCoffeeShopsComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +51,9 @@ import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership
     HttpClientModule,
     NgbModule,
     NgxDadataModule,
-    AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" })
+    AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" }),
+    BrowserAnimationsModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent],

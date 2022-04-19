@@ -1,4 +1,5 @@
 import { WorkingHours } from "../hours/working-hours";
+import { User } from "../user/user";
 
 export class CoffeeShopSummary {
     constructor(
@@ -8,6 +9,7 @@ export class CoffeeShopSummary {
         public address: string,
         public phone: string,
         public rating: number,
-        public workingHours: Array<WorkingHours>
+        public workingHours: Array<WorkingHours>,
+        public manager: User
         ) { }
 }
