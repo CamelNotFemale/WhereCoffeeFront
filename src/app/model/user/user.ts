@@ -29,4 +29,7 @@ export class User {
         return this.role == Role.User;
     }
 
+    get isModerator(): boolean {
+        return this.role == Role.Moderator;
+    }
 }
