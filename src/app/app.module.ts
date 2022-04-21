@@ -25,6 +25,8 @@ import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
+import {MatSelectModule} from '@angular/material/select';
+import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { OwnerClaimListComponent } from './component/owner-claim-list/owner-clai
     ProfileComponent,
     OwnershipClaimComponent,
     OwnedModeratorCoffeeShopsComponent,
-    OwnerClaimListComponent
+    OwnerClaimListComponent,
+    PromotionsListForModeratorComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import { OwnerClaimListComponent } from './component/owner-claim-list/owner-clai
     NgxDadataModule,
     AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" }),
     BrowserAnimationsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -73,7 +73,7 @@
                 <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
                 <span>{{ location }}</span><br>
                 <!-- <div *ngIf="isMapDisplayed"> -->
-                <app-mutable-map [location]="location" [editable]="true" [name]="'map for add form'"></app-mutable-map>
+                <app-mutable-map [(location)]="location" [editable]="true" [name]="'map for add form'"></app-mutable-map>
                 <!-- </div> -->
                 <!-- <input type="text" formControlName="location" class="form-control" id="location"> -->
               </div>

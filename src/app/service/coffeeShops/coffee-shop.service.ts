@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
+import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 import { getCoffeeShopsResponse } from 'src/app/dto/getCoffeeShop/getCoffeeShopsResponse';
 import { OwnershipClaimSubmission } from 'src/app/dto/ownershipClaimSubmission/ownership-claim-submission';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
@@ -59,11 +60,13 @@ export class CoffeeShopService {
   }
 
   getCoffeeShopByManagerId(managerId: number) {
-    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_JSON_URL, 
-      {params: {
-        manager: managerId
-      }}
-      )
+    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_URL, 
+      {
+        params: {
+          page: 0,
+          manager: managerId
+        }
+      })
       .pipe(
         map( (resp) => {
           return resp;
@@ -71,11 +74,11 @@ export class CoffeeShopService {
       );
   }
 
-  addCoffeeShop(coffeeShop: CoffeeShop): Observable<any> {
+  addCoffeeShop(coffeeShop: AddCoffeeShopRequest): Observable<any> {
     return this.httpClient.post(this.COFFEE_SHOP_URL, coffeeShop);
   }
 
-  updateCoffeeShop(coffeeShop: CoffeeShop): Observable<any> {
+  updateCoffeeShop(coffeeShop: AddCoffeeShopRequest): Observable<any> {
     return this.httpClient.patch(this.COFFEE_SHOP_URL + "/" + coffeeShop.id, coffeeShop);
   }
 
