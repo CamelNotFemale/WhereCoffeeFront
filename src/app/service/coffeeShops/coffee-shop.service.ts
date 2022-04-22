@@ -7,6 +7,7 @@ import { OwnershipClaimSubmission } from 'src/app/dto/ownershipClaimSubmission/o
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
+import { PerkType } from 'src/app/model/perks/PerkType';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,28 @@ export class CoffeeShopService {
     );
   }
 
+  getCoffeeShopsBySearch(pageNumber: number, itemsOnPage: number, location: string, 
+    dist: number, minRating: number, name: string, perks: PerkType[], isOpened: boolean): Observable<CoffeeShopSummary[]> {
+    return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
+      params: {
+        page: pageNumber,
+        items_on_page: itemsOnPage,
+        location: location,
+        dist: dist,
+        min_rating: minRating,
+        name: name,
+        perks: perks,
+        is_opened: isOpened
+      }
+    }).pipe(
+      map( (resp) => 
+        {
+          console.log(resp)
+          return resp;
+        })
+    );
+  }
+
   getCoffeeShopsByLocation(location: string): Observable<CoffeeShopSummary[]> {
     return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
       params: {
@@ -59,7 +82,7 @@ export class CoffeeShopService {
   }
 
   getCoffeeShopByManagerId(managerId: number) {
-    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_JSON_URL, 
+    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_URL, 
       {params: {
         manager: managerId
       }}
