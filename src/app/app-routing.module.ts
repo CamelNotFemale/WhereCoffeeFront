@@ -10,6 +10,7 @@ import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by
 import { ProfileComponent } from './component/profile/profile.component';
 import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
 import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
+import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
 const routes: Routes = [
   {
     path: '', 
@@ -47,6 +48,12 @@ const routes: Routes = [
   {
     path: 'myCoffeeShops', 
     component: OwnedModeratorCoffeeShopsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Moderator] }
+  },
+  {
+    path: 'myPromotions', 
+    component: PromotionsListForModeratorComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Moderator] }
   },

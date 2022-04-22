@@ -1,25 +1,25 @@
 
 
 <div class="p-4 container">
-  <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPromotion" type="button">
-    Создать акцию
-  </button>
     <table class="table table-bordered">
       <thead>
           <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Название кофейни</th>
-              <th scope="col">Адрес</th>
-              <th scope="col">Расписание работы</th>
-              <th scope="col">Телефон</th>
+              <th class="col-3">Название кофейни</th>
+              <th >Адрес</th>
+              <th >Расписание работы</th>
+              <th class="col-3">Телефон</th>
             </tr>
       </thead>
       <tbody>
           <tr *ngFor= "let coffeeShop of coffeeShops">
-              <td>{{coffeeShop.id}}</td>
-              <td>
+            <td>
+              <a href="#detailsModal" class="link-secondary" data-bs-toggle="modal" data-bs-target="#detailsCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
                 {{coffeeShop.name}}
-              </td>
+              </a>
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
               <td>{{coffeeShop.address}}</td>
               <td>
                 <ul *ngFor= "let workingDay of coffeeShop.workingHours">
@@ -34,43 +34,135 @@
     </table>
   </div>
 
- <!-- Add coffee shop Modal -->
- <div class="modal fade" id="createPromotion" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
+<!-- Edit coffee shop Modal -->
+<div class="modal fade" id="editCoffeeShop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Добавить новую кофейню</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Изменить информацию о кофейне</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="promotionDetailsForm">
+        <form [formGroup]="coffeeShopDetails">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Название акции акции</label>
-            <input type="text" formControlName="name" class="form-control" id="name" placeholder="Введите название акции">
+            <label for="exampleInputEmail1" class="form-label">Название кофейни</label>
+            <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Описание</label>
-            <input type="text" formControlName="description" class="form-control" id="description" placeholder="Введите описание акции">
-          </div>
-          <div class="row mb-3 promotionDates">
-            <div class="col-md-12 startDate"><label class="labels">Начало проведения акции</label><input formControlName="startDate" type="date" class="form-control" value=""></div>
-          </div>
-          <div class="row mb-3 promotionDates">
-            <div class="col-md-12 endDate"><label class="labels">Конец проведения акции</label><input formControlName="endDate" type="date" class="form-control" value=""></div>
+            <input type="text" formControlName="description" class="form-control" id="description">
           </div>
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Выбор кофеен</label>
-            <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-action" *ngFor= "let coffeeShop of coffeeShops">
-                <div class="d-flex w-100 justify-content-between">
-                  <p class="mb-1">{{coffeeShop.name}}</p>
-                  <small>{{coffeeShop.address}}</small>
-                </div>
-              </a>
+            <label for="exampleInputEmail1" class="form-label">Геолокация</label>
+            <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
+            <span>{{ location }}</span>
+            <!-- <div *ngIf="isMapDisplayed"> -->
+              <app-mutable-map [location]="location" [editable]="true" [name]="'map for edit form'"></app-mutable-map>
+            <!-- </div> -->
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label address">Адрес</label>
+            <input type="text" formControlName="address" class="form-control" id="address" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Телефон</label>
+            <input type="tel" formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
+            <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
+              <p class="workDayName">{{ workDay.weekday }}</p>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
             </div>
+          </div>
+          <ngb-carousel *ngIf="promotionsSlides" [showNavigationArrows]="true" [showNavigationIndicators]="false" [animation]="true">
+            <ng-template ngbSlide *ngFor="let slide of promotionsSlides">
+              <div class="row">
+                <div class="item card col-md-3" *ngFor="let promotion of slide.promotions">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ promotion.title }}</h5>
+                    <p class="card-text">{{ promotion.description }}</p>
+                    <a href="#" class="btn btn-primary">Подробнее</a>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-carousel>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="updateCoffeeShop()">Изменить информацию</button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Details coffee shop Modal -->
+<div id="detailsModal" class="modal fade" id="detailsCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Подробная информация о кофейне</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="coffeeShopDetails">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название</label>
+            <input type="text" readonly formControlName="name" class="form-control" id="name">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание</label>
+            <input type="text" readonly formControlName="description" class="form-control" id="description">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
+            <span>{{ location }}</span>
+            
+            <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
+            
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Адрес</label>
+            <input type="text" readonly formControlName="address" class="form-control" id="address">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Телефон</label>
+            <input type="tel" readonly formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
+            <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
+              <p class="workDayName">{{ workDay.weekday }}</p>
+              <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
+              <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Акции</label>
+            <ngb-carousel *ngIf="promotionsSlides" [showNavigationArrows]="true" [showNavigationIndicators]="false" [animation]="true">
+              <ng-template ngbSlide *ngFor="let slide of promotionsSlides">
+                <div class="row">
+                  <div class="item card col-md-3" *ngFor="let promotion of slide.promotions">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ promotion.title }}</h5>
+                      <p class="card-text">{{ promotion.description }}</p>
+                      <a href="#" class="btn btn-primary">Подробнее</a>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-carousel>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

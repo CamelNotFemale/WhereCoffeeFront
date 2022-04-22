@@ -8,6 +8,7 @@ import { WorkingHours } from '../../model/hours/working-hours';
 import { CoffeeShopService } from '../../service/coffeeShops/coffee-shop.service';
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -96,7 +97,8 @@ export class CoffeeShopsListComponent implements OnInit {
   }
 
   addCoffeeShop() {
-    let newCoffeeShop = this.extractFormData();    
+    let newCoffeeShop = this.extractFormData();  
+    console.log("New coffee shop: ", newCoffeeShop);  
     
     this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
       value => {
@@ -123,6 +125,9 @@ export class CoffeeShopsListComponent implements OnInit {
         this.coffeeShopDetails.controls['phone'].setValue(coffeeShop.phone);
         if (coffeeShop.manager != null) {
           this.coffeeShopDetails.controls['managerId'].setValue(coffeeShop.manager.id);
+        }
+        else {
+          this.coffeeShopDetails.controls['managerId'].setValue('');
         }
 
         this.schedule.workingHours = coffeeShop.workingHours;
@@ -192,11 +197,11 @@ export class CoffeeShopsListComponent implements OnInit {
     this.loadCoffeeShops(this.pageNumber);
 	}
 
-  private extractFormData(): CoffeeShop {
+  private extractFormData(): AddCoffeeShopRequest {
     let shopData = this.coffeeShopDetails.value;
     let workingHours = this.schedule.workingHours;
 
-    let newCoffeeShop = new CoffeeShop(
+    let newCoffeeShop = new AddCoffeeShopRequest(
       shopData.id,
       shopData.name,
       shopData.description,
@@ -204,11 +209,8 @@ export class CoffeeShopsListComponent implements OnInit {
       shopData.address,
       shopData.url,
       shopData.phone,
-      shopData.rating,
-      shopData.manager,
-      workingHours,
-      shopData.grades,
-      shopData.perks
+      shopData.managerId,
+      workingHours
     );
 
     console.log(newCoffeeShop);

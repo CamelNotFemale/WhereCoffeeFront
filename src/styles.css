@@ -33,8 +33,23 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+
+  .cdk-overlay-container, .cdk-overlay-pane {
+    z-index: 9999 !important;
+}
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 
+.carousel-control-prev-icon{
+  background-image: url('https://img.icons8.com/cotton/344/back.png') !important
+}
+
+.carousel-control-next-icon{
+ background-image: url('https://img.icons8.com/cotton/344/forward.png') !important
+}
+
+.carousel-control-prev, .carousel-control-next {
+  width: auto;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

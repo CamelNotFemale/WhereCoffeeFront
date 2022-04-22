@@ -4,11 +4,17 @@
     margin-left: auto
 }
 
-/* .startDate {
-    float: left;
+.workDayName {
+    padding-right: 15px; 
+    margin-bottom: 0;
+    width: 100px;
 }
 
-.endDate {
-    float: right;
-} */
+.workDayInputBlock {
+    margin-bottom: 15px;
+}
 
+.row {
+    display: flex;
+justify-content: center;
+}
