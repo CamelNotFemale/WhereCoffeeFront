@@ -6,3 +6,7 @@
     margin: 2%;
 }
 
+.inline {
+    display: flex;
+    gap: 15px;
+}
