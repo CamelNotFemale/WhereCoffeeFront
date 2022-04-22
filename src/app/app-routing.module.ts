@@ -36,7 +36,7 @@ const routes: Routes = [
     path: 'userButton', 
     component: NearByCoffeeShopComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.User, Role.Admin] }
+    data: { roles: [Role.User, Role.Admin, Role.Moderator] }
   },
   {
     path: 'coffeeShopsList', 
