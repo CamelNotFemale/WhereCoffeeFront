@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
+import { GetPromotionsResponse } from "src/app/dto/getPromotionsResponse/get-promotions-response";
 import { Promotion } from "src/app/model/promotion/promotion";
 import { PromotionRequest } from "src/app/model/promotion/PromotionAddRequest";
 import { AuthService } from "../auth/auth.service";
@@ -30,15 +31,16 @@ export class PromotionService {
     return this.httpClient.patch(this.PROMOTION_URL + "/" + promotion.id, promotion, {headers: headers});
   }
 
-  getPromotions(pageNumber: number): Observable<Promotion[]> {
+  getPromotions(page: number, pageSize: number): Observable<GetPromotionsResponse> {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.user!.token}`
     })
 
-    return this.httpClient.get<Promotion[]>(this.PROMOTION_URL, {
+    return this.httpClient.get<GetPromotionsResponse>(this.PROMOTION_URL, {
       headers: headers,
       params: {
-        page: pageNumber
+        page: page,
+        items_on_page: pageSize
       }
     }).pipe(
       map( (resp) => 

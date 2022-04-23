@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
@@ -15,8 +16,10 @@ import { CoffeeShopDetailsForUserComponent } from '../coffee-shop-details-for-us
 })
 export class UserCoffeeShopsListComponent implements OnInit {
 
-  public page = 1;
-  public pageSize = 4;
+  public page = 0;
+  public pageSize = 5;
+  public totalElements!: number;
+  nearByCoffeeShops!: CoffeeShop[];
   hideSearch!: boolean;
   searchForm!: FormGroup;
   rating = 0;
@@ -40,8 +43,6 @@ export class UserCoffeeShopsListComponent implements OnInit {
       filledIcon: "bi bi-tree-fill"
     }
   ];
-
-  nearByCoffeeShops!: Array<CoffeeShopSummary>;
 
   @Input()
   set location(newLocation: string) {
@@ -85,6 +86,12 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.perks[1].state = false;
     this.perks[2].state = false;
   }
+  selectPage(event: PageEvent) {
+    console.log("Selected page:", event.pageIndex, event.pageSize)
+    this.page = event.pageIndex
+    this.pageSize = event.pageSize
+    this.search()
+  }
   search() {
     let chosenPerks = this.perks
       .filter(perk => perk.state)
@@ -94,31 +101,24 @@ export class UserCoffeeShopsListComponent implements OnInit {
     let name = this.searchForm.get('name')?.value
     let isOpened = this.searchForm.get('isOpened')?.value
 
-    this.coffeeShopService.getCoffeeShopsBySearch(this.page-1, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened).subscribe(
+    this.coffeeShopService.getCoffeeShopsBySearch(this.page, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened).subscribe(
       (response) => {
-        this.nearByCoffeeShops = response;
+        this.nearByCoffeeShops = response.content;
+        this.totalElements = response.totalElements
+        console.log(response, this.nearByCoffeeShops, this.totalElements)
         this.changeDetection.detectChanges()
       }
     )
   }
 
-  loadCoffeeShopsNearByUser() {
-    this.coffeeShopService.getCoffeeShopsByLocation(this._location).subscribe(
-      (response) => {
-        console.log("All coffee shop: ", response);
-        this.nearByCoffeeShops = response;
-      }
-    )
-  }
-
-  openCoffeShopModalDetails(coffeeShopSummary: CoffeeShopSummary) {
+  openCoffeShopModalDetails(coffeeShop: CoffeeShop) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop : true,
       keyboard : false,
       size: 'xl'
     }
 
-    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe( 
+    this.coffeeShopService.getCoffeeShop(coffeeShop.id).subscribe( 
       (coffeeShop) => {
         const modalRef: NgbModalRef = this.modalService.open(CoffeeShopDetailsForUserComponent, ngbModalOptions);
         console.log("ModalRef:", modalRef);

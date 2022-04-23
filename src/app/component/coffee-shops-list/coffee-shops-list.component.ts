@@ -17,9 +17,11 @@ import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCof
 })
 
 export class CoffeeShopsListComponent implements OnInit {
-  coffeeShops: Array<CoffeeShopSummary> = [];
+  coffeeShops!: CoffeeShop[];
 
   coffeeShopDetails!: FormGroup;
+
+  searchForm!: FormGroup;
 
   selectedCoffeeShopId!: number;
 
@@ -27,7 +29,8 @@ export class CoffeeShopsListComponent implements OnInit {
 
   location!: string;
 
-  pageNumber!: number;
+  pageNumber = 0;
+  pageSize = 5;
   totalElements!: number;
 
   // @ViewChild(MapModalComponent)
@@ -62,19 +65,14 @@ export class CoffeeShopsListComponent implements OnInit {
       phone: [''],
       managerId: ['']
     })
+    this.searchForm = this.formBuilder.group({
+      name: ['']
+    })
 
     this.schedule = new Schedule();
     this.location = "";
-    
-    this.pageNumber = 0;
-    this.coffeeShopService.getPagesCount().subscribe(
-        result => {
-          this.totalElements = result;
-        }
-    );
-    
-
-    this.loadCoffeeShops(this.pageNumber);
+  
+    this.loadCoffeeShops();
   }
 
   prepareAddForm() {
@@ -103,7 +101,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
       value => {
         console.log("New coffee shop added");
-        this.loadCoffeeShops(this.pageNumber);
+        this.loadCoffeeShops();
       },
       error => {
         console.error("FAILED TO ADD COFFEE SHOP", error);
@@ -159,7 +157,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.selectedCoffeeShopId = this.coffeeShopDetails.value.id;
     this.coffeeShopService.updateCoffeeShop(this.extractFormData()).subscribe(
       value => {
-        this.loadCoffeeShops(this.pageNumber);
+        this.loadCoffeeShops();
         console.log(this.coffeeShops);
       }, 
       error => {
@@ -172,7 +170,7 @@ export class CoffeeShopsListComponent implements OnInit {
   deleteCoffeeShop() {
     this.coffeeShopService.deleteCoffeeShop(this.selectedCoffeeShopId).subscribe(
       value => {
-        this.loadCoffeeShops(this.pageNumber);
+        this.loadCoffeeShops();
       },
       error => {
         console.log("FAILED TO DELETE COFFEE SHOP WITH ID ", this.selectedCoffeeShopId, error);
@@ -181,20 +179,22 @@ export class CoffeeShopsListComponent implements OnInit {
 
   }
 
-  private loadCoffeeShops(pageNumber: number) {
-    this.coffeeShopService.getCoffeeShops(pageNumber).subscribe(
+  loadCoffeeShops() {
+    let name = this.searchForm.get('name')!.value
+    this.coffeeShopService.getCoffeeShopsByName(this.pageNumber, this.pageSize, name).subscribe(
       (response) => {
         console.log("All coffee shop: ", response);
-        this.coffeeShops = response;
+        this.coffeeShops = response.content;
+        this.totalElements = response.totalElements;
         console.log("Total Elements: ", this.totalElements);
       }
     )
   }
 
-  nextPage(event: PageEvent) {
+  selectPage(event: PageEvent) {
 		this.pageNumber = event.pageIndex;
-    console.log("Page Index: ", event.pageIndex);
-    this.loadCoffeeShops(this.pageNumber);
+    this.pageSize = event.pageSize
+    this.loadCoffeeShops();
 	}
 
   private extractFormData(): AddCoffeeShopRequest {

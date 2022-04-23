@@ -14,8 +14,7 @@ import { PromotionsListForModeratorComponent } from './component/promotions-list
 const routes: Routes = [
   {
     path: '', 
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
   },
   {
     path: 'login', 
@@ -27,14 +26,15 @@ const routes: Routes = [
   },
   {
     path: 'profile', 
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'home', 
     component: HomeComponent
   },
   {
-    path: 'userButton', 
+    path: 'nearbyCoffeeShops', 
     component: NearByCoffeeShopComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.User, Role.Admin, Role.Moderator] }

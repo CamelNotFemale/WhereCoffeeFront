@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { ReplaySubject, Subject, take, takeUntil } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { Promotion } from 'src/app/model/promotion/promotion';
 import { PromotionRequest } from 'src/app/model/promotion/PromotionAddRequest';
@@ -16,6 +17,9 @@ import { PromotionService } from 'src/app/service/promotion/promotion-service';
 })
 export class PromotionsListForModeratorComponent implements OnInit {
 
+  public page = 0;
+  public pageSize = 5;
+  public totalElements!: number;
   promotions: Array<Promotion> = [];
   moderatorsCoffeeShops: Array<CoffeeShop> = [];
 
@@ -46,10 +50,6 @@ export class PromotionsListForModeratorComponent implements OnInit {
       cafes: this.participatingCoffeeShop,
     })
 
-    
-    this.loadPromotions(0);
-    this.loadCoffeeShops();
-
     this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
     console.log("FilteredCoffeeShopsMulti ", this.filteredCoffeeShopsMulti);
 
@@ -58,6 +58,9 @@ export class PromotionsListForModeratorComponent implements OnInit {
       .subscribe(() => {
         this.filterBanksMulti();
       });
+
+      this.loadPromotions();
+      this.loadCoffeeShops(0,10);
   }
 
   ngAfterViewInit() {
@@ -82,10 +85,11 @@ export class PromotionsListForModeratorComponent implements OnInit {
     this._onDestroy.complete();
   }
 
-  private loadPromotions(pageNumber: number) {
-    this.promotionService.getPromotions(pageNumber).subscribe(
+  private loadPromotions() {
+    this.promotionService.getPromotions(this.page, this.pageSize).subscribe(
       result => {
-        this.promotions = result;
+        this.promotions = result.content;
+        this.totalElements = result.totalElements;
         console.log("Все акции модератора: ", this.promotions);
       }
     )
@@ -106,15 +110,22 @@ export class PromotionsListForModeratorComponent implements OnInit {
     this.participatingCoffeeShop.patchValue(participationCafeShopIds);
   }
 
-  private loadCoffeeShops() {
-    this.coffeeShopService.getCoffeeShopByManagerId(this.authService.user!.id).subscribe(
+  private loadCoffeeShops(page: number, pageSize: number) {
+    this.coffeeShopService.getCoffeeShopByManagerId(page, pageSize, this.authService.user!.id).subscribe(
       result => {
-        this.moderatorsCoffeeShops = result;
+        this.moderatorsCoffeeShops = result.content;
         console.log("Все кофейни модератора: ", this.moderatorsCoffeeShops);
       }
     )
   }
 
+  selectPage(event: PageEvent) {
+    console.log("Selected page:", event.pageIndex, event.pageSize)
+    this.page = event.pageIndex
+    this.pageSize = event.pageSize
+    this.loadPromotions()
+  }
+  
   prepareCreateForm() {
     this.promotionDetailsForm.controls['id'].setValue('');
     this.promotionDetailsForm.controls['title'].setValue('');
@@ -130,7 +141,7 @@ export class PromotionsListForModeratorComponent implements OnInit {
     this.promotionService.addPromotion(newPromotion).subscribe(
       value => {
         console.log("Promotion created");
-        this.loadPromotions(0);
+        this.loadPromotions();
       },
       error => {
         console.error("FAILED TO CREATE PROMOTION", error);
@@ -158,7 +169,7 @@ export class PromotionsListForModeratorComponent implements OnInit {
     this.selectedPromotion = this.promotionDetailsForm.value.id;
     this.promotionService.updatePromotion(this.extractPromotionFormData()).subscribe(
       value => {
-        this.loadPromotions(0);
+        this.loadPromotions();
         console.log(this.promotions);
       }, 
       error => {

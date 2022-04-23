@@ -4,13 +4,23 @@ import { Observable } from "rxjs";
 import { Role } from "../model/role/Role";
 import { User } from "../model/user/user";
 import { AuthService } from "../service/auth/auth.service";
+import { UserService } from "../service/user/user.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const user = this.authService.user;
+        this.userService.getData(user!.id).subscribe(
+            (res) => {
+
+            },
+            (err) => {
+                alert('Error')
+                this.authService.logout()
+            }
+        )
         if (user) {
             if (this.isRouteRestricted(route, user)) {
                 this.router.navigate(['/']);

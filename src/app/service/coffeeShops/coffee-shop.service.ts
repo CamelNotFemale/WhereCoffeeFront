@@ -1,3 +1,4 @@
+import { NumberSymbol } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
@@ -29,11 +30,13 @@ export class CoffeeShopService {
       );
   }
 
-  getCoffeeShops(pageNumber: number): Observable<CoffeeShopSummary[]> {
-    return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
+  getCoffeeShopsByName(pageNumber: number, itemsOnPage: NumberSymbol, name: string): Observable<getCoffeeShopsResponse> {
+    return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, {
       params: {
         page: pageNumber,
-        dist: 50000
+        items_on_page: itemsOnPage,
+        name: name,
+        dist: 500
       }
     }).pipe(
       map( (resp) => 
@@ -45,8 +48,8 @@ export class CoffeeShopService {
   }
 
   getCoffeeShopsBySearch(pageNumber: number, itemsOnPage: number, location: string, 
-    dist: number, minRating: number, name: string, perks: PerkType[], isOpened: boolean): Observable<CoffeeShopSummary[]> {
-    return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
+    dist: number, minRating: number, name: string, perks: PerkType[], isOpened: boolean): Observable<getCoffeeShopsResponse> {
+    return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, {
       params: {
         page: pageNumber,
         items_on_page: itemsOnPage,
@@ -60,33 +63,17 @@ export class CoffeeShopService {
     }).pipe(
       map( (resp) => 
         {
-          console.log(resp)
           return resp;
         })
     );
   }
 
-  getCoffeeShopsByLocation(location: string): Observable<CoffeeShopSummary[]> {
-    return this.httpClient.get<CoffeeShopSummary[]>(this.COFFEE_SHOP_URL, {
-      params: {
-        page: 0,
-        location: location,
-        dist: 3
-      }
-    }).pipe(
-      map( (resp) => 
-        {
-          console.log(resp);
-          return resp;
-        })
-    );
-  }
-
-  getCoffeeShopByManagerId(managerId: number) {
-    return this.httpClient.get<CoffeeShop[]>(this.COFFEE_SHOP_URL, 
+  getCoffeeShopByManagerId(pageNumber: number, itemsOnPage: number, managerId: number) {
+    return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, 
       {
         params: {
-          page: 0,
+          page: pageNumber,
+          items_on_page: itemsOnPage,
           manager: managerId
         }
       })
