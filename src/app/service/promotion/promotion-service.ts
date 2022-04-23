@@ -23,6 +23,14 @@ export class PromotionService {
     return this.httpClient.post(this.PROMOTION_URL, promotion, {headers: headers});
   }
 
+  updatePromotion(promotion: PromotionRequest): Observable<any> {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.user!.token}`
+    })
+
+    return this.httpClient.patch(this.PROMOTION_URL + "/" + promotion.id, promotion, {headers: headers});
+  }
+
   getPromotions(page: number, pageSize: number): Observable<GetPromotionsResponse> {
     let headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.user!.token}`
