@@ -6,6 +6,10 @@
     <button class="btn btn-primary" type="button">
       Запрос на обновление кофеен
     </button>
+    <form [formGroup]="searchForm" (submit)="loadCoffeeShops()" class="form-inline justify-content-left md-form form-sm mt-0 mb-1">
+      <input formControlName="name" class="form-control form-control-sm" type="text" placeholder="Название кофейни" aria-label="Название">
+      <div class="text-center"><button class="btn btn-primary btn-sm" type="submit">Искать</button></div>
+    </form>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCoffeeShop" type="button" (click)="prepareAddForm()">
       Новая кофейня
     </button>
@@ -48,6 +52,7 @@
         </tr>
     </tbody>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" [pageSize]="pageSize" [length]="totalElements" (page)="selectPage($event)"> </mat-paginator>
 </div>
     
     <!-- Add coffee shop Modal -->
@@ -234,7 +239,3 @@
         </div>
       </div>
     </div>
-
-    <mat-paginator [pageSize]="10" [length]="totalElements" (page)="nextPage($event)"> </mat-paginator>
-  
-

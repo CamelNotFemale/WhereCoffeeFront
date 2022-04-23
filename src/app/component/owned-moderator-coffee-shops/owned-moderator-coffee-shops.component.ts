@@ -12,6 +12,7 @@ import { PromotionRequest } from 'src/app/model/promotion/PromotionAddRequest';
 import { PromotionService } from 'src/app/service/promotion/promotion-service';
 import { Promotion } from 'src/app/model/promotion/promotion';
 import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
+import { PageEvent } from '@angular/material/paginator';
 
 export class PromotionsSlide {
   constructor(public promotions: Array<Promotion>) {}
@@ -24,6 +25,9 @@ export class PromotionsSlide {
 })
 export class OwnedModeratorCoffeeShopsComponent implements OnInit {
 
+  public page = 0;
+  public pageSize = 5;
+  public totalElements!: number;
   coffeeShops: Array<CoffeeShop> = [];
   promotions: Array<PromotionRequest> = [];
 
@@ -57,12 +61,20 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
   }
 
   private loadCoffeeShops() {
-    this.coffeeShopService.getCoffeeShopByManagerId(this.authService.user!.id).subscribe(
+    this.coffeeShopService.getCoffeeShopByManagerId(this.page, this.pageSize, this.authService.user!.id).subscribe(
       result => {
-        this.coffeeShops = result;
+        this.coffeeShops = result.content;
+        this.totalElements = result.totalElements;
         console.log("Все кофейни модератора: ", this.coffeeShops);
       }
     )
+  }
+
+  selectPage(event: PageEvent) {
+    console.log("Selected page:", event.pageIndex, event.pageSize)
+    this.page = event.pageIndex
+    this.pageSize = event.pageSize
+    this.loadCoffeeShops()
   }
 
   updateCoffeeShop() {

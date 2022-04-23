@@ -26,17 +26,12 @@
     </div>
 
     <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
-    <div
-      *ngIf="getPassword!.invalid && (getPassword!.touched || getPassword!.dirty)" class="alert alert-danger"
-    >
-      <span *ngIf="getPassword!.errors?.['required']">
-        Password is required
-      </span>
-      <span *ngIf="getPassword!.errors?.['minlength']">
-        Password must consist of at least 6 digits
+    <div *ngIf="getPassword!.invalid && (getPassword!.touched || getPassword!.dirty)" class="alert alert-danger">
+      <span *ngIf="getPassword!.invalid">
+        >Password must consist of at least 6 digits [0-9a-zA-Z!@#$%^&*]
       </span>
     </div>
 
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    <button [disabled]="!form.valid" class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
   </form>
 </main>
