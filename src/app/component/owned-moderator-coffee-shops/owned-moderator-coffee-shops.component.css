@@ -16,5 +16,10 @@
 
 .row {
     display: flex;
-justify-content: center;
+    justify-content: center;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
 }

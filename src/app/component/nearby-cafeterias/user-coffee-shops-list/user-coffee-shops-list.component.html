@@ -48,7 +48,7 @@
 </div>
 <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
 <div class="container">
-    <div *ngIf="nearByCoffeeShops.length == 0">
+    <div *ngIf="nearByCoffeeShops && nearByCoffeeShops.length == 0">
       <h4>Ничего не нашли :(</h4>
     </div>
     <div class="cafeteriasList" *ngFor= "let coffeeShop of nearByCoffeeShops | slice: (page-1) * pageSize : page * pageSize">

@@ -18,4 +18,11 @@ export class Promotion {
 
     formattedFromDate: string = formatDate(this.fromDate, 'dd-MM-yyyy', 'ru-RU');
     formattedToDate: string = formatDate(this.toDate, 'dd-MM-yyyy', 'ru-RU');
+
+    public get shortDescription() {
+        return "fgjfgk";
+        // return "Название: " + this.title + "\n" +
+        //     "Описание" + this.description + "\n" +
+        //     "Действие акции с " + this.formattedFromDate + " по " + this.formattedToDate;
+    }
 }

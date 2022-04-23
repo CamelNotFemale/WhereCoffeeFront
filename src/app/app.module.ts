@@ -25,8 +25,10 @@ import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { PromotionsListForModeratorComponent } from './component/promotions-list
     AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" }),
     BrowserAnimationsModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent],
