@@ -5,6 +5,7 @@ import { map, Observable, of } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
 import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 import { getCoffeeShopsResponse } from 'src/app/dto/getCoffeeShop/getCoffeeShopsResponse';
+import { GetOwnershipClaimsResponse } from 'src/app/dto/getOwnershipClaimsResponse/get-ownership-claims-response';
 import { OwnershipClaimSubmission } from 'src/app/dto/ownershipClaimSubmission/ownership-claim-submission';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
@@ -154,16 +155,17 @@ export class CoffeeShopService {
       );
   }
   
-  getOwnershipClaims(pageNum: number): Observable<OwnershipClaim[]> {
+  getOwnershipClaims(pageNum: number, itemsOnPage: number): Observable<GetOwnershipClaimsResponse> {
     let userData = JSON.parse(localStorage.getItem('userData')!)
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${userData.token}`
     })
     
-    return this.httpClient.get<OwnershipClaim[]>(this.COFFEE_SHOP_URL + "/" + "ownership-claims", {
+    return this.httpClient.get<GetOwnershipClaimsResponse>(this.COFFEE_SHOP_URL + "/" + "ownership-claims", {
       params: {
-        page: pageNum
+        page: pageNum,
+        items_on_page: itemsOnPage
       },
       headers: headers
     })
