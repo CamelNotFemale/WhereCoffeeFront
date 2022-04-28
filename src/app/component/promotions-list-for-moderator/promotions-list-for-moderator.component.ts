@@ -50,35 +50,35 @@ export class PromotionsListForModeratorComponent implements OnInit {
       cafes: this.participatingCoffeeShop,
     })
 
-    this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
-    console.log("FilteredCoffeeShopsMulti ", this.filteredCoffeeShopsMulti);
+    // this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
+    // console.log("FilteredCoffeeShopsMulti ", this.filteredCoffeeShopsMulti);
 
-    this.searchCoffeeShop.valueChanges
-      .pipe(takeUntil(this._onDestroy))
-      .subscribe(() => {
-        this.filterBanksMulti();
-      });
+    // this.searchCoffeeShop.valueChanges
+    //   .pipe(takeUntil(this._onDestroy))
+    //   .subscribe(() => {
+    //     this.filterBanksMulti();
+    //   });
 
       this.loadPromotions();
       this.loadCoffeeShops(0,10);
   }
 
-  ngAfterViewInit() {
-    this.setInitialValue();
-  }
+  // ngAfterViewInit() {
+  //   this.setInitialValue();
+  // }
 
-  protected setInitialValue() {
-    this.filteredCoffeeShopsMulti
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        this.multiSelect.compareWith = (a: CoffeeShop, b: CoffeeShop) => a && b && a.id === b.id;
-      });
-  }
+  // protected setInitialValue() {
+  //   this.filteredCoffeeShopsMulti
+  //     .pipe(take(1), takeUntil(this._onDestroy))
+  //     .subscribe(() => {
+  //       // setting the compareWith property to a comparison function
+  //       // triggers initializing the selection according to the initial value of
+  //       // the form control (i.e. _initializeSelection())
+  //       // this needs to be done after the filteredBanks are loaded initially
+  //       // and after the mat-option elements are available
+  //       this.multiSelect.compareWith = (a: CoffeeShop, b: CoffeeShop) => a && b && a.id === b.id;
+  //     });
+  // }
 
   ngOnDestroy() {
     this._onDestroy.next();
@@ -178,21 +178,33 @@ export class PromotionsListForModeratorComponent implements OnInit {
     )
   }
 
-  protected filterBanksMulti() {
-    if (!this.moderatorsCoffeeShops) {
-      return;
-    }
-    // get the search keyword
-    let search = this.searchCoffeeShop.value;
-    if (!search) {
-      this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // filter the coffee shop
-    this.filteredCoffeeShopsMulti.next(
-      this.moderatorsCoffeeShops.filter(cafe => cafe.name.toLowerCase().indexOf(search) > -1)
-    );
+  deletePromotion() {
+    this.promotionService.deletePromotion(this.selectedPromotion.id).subscribe(
+      value => {
+        this.loadPromotions();
+      },
+      error => {
+        console.log("FAILED TO DELETE COFFEE SHOP WITH ID ", this.selectedPromotion.id, error);
+      }
+    )
+
   }
+
+  // protected filterBanksMulti() {
+  //   if (!this.moderatorsCoffeeShops) {
+  //     return;
+  //   }
+  //   // get the search keyword
+  //   let search = this.searchCoffeeShop.value;
+  //   if (!search) {
+  //     this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
+  //     return;
+  //   } else {
+  //     search = search.toLowerCase();
+  //   }
+  //   // filter the coffee shop
+  //   this.filteredCoffeeShopsMulti.next(
+  //     this.moderatorsCoffeeShops.filter(cafe => cafe.name.toLowerCase().indexOf(search) > -1)
+  //   );
+  // }
 }

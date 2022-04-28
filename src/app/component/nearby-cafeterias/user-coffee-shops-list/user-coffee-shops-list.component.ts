@@ -111,14 +111,15 @@ export class UserCoffeeShopsListComponent implements OnInit {
     )
   }
 
-  openCoffeShopModalDetails(coffeeShop: CoffeeShop) {
+  openCoffeeShopModalDetails(coffeeShop: CoffeeShop) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop : true,
       keyboard : false,
+
       size: 'xl'
     }
 
-    this.coffeeShopService.getCoffeeShop(coffeeShop.id).subscribe( 
+    this.coffeeShopService.getCoffeeShop(coffeeShop.id, false).subscribe( 
       (coffeeShop) => {
         const modalRef: NgbModalRef = this.modalService.open(CoffeeShopDetailsForUserComponent, ngbModalOptions);
         console.log("ModalRef:", modalRef);
@@ -131,7 +132,6 @@ export class UserCoffeeShopsListComponent implements OnInit {
         })
         .catch(error => console.log(error))
     })
-
   }
 
 }

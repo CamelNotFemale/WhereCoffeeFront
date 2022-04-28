@@ -1,0 +1,48 @@
+.PlacePagePromoList_item:not(:last-child) {
+    margin-bottom: 25px;
+  }
+
+.PlacePagePromoList_item {
+    display: flex;
+    padding: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.PlacePagePromoList_icon {
+    flex: 0 0 auto;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    background: #83eabc;
+    align-items: center;
+    margin-right: 20px;
+    border-radius: 4px;
+    justify-content: center;
+}
+
+.PlacePagePromoList_content {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .PlacePagePromoList_title {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  .PlacePagePromoList_description {
+    color: #b0b0b0;
+    font-size: 14px;
+    margin-top: 1px;
+    line-height: 1.43;
+  }
+
+  .PlacePagePromoList_root {
+    margin-top: 12px;
+    margin-bottom: 9px;
+  }

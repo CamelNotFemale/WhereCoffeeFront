@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h5 class="modal-title">Информация об акции</h5>
+    <button type="button" class="btn-close" (click)="activeModal.dismiss('Cross click')" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="detailsForm">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название акции</label>
+            <input type="text" readonly formControlName="title" class="form-control" id="title">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание акции</label>
+            <input type="text" readonly formControlName="description" class="form-control" id="description">
+        </div>
+        <div class="mb-3">
+            <label for="startTime" class="form-label">Начало действия акции</label>
+            <input readonly formControlName="fromDate" type="date" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="endTime" class="form-label">Конец действия акции</label>
+            <input readonly formControlName="toDate" type="date" class="form-control">
+        </div>
+    </form>
+</div>

@@ -14,7 +14,7 @@
     margin-bottom: 15px;
 }
 
-.row {
+.slideRow {
     display: flex;
     justify-content: center;
 }

@@ -11,6 +11,11 @@ import { User } from 'src/app/model/user/user';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { OwnershipClaimComponent } from 'src/app/component/nearby-cafeterias/ownership-claim/ownership-claim.component'
+import { PromotionsSlide } from '../../owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
+import { Promotion } from 'src/app/model/promotion/promotion';
+import { PromotionRequest } from 'src/app/model/promotion/PromotionAddRequest';
+import { PromotionService } from 'src/app/service/promotion/promotion-service';
+import { PromotionDetailsComponent } from '../../promotion-details/promotion-details.component';
 
 @Component({
   selector: 'app-coffee-shop-details-for-user',
@@ -24,6 +29,9 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
   commentatorName!: string;
   editableComment!: string;
   currentRate!: number;
+
+  promotionsSlides: Array<PromotionsSlide> = []
+  promotions: Array<PromotionRequest> = [];
 
   @Input() 
   coffeeShop!: CoffeeShop;
@@ -56,6 +64,7 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder, 
     public coffeeShopService: CoffeeShopService,
+    public promotionService: PromotionService,
     public authService: AuthService) {
     
   }
@@ -69,6 +78,7 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
 
     this.location = this.coffeeShop.location['lat'] + ',' + this.coffeeShop.location['lng'];
     this.getAllReview();
+    this.preparePromotions(this.coffeeShop.promotions)
   }
 
   addReview() {
@@ -97,7 +107,7 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
   }
 
   getAllReview() {
-    this.coffeeShopService.getCoffeeShop(this.coffeeShop.id).subscribe(
+    this.coffeeShopService.getCoffeeShop(this.coffeeShop.id, false).subscribe(
       response => {
         console.log("Getting coffee shop on review:", response);
         console.log("Perks:", this.coffeeShop.perks);
@@ -186,6 +196,46 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
           console.log("Ownership claim window is closed")
         })
         .catch(error => console.log(error))
+
+  }
+
+  preparePromotions(promotions: Array<Promotion>) {
+    this.promotionsSlides = [];
+    const slideSize = 3
+    let slidesNumber = Math.ceil(promotions.length / slideSize)
+    console.log("slides number: ", slidesNumber)
+    for (let slideIndex = 0; slideIndex < slidesNumber; slideIndex++) {
+      let firstPromotionIndex = slideIndex * slideSize
+      let slidePromotions = promotions.slice(firstPromotionIndex, firstPromotionIndex + slideSize)
+      let slide = new PromotionsSlide(slidePromotions)
+      this.promotionsSlides.push(slide)
+    }
+
+    console.log("Promotions slides: ", this.promotionsSlides)
+  }
+
+  openPromotionDetails(promotion: Promotion) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop : true,
+      keyboard : false,
+      size: 'sm'
+    }
+
+    console.log("Выбранная акция: ", promotion);
+
+    this.promotionService.getPromotion(promotion.id).subscribe( 
+      (result) => {
+        const modalRef: NgbModalRef = this.modalService.open(PromotionDetailsComponent, ngbModalOptions);
+        console.log("ModalRef:", modalRef);
+
+        modalRef.componentInstance.promotion = promotion;
+        console.log("Getting promotion", promotion);
+
+        modalRef.result.then( (result) => {
+          console.log("Promotion details Modal window is closed")
+        })
+        .catch(error => console.log(error))
+    })
 
   }
 }

@@ -59,7 +59,7 @@ export class OwnerClaimListComponent implements OnInit {
   }
 
   prepareCoffeeShopDetailsForm(cafeId: number) {
-    this.coffeeShopService.getCoffeeShop(cafeId).subscribe(
+    this.coffeeShopService.getCoffeeShop(cafeId, true).subscribe(
       coffeeShop => {
         this.coffeeShopDetails.controls['id'].setValue(coffeeShop.id);
         this.coffeeShopDetails.controls['name'].setValue(coffeeShop.name);

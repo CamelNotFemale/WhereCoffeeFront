@@ -11,6 +11,7 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
 import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
 import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
+import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
 const routes: Routes = [
   {
     path: '', 
@@ -62,6 +63,12 @@ const routes: Routes = [
     component:  OwnerClaimListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
+  },
+  {
+    path: 'activePromotions', 
+    component:  PromotionForUserComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.User, Role.Admin, Role.Moderator] }
   }
 ];
 

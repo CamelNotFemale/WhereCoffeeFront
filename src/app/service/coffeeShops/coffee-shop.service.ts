@@ -21,8 +21,12 @@ export class CoffeeShopService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getCoffeeShop(id: number): Observable<CoffeeShop> {
-    return this.httpClient.get<CoffeeShop>(this.COFFEE_SHOP_URL + "/" + id)
+  getCoffeeShop(id: number, isFullPromo: boolean): Observable<CoffeeShop> {
+    return this.httpClient.get<CoffeeShop>(this.COFFEE_SHOP_URL + "/" + id, {
+      params: {
+        all_promo: isFullPromo
+      } 
+    })
       .pipe(
         map( (resp) => {
           return resp;

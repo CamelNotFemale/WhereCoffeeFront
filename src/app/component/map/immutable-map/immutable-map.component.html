@@ -5,23 +5,11 @@
 </div> -->
 
 <div class="container map">
-    <!-- <div *ngIf="this.parent.location!=''">
-      <ya-map 
-        [center]="[lat, lng]" 
-        [zoom]="12"
-        (ready)="onMapReady($event)"
-      >
-          <ya-placemark [geometry]="[lat,  lng]"></ya-placemark>
-      </ya-map>
-    </div> -->
-    <!-- <div *ngIf="this.parent.location"> -->
       <ya-map 
         [center]="[this.lat, this.lng]" 
         [zoom]="12"
         (ready)="onMapReady($event)"
       >
         <ya-placemark [geometry]="[this.lat, this.lng]"></ya-placemark>
-      </ya-map>
-    <!-- </div> -->
-    
+      </ya-map>    
 </div>

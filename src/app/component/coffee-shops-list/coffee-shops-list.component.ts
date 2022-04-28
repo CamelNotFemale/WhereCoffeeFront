@@ -112,7 +112,7 @@ export class CoffeeShopsListComponent implements OnInit {
   prepareEditDeleteForm(coffeeShopSummary: CoffeeShopSummary) {
     this.hideMap();
     this.selectedCoffeeShopId = coffeeShopSummary.id;
-    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe(
+    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id, true).subscribe(
       coffeeShop => {
         console.log("Received data on coffee shop with id ", coffeeShopSummary.id, coffeeShop);
         

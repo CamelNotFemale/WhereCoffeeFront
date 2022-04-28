@@ -29,6 +29,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PromotionDetailsComponent } from './component/promotion-details/promotion-details.component';
+import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     OwnershipClaimComponent,
     OwnedModeratorCoffeeShopsComponent,
     OwnerClaimListComponent,
-    PromotionsListForModeratorComponent
+    PromotionsListForModeratorComponent,
+    PromotionDetailsComponent,
+    PromotionForUserComponent
   ],
   imports: [
     BrowserModule,
