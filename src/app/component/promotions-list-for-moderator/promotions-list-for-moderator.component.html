@@ -7,16 +7,14 @@
             <tr>
                 <th class="col-3">Название акции</th>
                 <th >Описание</th>
-                <th >Начало действия</th>
-                <th class="col-3">Окончание действия</th>
-                </tr>
+                <th class="col-auto">Начало действия</th>
+                <th class="col-auto">Окончание действия</th>
+                <th></th>
+            </tr>
         </thead>
         <tbody>
             <tr *ngFor= "let promotion of promotions">
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editPromotion" (click)="prepareEditDeleteForm(promotion)">
-                        <i class="bi bi-pencil"></i>
-                    </button>
                     <a href="#detailsModal" class="link-secondary" data-bs-toggle="modal" data-bs-target="#promotionDetails" (click)="prepareEditDeleteForm(promotion)">
                         {{promotion.title}}
                     </a>
@@ -24,6 +22,14 @@
                 <td>{{ promotion.description }}</td>
                 <td>{{ promotion.fromDate | date:'dd-MM-yyyy' }}</td>
                 <td>{{ promotion.toDate | date:'dd-MM-yyyy' }}</td>
+                <td class="btn-group">
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editPromotion" (click)="prepareEditDeleteForm(promotion)">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deletePromotion" (click)="prepareEditDeleteForm(promotion)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -140,7 +146,7 @@
             <label for="endTime" class="form-label">Конец действия акции</label>
             <input formControlName="toDate" type="date" class="form-control">
           </div>
-          <!-- <div class="mb-3">
+          <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Выбор кофеен</label><br>
             <mat-form-field appearance="fill">
               <mat-label>Кофейни</mat-label>
@@ -150,8 +156,8 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div> -->
-          <div class="mb-3">
+          </div>
+          <!-- <div class="mb-3">
             <label for="chosenCoffeeShops" class="form-label">Выбор кофеен</label><br>
             <mat-form-field appearance="fill">
               <mat-label>Кофейни</mat-label>
@@ -167,12 +173,30 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>         
+          </div>          -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
             <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="updatePromotion()">Изменить информацию</button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete promotion Modal -->
+<div class="modal fade" id="deletePromotion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Удаление акции</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text">Вы уверены?</div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="deletePromotion()">Удалить акцию</button>
       </div>
     </div>
   </div>

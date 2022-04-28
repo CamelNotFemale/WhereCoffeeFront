@@ -13,6 +13,8 @@ import { PromotionService } from 'src/app/service/promotion/promotion-service';
 import { Promotion } from 'src/app/model/promotion/promotion';
 import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 import { PageEvent } from '@angular/material/paginator';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PromotionDetailsComponent } from '../promotion-details/promotion-details.component';
 
 export class PromotionsSlide {
   constructor(public promotions: Array<Promotion>) {}
@@ -40,9 +42,10 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
   
   constructor(
     private formBuilder: FormBuilder, 
-    public coffeeShopService: CoffeeShopService, 
-    public authService: AuthService,
-    public promotionService: PromotionService) { }
+    private coffeeShopService: CoffeeShopService, 
+    private authService: AuthService,
+    private promotionService: PromotionService, 
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.coffeeShopDetails = this.formBuilder.group({
@@ -113,7 +116,7 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
 
   prepareEditDeleteForm(coffeeShopSummary: CoffeeShopSummary) {
     this.selectedCoffeeShopId = coffeeShopSummary.id;
-    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe(
+    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id, true).subscribe(
       coffeeShop => {
         console.log("Received data on coffee shop with id ", coffeeShopSummary.id, coffeeShop);
         
@@ -164,5 +167,27 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
     }
 
     console.log("Promotions slides: ", this.promotionsSlides)
+  }
+
+  openPromotionDetails(promotion: Promotion) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop : true,
+      keyboard : false,
+      size: 'sm'
+    }
+
+    this.promotionService.getPromotion(promotion.id).subscribe( 
+      (result) => {
+        const modalRef: NgbModalRef = this.modalService.open(PromotionDetailsComponent, ngbModalOptions);
+        console.log("ModalRef:", modalRef);
+
+        modalRef.componentInstance.promotion = promotion;
+        console.log("Getting promotion", promotion);
+
+        modalRef.result.then( (result) => {
+          console.log("Promotion details Modal window is closed")
+        })
+        .catch(error => console.log(error))
+    })
   }
 }

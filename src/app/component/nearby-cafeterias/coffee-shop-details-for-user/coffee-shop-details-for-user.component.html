@@ -53,6 +53,27 @@
       </div>
     </div>
 
+    <div *ngIf="promotionsSlides.length != 0">
+      <h5><b>Акции</b></h5>
+      <ngb-carousel *ngIf="promotionsSlides" [showNavigationArrows]="true" [showNavigationIndicators]="false" [animation]="true">
+        <ng-template ngbSlide *ngFor="let slide of promotionsSlides">
+          <div class="row">
+            <div class="item card col-md-3" *ngFor="let promotion of slide.promotions">
+              <div class="card-body">
+                <h5 class="card-title">{{ promotion.title }}</h5>
+                <p class="card-text">{{ promotion.description }}</p>
+              </div>
+              <div class="card-footer">
+                <button type="button"class="btn btn-outline-secondary" (click)="openPromotionDetails(promotion)">
+                  Подробнее
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
     <div class="writeComment col-sm-10">
       <input type="text" formControlName="comment" class="form-control" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
       <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
@@ -68,7 +89,10 @@
   </form>
 </div>
 
-<h3 class="reviewList">Отзывы</h3>
+<div *ngIf="grades?.length != 0">
+  <h3 class="reviewList">Отзывы</h3>
+</div>
+
 
 <div *ngFor="let userGrade of grades">
   <div class="card">

@@ -63,4 +63,12 @@ export class PromotionService {
         })
       );
   }
+
+  deletePromotion(id: number) {
+    let headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.user!.token}`
+    })
+
+    return this.httpClient.delete(this.PROMOTION_URL + "/" + id, {headers: headers});
+  }
 }
