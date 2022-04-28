@@ -1,0 +1,25 @@
+.promotionDates {
+    display: inline-block;
+    white-space: -moz-pre-space;
+    margin-left: auto
+}
+
+.workDayName {
+    padding-right: 15px; 
+    margin-bottom: 0;
+    width: 100px;
+}
+
+.workDayInputBlock {
+    margin-bottom: 15px;
+}
+
+.slideRow {
+    display: flex;
+    justify-content: center;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+}

@@ -7,11 +7,15 @@ import { CoffeeShopsListComponent } from './component/coffee-shops-list/coffee-s
 import { AuthGuard } from './guards/auth-guard';
 import { Role } from './model/role/Role';
 import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
+import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
+import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
+import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
 const routes: Routes = [
   {
     path: '', 
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
   },
   {
     path: 'login', 
@@ -22,14 +26,19 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
+    path: 'profile', 
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'home', 
     component: HomeComponent
   },
   {
-    path: 'userButton', 
+    path: 'nearbyCoffeeShops', 
     component: NearByCoffeeShopComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Role.User] }
+    data: { roles: [Role.User, Role.Admin, Role.Moderator] }
   },
   {
     path: 'coffeeShopsList', 
@@ -37,6 +46,30 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
   },
+  {
+    path: 'myCoffeeShops', 
+    component: OwnedModeratorCoffeeShopsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Moderator] }
+  },
+  {
+    path: 'myPromotions', 
+    component: PromotionsListForModeratorComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Moderator] }
+  },
+  {
+    path: 'ownerClaimList', 
+    component:  OwnerClaimListComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.Admin] }
+  },
+  {
+    path: 'activePromotions', 
+    component:  PromotionForUserComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Role.User, Role.Admin, Role.Moderator] }
+  }
 ];
 
 @NgModule({

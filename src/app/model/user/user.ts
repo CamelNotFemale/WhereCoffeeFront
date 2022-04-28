@@ -6,7 +6,12 @@ export class User {
     // name!: string;
     // email!: string;
     // password!: string;
-    // role!: Role;    
+    // role!: Role;   
+    public firstName!: string;
+    public surname!: string;
+    public patronymic!: string;
+    public birthDay!: Date;
+    public phone!: string;
 
     constructor (
         public id: number, 
@@ -24,4 +29,7 @@ export class User {
         return this.role == Role.User;
     }
 
+    get isModerator(): boolean {
+        return this.role == Role.Moderator;
+    }
 }

@@ -9,6 +9,7 @@
 .writeComment {
     display: flex;
     gap: 15px;
+    margin-top: 20px;
 }
 
 .reviewList {
@@ -27,4 +28,26 @@
 .gradesTable {
     margin-left: auto;
     margin-right: auto;
+}
+
+.editCommentIcon {
+    margin-left: 10px;
+}
+
+.editComment {
+    margin: 10px;
+}
+
+#perk {
+    margin-right: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
 }

@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBiulder.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.pattern("[0-9a-zA-Z!@#$%^&*]{6,}")]]
     })
   }
 
@@ -40,18 +40,23 @@ export class RegisterComponent implements OnInit {
 
   submit(): void {
     this.registerFailed = false;
-    this.http.post(environment.apiUrl + '/api/register', this.form.getRawValue())
-    .subscribe(
-      (res: any) => {
-        console.log(res);
-        this.router.navigate(['/login']);
-      },
-      (err: any) => {
-        console.log(err);
-        this.registerFailed = true;
-        this.registerFailureDescription = err.error['message'];
-      }
-  )
-    // this.router.navigate(['/login']);
+    if (!this.form.valid) {
+      this.registerFailed = true;
+      this.registerFailureDescription = 'Ошибка при регистрации';
+    }
+    else {
+      this.http.post(environment.apiUrl + '/api/register', this.form.getRawValue())
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.router.navigate(['/login']);
+        },
+        (err: any) => {
+          console.log(err);
+          this.registerFailed = true;
+          this.registerFailureDescription = err.error['message'];
+        }
+      )
+    }
   }
 }

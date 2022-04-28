@@ -7,6 +7,8 @@ import { allWeekDays, WeekDay, WeekDayCodes, WeekDayCodesf } from '../../model/h
 import { WorkingHours } from '../../model/hours/working-hours';
 import { CoffeeShopService } from '../../service/coffeeShops/coffee-shop.service';
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -15,15 +17,21 @@ import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolk
 })
 
 export class CoffeeShopsListComponent implements OnInit {
-  coffeeShops: Array<CoffeeShopSummary> = [];
+  coffeeShops!: CoffeeShop[];
 
   coffeeShopDetails!: FormGroup;
+
+  searchForm!: FormGroup;
 
   selectedCoffeeShopId!: number;
 
   schedule!: Schedule;
 
   location!: string;
+
+  pageNumber = 0;
+  pageSize = 5;
+  totalElements!: number;
 
   // @ViewChild(MapModalComponent)
   // map!: MapModalComponent;
@@ -55,12 +63,15 @@ export class CoffeeShopsListComponent implements OnInit {
       description: [''],
       address: [''],
       phone: [''],
-      manager: ['']
+      managerId: ['']
+    })
+    this.searchForm = this.formBuilder.group({
+      name: ['']
     })
 
     this.schedule = new Schedule();
     this.location = "";
-
+  
     this.loadCoffeeShops();
   }
 
@@ -70,7 +81,7 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coffeeShopDetails.controls['description'].setValue('');
     this.coffeeShopDetails.controls['address'].setValue('');
     this.coffeeShopDetails.controls['phone'].setValue('');
-    this.coffeeShopDetails.controls['manager'].setValue('');
+    this.coffeeShopDetails.controls['managerId'].setValue('');
     this.schedule.workingHours = [];
 
     allWeekDays.forEach(weekDay => {
@@ -84,7 +95,8 @@ export class CoffeeShopsListComponent implements OnInit {
   }
 
   addCoffeeShop() {
-    let newCoffeeShop = this.extractFormData();    
+    let newCoffeeShop = this.extractFormData();  
+    console.log("New coffee shop: ", newCoffeeShop);  
     
     this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
       value => {
@@ -100,7 +112,7 @@ export class CoffeeShopsListComponent implements OnInit {
   prepareEditDeleteForm(coffeeShopSummary: CoffeeShopSummary) {
     this.hideMap();
     this.selectedCoffeeShopId = coffeeShopSummary.id;
-    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id).subscribe(
+    this.coffeeShopService.getCoffeeShop(coffeeShopSummary.id, true).subscribe(
       coffeeShop => {
         console.log("Received data on coffee shop with id ", coffeeShopSummary.id, coffeeShop);
         
@@ -109,9 +121,30 @@ export class CoffeeShopsListComponent implements OnInit {
         this.coffeeShopDetails.controls['description'].setValue(coffeeShop.description);
         this.coffeeShopDetails.controls['address'].setValue(coffeeShop.address);
         this.coffeeShopDetails.controls['phone'].setValue(coffeeShop.phone);
-        this.coffeeShopDetails.controls['manager'].setValue(coffeeShop.manager);
+        if (coffeeShop.manager != null) {
+          this.coffeeShopDetails.controls['managerId'].setValue(coffeeShop.manager.id);
+        }
+        else {
+          this.coffeeShopDetails.controls['managerId'].setValue('');
+        }
 
         this.schedule.workingHours = coffeeShop.workingHours;
+
+        console.log(this.schedule.workingHours)
+        
+        allWeekDays.forEach(weekDay => {
+          let dayPresentInSchedule = this.schedule.workingHours.some(workingDay => {
+            return workingDay.weekday == WeekDayCodes[weekDay];
+          })
+          console.log("Id day present in schedule: ", dayPresentInSchedule, weekDay, WeekDayCodes[weekDay]);
+          if (!dayPresentInSchedule) {
+            let weekDayCode = WeekDayCodes[weekDay];
+            let workingHours = new WorkingHours(weekDayCode, null, null);
+            this.schedule.workingHours.push(workingHours);
+          }
+        });
+        console.log(this.schedule);
+
         this.location = coffeeShop.location['lat'] + ',' + coffeeShop.location['lng'];
       },
       error => {
@@ -146,20 +179,29 @@ export class CoffeeShopsListComponent implements OnInit {
 
   }
 
-  private loadCoffeeShops() {
-    this.coffeeShopService.getCoffeeShops().subscribe(
+  loadCoffeeShops() {
+    let name = this.searchForm.get('name')!.value
+    this.coffeeShopService.getCoffeeShopsByName(this.pageNumber, this.pageSize, name).subscribe(
       (response) => {
         console.log("All coffee shop: ", response);
-        this.coffeeShops = response;
+        this.coffeeShops = response.content;
+        this.totalElements = response.totalElements;
+        console.log("Total Elements: ", this.totalElements);
       }
     )
   }
 
-  private extractFormData(): CoffeeShop {
+  selectPage(event: PageEvent) {
+		this.pageNumber = event.pageIndex;
+    this.pageSize = event.pageSize
+    this.loadCoffeeShops();
+	}
+
+  private extractFormData(): AddCoffeeShopRequest {
     let shopData = this.coffeeShopDetails.value;
     let workingHours = this.schedule.workingHours;
 
-    let newCoffeeShop = new CoffeeShop(
+    let newCoffeeShop = new AddCoffeeShopRequest(
       shopData.id,
       shopData.name,
       shopData.description,
@@ -167,11 +209,8 @@ export class CoffeeShopsListComponent implements OnInit {
       shopData.address,
       shopData.url,
       shopData.phone,
-      shopData.rating,
-      shopData.manager,
-      workingHours,
-      shopData.grades,
-      shopData.perks
+      shopData.managerId,
+      workingHours
     );
 
     console.log(newCoffeeShop);

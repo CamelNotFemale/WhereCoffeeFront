@@ -1,119 +1,172 @@
 
-      <div class="cafeteriaModal">
-        <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ coffeeShop.name }}</h5>
-        <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+<div class="cafeteriaModal">
+  <div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">{{ coffeeShop.name }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="commentForm">
+    <div class="cafeteriaInfo">
+      <div class="info">
+        <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="commentForm">
-          <div class="cafeteriaInfo">
-            <div class="info">
-              <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
-            </div>
-            
-            <div class="info">
-              <table class="table">
-                <tbody>
-                  <tr>
-                    <td><b>Описание</b></td>
-                    <td>{{ coffeeShop.description }}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Адрес</b></td>
-                    <td>{{ coffeeShop.address }}</td>
-                  </tr>
-                  <tr>
-                    <td><b>Номер телефона</b></td>
-                    <td>{{ coffeeShop.phone }}</td>
-                  </tr>
-                  <tr *ngIf="coffeeShop.url">
-                    <td><b>Сайт</b></td>
-                    <td>{{ coffeeShop.url }}</td>
-                  </tr>
-                  <!-- <div *ngIf="coffeeShop.perks">
-                    <tr *ngFor="let perk of coffeeShop.perks">
-                      <td><b>Особенности</b></td>
-                      <td>{{ perk }}</td>
-                    </tr>
-                  </div> -->
-                  
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-
-          <div class="writeComment col-sm-10">
-            <input type="text" formControlName="comment" class="form-control" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
-            <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
-
-            <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
-              
-            <div *ngFor="let perk of perks">
-              <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}}></i></button>
-              <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}}></i></button>
-            </div>
-              
-            
-
-          </div>
-          
-        </form>
-      </div>
-
-      <h3 class="reviewList">Отзывы</h3>
-
-      <div>
-        <table class="gradesTable">
-          <thead>
-            <tr>
-              <th scope="col" style="width: 25%">Имя пользователя</th>
-              <th scope="col" style="width: 25%">Отзыв</th>
-              <th scope="col" style="width: 25%">Оценка</th>
-              <th scope="col" style="width: 25%">Дата отзыва</th>
-            </tr>
-          </thead>
+      
+      <div class="info">
+        <table class="table">
           <tbody>
-            <tr *ngFor="let userGrade of grades">
-              <th scope="row">{{userGrade.user.username}}</th>
-              <td>{{userGrade.comment}}</td>
-              <td>{{userGrade.grade}}</td>
-              <td>{{userGrade.date}}</td>
+            <tr>
+              <td><b>Описание</b></td>
+              <td>{{ coffeeShop.description }}</td>
+            </tr>
+            <tr>
+              <td><b>Адрес</b></td>
+              <td>{{ coffeeShop.address }}</td>
+            </tr>
+            <tr>
+              <td><b>Номер телефона</b></td>
+              <td>{{ coffeeShop.phone }}</td>
+            </tr>
+            <tr *ngIf="coffeeShop.url">
+              <td><b>Сайт</b></td>
+              <td>{{ coffeeShop.url }}</td>
+            </tr>
+            <tr *ngIf="coffeeShop.perks">
+              <td><b>Особенности</b></td>
+              <td>
+                <div class="d-flex">
+                  <div *ngFor="let cafePerk of coffeeShop.perks">
+                    <div *ngFor="let p of perks">
+                      <div *ngIf="cafePerk.perk.title===p.type">
+                        <i class={{p.filledIcon}} id="perk"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              
             </tr>
           </tbody>
         </table>
-        <!-- <blockquote>
-          <p>
-            <span style="margin-left: 50px;">{{userGrade.user.name}}</span>
-            <span style="margin-left: 50px;">{{userGrade.comment}}</span>
-            <span style="margin-left: 50px;">{{userGrade.grade}}</span>
-            <span style="margin-left: 50px;">{{userGrade.date}}</span>
-          </p>
-        </blockquote> -->
-        
-
-        
       </div>
-
-
-
-  <!-- <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      <div *ngIf="coffeeShop.manager == null" class="info">
+        <button type="button" class="btn btn-light" (click)="openOwnershipClaimModal(coffeeShop.id)">Я владелец</button>
+      </div>
     </div>
-    <div class="modal-body">
-      <form>
-        <div class="mb-3">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+
+    <div *ngIf="promotionsSlides.length != 0">
+      <h5><b>Акции</b></h5>
+      <ngb-carousel *ngIf="promotionsSlides" [showNavigationArrows]="true" [showNavigationIndicators]="false" [animation]="true">
+        <ng-template ngbSlide *ngFor="let slide of promotionsSlides">
+          <div class="row">
+            <div class="item card col-md-3" *ngFor="let promotion of slide.promotions">
+              <div class="card-body">
+                <h5 class="card-title">{{ promotion.title }}</h5>
+                <p class="card-text">{{ promotion.description }}</p>
+              </div>
+              <div class="card-footer">
+                <button type="button"class="btn btn-outline-secondary" (click)="openPromotionDetails(promotion)">
+                  Подробнее
+                </button>
+              </div>
+            </div>
           </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div class="writeComment col-sm-10">
+      <input type="text" formControlName="comment" class="form-control" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
+      <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
+
+      <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
+        
+      <div *ngFor="let perk of perks">
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}} id="perk"></i></button>
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}} id="perk"></i></button>
+      </div>
+    </div>
+    
+  </form>
+</div>
+
+<div *ngIf="grades?.length != 0">
+  <h3 class="reviewList">Отзывы</h3>
+</div>
+
+
+<div *ngFor="let userGrade of grades">
+  <div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                <p class="text-secondary text-center">{{userGrade.date | date}}</p>
+            </div>
+            <div class="col-md-10">
+                <p>
+                    <a class="float-left">
+                      <strong>{{userGrade.user.username}}</strong>
+                      <span *ngIf="authService.user?.isAdmin || userGrade.user.username===commentatorName" class="editCommentIcon">
+                        <button type="button" class="btn btn-primary btn-sm" (click)="prepareEditGrade(userGrade)">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="deleteGrade(userGrade.user.id)">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </span>
+                    </a>
+                    
+                    <span class="float-right" *ngIf="!editState">
+                      <ngb-rating [max]="5" [rate]="userGrade.grade" [readonly]="true"></ngb-rating>
+                      <div class="d-flex">
+                        <div *ngFor="let perk of userGrade.perks">
+                          <div *ngFor="let p of perks">
+                            <div *ngIf="perk.title===p.type">
+                              <i class={{p.filledIcon}} id="perk"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </span>
+
+                    <span class="float-right" *ngIf="editState && userGrade.user.username!=commentatorName">
+                      <ngb-rating [max]="5" [(rate)]="userGrade.grade"></ngb-rating>
+                      <div class="d-flex">
+                        <div *ngFor="let perk of userGrade.perks">
+                          <div *ngFor="let p of perks">
+                            <div *ngIf="perk.title===p.type">
+                              <i class={{p.filledIcon}} id="perk"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </span>
+
+                    <span class="float-right" *ngIf="editState && userGrade.user.username===commentatorName">
+                      <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
+                      <div class="d-flex">
+                        <div *ngFor="let perk of perks">
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}} id="perk"></i></button>
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}} id="perk"></i></button>
+                        </div>
+                      </div>
+                    </span>
+               </p>
+               <div class="clearfix"></div>
+                <p *ngIf="!editState">{{userGrade.comment}}</p>
+                <p *ngIf="editState && userGrade.user.username!=commentatorName">
+                  {{userGrade.comment}}
+                </p>
+                <p *ngIf="editState && userGrade.user.username===commentatorName">
+                  
+                  <input type="text" value={{userGrade.comment}} [(ngModel)]="editableComment" class="form-control">
+                  <button type="button" class="btn btn-success editComment" (click)="editGrade(userGrade.user.id)">Изменить оценку</button>
+                </p>
+            </div>
         </div>
-      </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-  </ng-template> -->
+  </div>
+</div>
+

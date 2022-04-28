@@ -19,6 +19,18 @@ import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by
 import { UserMapComponent } from './component/nearby-cafeterias/user-map/user-map.component';
 import { UserCoffeeShopsListComponent } from './component/nearby-cafeterias/user-coffee-shops-list/user-coffee-shops-list.component';
 import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias/coffee-shop-details-for-user/coffee-shop-details-for-user.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { OwnershipClaimComponent } from './component/nearby-cafeterias/ownership-claim/ownership-claim.component';
+import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { OwnerClaimListComponent } from './component/owner-claim-list/owner-claim-list.component';
+import { MatSelectModule } from '@angular/material/select';
+import { PromotionsListForModeratorComponent } from './component/promotions-list-for-moderator/promotions-list-for-moderator.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { PromotionDetailsComponent } from './component/promotion-details/promotion-details.component';
+import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +45,14 @@ import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias
     NearByCoffeeShopComponent,
     UserMapComponent,
     UserCoffeeShopsListComponent,
-    CoffeeShopDetailsForUserComponent
+    CoffeeShopDetailsForUserComponent,
+    ProfileComponent,
+    OwnershipClaimComponent,
+    OwnedModeratorCoffeeShopsComponent,
+    OwnerClaimListComponent,
+    PromotionsListForModeratorComponent,
+    PromotionDetailsComponent,
+    PromotionForUserComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +62,12 @@ import { CoffeeShopDetailsForUserComponent } from './component/nearby-cafeterias
     HttpClientModule,
     NgbModule,
     NgxDadataModule,
-    AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" })
+    AngularYandexMapsModule.forRoot({ apikey: "bc783af1-a4e4-4f05-b0ab-b8378dff541e", lang: "ru_RU" }),
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule
   ],
   providers: [],
   bootstrap: [AppComponent],

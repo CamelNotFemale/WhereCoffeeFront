@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { YaReadyEvent } from 'angular8-yandex-maps';
 
 @Component({
@@ -16,8 +16,8 @@ export class MutableMapComponent implements OnInit {
   @Input()
   location!: string
 
-  // @Output()
-  // locationChange = new EventEmitter<string>();
+  @Output()
+  locationChange = new EventEmitter<string>();
 
   @Input()
   editable!: boolean;
@@ -51,7 +51,7 @@ export class MutableMapComponent implements OnInit {
         var coords = e.get('coords');
         var coordinatesString = coords.join(',');
         this.location = coordinatesString;
-        //this.locationChange.emit(this.location);
+        this.locationChange.emit(this.location);
         this.lat = coords[0];
         this.lng = coords[1];
         console.log(coordinatesString);

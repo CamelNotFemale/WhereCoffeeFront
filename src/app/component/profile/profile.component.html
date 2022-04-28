@@ -1,0 +1,63 @@
+<div class="container rounded bg-white mt-5 mb-5">
+    <div *ngIf="user" class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                <span class="font-weight-bold">{{user?.username}}</span>
+                <span class="text-black-50">{{user?.email}}</span>
+                <span> </span>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <form [formGroup]="form" (submit)="submit()">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profile Settings</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4"><label class="labels">First name</label><input formControlName="firstName" type="text" class="form-control" placeholder="first name" value=""></div>
+                        <div class="col-md-4"><label class="labels">Surname</label><input formControlName="surname" type="text" class="form-control" value="" placeholder="surname"></div>
+                        <div class="col-md-4"><label class="labels">Patronymic</label><input formControlName="patronymic" type="text" class="form-control" value="" placeholder="patronymic"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Email</label><input formControlName="email" type="text" class="form-control" placeholder="enter email id" value=""></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input formControlName="phone" type="tel" class="form-control" placeholder="enter phone number" value=""></div>
+                        <div class="col-md-12"><label class="labels">Date of Birth</label><input formControlName="birthDay" type="date" class="form-control" value=""></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                        <button (click)="hidePasswords = !hidePasswords" type="button" class="btn btn-primary">Change password</button>
+                    </div>
+                    <div *ngIf="!hidePasswords" class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Old password</label><input formControlName="oldPassword" type="password" class="form-control" placeholder="enter old password" value=""></div>
+                        <div class="col-md-12"><label class="labels">New password</label><input formControlName="newPassword" type="password" class="form-control" placeholder="enter new password" value=""></div>
+                        <div class="col-md-12"><label class="labels">Confirmation</label><input formControlName="confirmPassword" type="password" class="form-control" placeholder="confirm new password" value=""></div>
+                        <div *ngIf="(getNewPassword!.invalid || getOldPassword!.invalid || !passwordsMatch) && (getOldPassword!.dirty || getNewPassword!.dirty || getConfirmPassword!.dirty)" class="alert alert-danger">
+                            <span *ngIf="!getOldPassword!.dirty">
+                                >You need to enter the old password
+                            </span>
+                            <span *ngIf="!getNewPassword!.dirty">
+                                >You need to enter the new password
+                            </span>
+                            <span *ngIf="!passwordsMatch">
+                                >Passwords do not match
+                            </span>
+                            <span *ngIf="getNewPassword!.invalid || getOldPassword!.invalid">
+                                >Password must consist of at least 6 digits [0-9a-zA-Z!@#$%^&*]
+                            </span>
+                        </div>
+                    </div>
+                    <div *ngIf="getEmail!.invalid || getPhone!.dirty && getPhone!.invalid" class="alert alert-danger">
+                        <span *ngIf="getPhone!.invalid">
+                            >Phone is invalid
+                        </span>
+                        <span *ngIf="getEmail!.invalid">
+                            >Email is invalid
+                        </span>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                    <div *ngIf="successfullUpdate" class="alert alert-success">Successfull profile update!</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

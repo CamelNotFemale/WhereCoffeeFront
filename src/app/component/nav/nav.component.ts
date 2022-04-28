@@ -16,6 +16,7 @@ export class NavComponent implements OnInit {
   authenticated = false;
   isAdmin = false;
   isUser = false;
+  isModerator = false;
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }
@@ -33,6 +34,7 @@ export class NavComponent implements OnInit {
     this.authenticated = false;
     this.isAdmin = false;
     this.isUser = false;
+    this.isModerator = false;
     this.authService.logout();
   }
 
@@ -41,6 +43,7 @@ export class NavComponent implements OnInit {
     this.authenticated = userData != null
     this.isAdmin = userData?.isAdmin ?? false
     this.isUser = userData?.isUser ?? false
+    this.isModerator = userData?.isModerator ?? false
   }
 
 }
