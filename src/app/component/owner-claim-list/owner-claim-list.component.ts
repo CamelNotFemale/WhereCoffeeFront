@@ -1,6 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
+import { GetOwnershipClaimsResponse } from 'src/app/dto/getOwnershipClaimsResponse/get-ownership-claims-response';
 import { Schedule } from 'src/app/model/hours/schedule copy';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
@@ -12,7 +14,11 @@ import { UserService } from 'src/app/service/user/user.service';
   styleUrls: ['./owner-claim-list.component.css']
 })
 export class OwnerClaimListComponent implements OnInit {
+  public page = 0;
+  public pageSize = 5;
+  public totalElements!: number;
   claims: Array<OwnershipClaim> = [];
+
   coffeeShopDetails!: FormGroup;
   userDetails!: FormGroup;
   schedule!: Schedule;
@@ -27,15 +33,6 @@ export class OwnerClaimListComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.coffeeShopService.getOwnershipClaims(0).subscribe(
-      (res: OwnershipClaim[]) => {
-        this.claims = res;
-      },
-      (err: HttpErrorResponse) => {
-        console.log(err);
-      }
-    )
-
     this.coffeeShopDetails = this.formBuilder.group({
       id: [''],
       name: [''],
@@ -56,8 +53,30 @@ export class OwnerClaimListComponent implements OnInit {
       patronymic: [''],
       birthDay: ['']
     })
+
+    this.loadOwnershipList()
   }
 
+  loadOwnershipList() {
+    this.coffeeShopService.getOwnershipClaims(this.page, this.pageSize).subscribe(
+      (res: GetOwnershipClaimsResponse) => {
+        this.claims = res.content;
+        this.totalElements = res.totalElements;
+        console.log(this.claims)
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    )
+  }
+
+  selectPage(event: PageEvent) {
+    console.log("Selected page:", event.pageIndex, event.pageSize)
+    this.page = event.pageIndex
+    this.pageSize = event.pageSize
+    this.loadOwnershipList()
+  }
+  
   prepareCoffeeShopDetailsForm(cafeId: number) {
     this.coffeeShopService.getCoffeeShop(cafeId).subscribe(
       coffeeShop => {
@@ -103,9 +122,7 @@ export class OwnerClaimListComponent implements OnInit {
     if (confirm("Действительно хотите одобрить заявку с ID:"+claimId)) {
       this.coffeeShopService.confirmOwnershipClaim(claimId).subscribe(
         (res: any) => {
-          this.claims = this.claims.filter(claim => claim.id != claimId)
-          console.log(this.claims);
-          this.changeDetection.detectChanges()
+          this.loadOwnershipList()
         },
         (err: any) => {
           alert("Что-то пошло не так..")
@@ -118,8 +135,7 @@ export class OwnerClaimListComponent implements OnInit {
     if (confirm("Действительно хотите отклонить заявку с ID:"+claimId)) {
       this.coffeeShopService.rejectOwnershipClaim(claimId).subscribe(
         (res: any) => {
-          this.claims = this.claims.filter(claim => claim.id != claimId)
-          this.changeDetection.detectChanges()
+          this.loadOwnershipList()
         },
         (err: any) => {
           alert("Что-то пошло не так..")
