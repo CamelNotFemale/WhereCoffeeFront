@@ -23,6 +23,7 @@ import { PromotionDetailsComponent } from '../../promotion-details/promotion-det
   styleUrls: ['./coffee-shop-details-for-user.component.css']
 })
 export class CoffeeShopDetailsForUserComponent implements OnInit {
+  inFavorites!: boolean;
 
   commentForm!: FormGroup;
   grades!: Array<Grade>;
@@ -78,7 +79,32 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
 
     this.location = this.coffeeShop.location['lat'] + ',' + this.coffeeShop.location['lng'];
     this.getAllReview();
-    this.preparePromotions(this.coffeeShop.promotions)
+    this.preparePromotions(this.coffeeShop.promotions);
+    this.checkFavorites(this.coffeeShop.id);
+  }
+
+  checkFavorites(coffeeShopId: number) {
+    this.coffeeShopService.checkFavorites(coffeeShopId).subscribe(
+      (res) => {
+        this.inFavorites = res
+      },
+      (err) => {
+        this.inFavorites = false
+        console.log("Error in checkFavorites")
+      }
+    )
+  }
+
+  addToFavorite(coffeeShopId: number) {
+    this.coffeeShopService.addToFavorites(coffeeShopId).subscribe(
+      () => {
+        this.inFavorites = !this.inFavorites
+        console.log("In favorites: " + this.inFavorites)
+      },
+      () => {
+        console.log("Error in addToFavorites")
+      }
+    )
   }
 
   addReview() {
