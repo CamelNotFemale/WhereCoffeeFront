@@ -36,12 +36,13 @@ export class CoffeeShopService {
       );
   }
 
-  getCoffeeShopsByName(pageNumber: number, itemsOnPage: NumberSymbol, name: string): Observable<getCoffeeShopsResponse> {
+  getCoffeeShopsByName(pageNumber: number, itemsOnPage: NumberSymbol, name: string, isConfirmed = true): Observable<getCoffeeShopsResponse> {
     return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, {
       params: {
         page: pageNumber,
         items_on_page: itemsOnPage,
         name: name,
+        confirmed: isConfirmed,
         dist: 500
       }
     }).pipe(
@@ -100,6 +101,16 @@ export class CoffeeShopService {
 
   deleteCoffeeShop(id: number): Observable<any> {
     return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + id);
+  }
+
+  confirmCoffeeShop(id: number): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
+    return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + id + "/confirm", {}, {headers: headers}) 
   }
 
   addReview(coffeeShopId: number, gradeRequest: GradeRequest): Observable<any> {

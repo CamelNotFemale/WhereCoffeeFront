@@ -9,6 +9,10 @@
     <form [formGroup]="searchForm" (submit)="loadCoffeeShops()" class="form-inline justify-content-left md-form form-sm mt-0 mb-1">
       <input formControlName="name" class="form-control form-control-sm" type="text" placeholder="Название кофейни" aria-label="Название">
       <div class="text-center"><button class="btn btn-primary btn-sm" type="submit">Искать</button></div>
+      <input formControlName="confirmed" class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [checked]="">
+      <label class="form-check-label" for="flexCheckDefault">
+        Только одобренные
+      </label>
     </form>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCoffeeShop" type="button" (click)="prepareAddForm()">
       Новая кофейня
@@ -38,6 +42,9 @@
               </button>
               <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
                 <i class="bi bi-trash"></i>
+              </button>
+              <button *ngIf="!coffeeShop.confirmed" type="button" class="btn btn-success btn-sm" (click)="confirmCoffeeShop(coffeeShop)">
+                <i class="bi bi-check-square"></i>
               </button>
             </td>
             <td>{{coffeeShop.address}}</td>
