@@ -1,4 +1,12 @@
-<div class="container rounded bg-white mt-5 mb-5">
+<ul class="nav nav-tabs nav-fill">
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{ active: showMainPage }" (click)="showMainPage=!showMainPage">Основная информация</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{ active: !showMainPage }" (click)="showMainPage=!showMainPage">Избранные кофейни</a>
+    </li>
+</ul>
+<div *ngIf="showMainPage" class="container rounded bg-white mt-5 mb-5">
     <div *ngIf="user" class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -60,4 +68,26 @@
             </form>
         </div>
     </div>
+</div>
+<div *ngIf="!showMainPage" class="container rounded bg-white mt-5 mb-5">
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">Адрес</th>
+            <th scope="col">Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor= "let coffeeShop of user?.favoriteCafeterias; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{coffeeShop.name}}</td>
+                <td>{{coffeeShop.address}}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary me-1" (click)="openCoffeeShopModalDetails(coffeeShop)">Подробнее</button>
+                </td>
+            </tr>
+        </tbody>
+      </table>
 </div>

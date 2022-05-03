@@ -1,3 +1,4 @@
+import { CoffeeShop } from "../coffeeShop/coffee-shop";
 import { Role } from "../role/Role";
 
 
@@ -12,6 +13,7 @@ export class User {
     public patronymic!: string;
     public birthDay!: Date;
     public phone!: string;
+    public favoriteCafeterias!: Array<CoffeeShop>;
 
     constructor (
         public id: number, 
