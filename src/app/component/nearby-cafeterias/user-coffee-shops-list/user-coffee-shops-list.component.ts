@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
@@ -19,9 +20,20 @@ export class UserCoffeeShopsListComponent implements OnInit {
   public page = 0;
   public pageSize = 5;
   public totalElements!: number;
+
+  @Input()
   nearByCoffeeShops!: CoffeeShop[];
+
+  @Output()
+  onCoffeeShopsLoaded = new EventEmitter<CoffeeShop[]>();
+
+  // @Input()
+  // nearByCoffeeShopsLoc!: string[];
+  // nearByCoffeeShopsMarks!: ymaps.GeoObjectCollection;
+
   hideSearch!: boolean;
   searchForm!: FormGroup;
+
   rating = 0;
   perks: Array<PerkData> = [
     {
@@ -77,6 +89,7 @@ export class UserCoffeeShopsListComponent implements OnInit {
   get getDist() {
     return this.searchForm.get('dist');
   }
+
   clearSearch() {
     this.searchForm.controls['name'].setValue('');
     this.searchForm.controls['dist'].setValue(1);
@@ -86,12 +99,14 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.perks[1].state = false;
     this.perks[2].state = false;
   }
+
   selectPage(event: PageEvent) {
     console.log("Selected page:", event.pageIndex, event.pageSize)
     this.page = event.pageIndex
     this.pageSize = event.pageSize
     this.search()
   }
+  
   search() {
     let chosenPerks = this.perks
       .filter(perk => perk.state)
@@ -103,7 +118,36 @@ export class UserCoffeeShopsListComponent implements OnInit {
 
     this.coffeeShopService.getCoffeeShopsBySearch(this.page, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened).subscribe(
       (response) => {
-        this.nearByCoffeeShops = response.content;
+        this.onCoffeeShopsLoaded.emit(response.content)
+        // this.nearByCoffeeShopsMarks.removeAll();
+        //this.nearByCoffeeShopsLoc = [];
+
+        // for (let i = 0; i < this.nearByCoffeeShops.length; i++) {
+        //   let currentCoffeeShop = this.nearByCoffeeShops[i];
+        //   let lat = currentCoffeeShop.location.lat;
+        //   let lng = currentCoffeeShop.location.lng;
+        //   console.log("Lat: ", lat, "Lng: ", lng);
+        //   //this.nearByCoffeeShopsLoc.push(lat + ',' + lng);
+        //   // let geoObject = new ymaps.GeoObject({
+        //   //   // Описание геометрии.
+        //   //   geometry: {
+        //   //       type: "Point",
+        //   //       coordinates: [lat, lng]
+        //   //   },
+        //   //   properties: {
+        //   //     // Контент метки.
+        //   //     iconColor: '#3caa3c'
+        //   //   }
+        //   // })
+
+        //   // this.nearByCoffeeShopsMarks.add(geoObject);
+        //   // let point = new ymaps.Placemark([lat, lng]);
+
+        //   // this.nearByCoffeeShopsMarks!.add(point);
+        // }
+        // console.log(this.nearByCoffeeShopsMarks);
+        //console.log(this.nearByCoffeeShopsLoc)
+
         this.totalElements = response.totalElements
         console.log(response, this.nearByCoffeeShops, this.totalElements)
         this.changeDetection.detectChanges()
@@ -132,6 +176,11 @@ export class UserCoffeeShopsListComponent implements OnInit {
         })
         .catch(error => console.log(error))
     })
+  }
+
+  createPlacemark(geoPoint: ymaps.IPointGeometry) {
+    let placemark = new ymaps.Placemark(geoPoint);
+    return placemark;
   }
 
 }

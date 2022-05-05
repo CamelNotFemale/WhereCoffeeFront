@@ -10,6 +10,20 @@
         [zoom]="12"
         (ready)="onMapReady($event)"
       >
-        <ya-placemark [geometry]="[this.lat, this.lng]"></ya-placemark>
+      
+        <div *ngFor="let coffeeShop of coffeeShops">
+          <ya-placemark
+            [geometry]="[coffeeShop.location.lat, coffeeShop.location.lng]"
+            [properties]="{ iconCaption: coffeeShop.name }"
+            [options]="{ iconColor: '#ff0000' }"  
+          ></ya-placemark>
+        </div>
+        
+        <ya-placemark 
+          [geometry]="[this.lat, this.lng]"
+          [options]="{ preset: 'islands#circleIcon' }"
+        ></ya-placemark>
+
+        
       </ya-map>    
 </div>

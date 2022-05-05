@@ -16,8 +16,6 @@ export class AuthService {
   private userData: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
-  //public role: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
   constructor(private httpClient: HttpClient, private router: Router) {
     let userJsonData = localStorage.getItem('userData');
     if (userJsonData) {
@@ -57,30 +55,6 @@ export class AuthService {
     return this.userData.value;
   }
 
-  // get isLoggedIn(): Observable<boolean> {
-  //   console.log(this.userData.value);
-  //   console.log("djsjdfhg");
-
-  //   return this.currentUser.pipe(map( (user: any) => {
-  //     console.log("user")
-  //     console.log(user)
-  //     console.log(user != null)
-  //     return user != null
-  //   }));
-  // }
-
-  // get isGuest(): Observable<boolean> {
-  //   return this.isLoggedIn.pipe(map((loggedIn) => !loggedIn));
-  // }
-
-  // get isAdmin(): Observable<boolean> {
-  //   return this.currentUser.pipe(map((user: User) => {console.log(user); return user?.role == Role.Admin}));
-  // }
-
-  // get isUser(): Observable<boolean> {
-  //   return this.currentUser.pipe(map((user: User) => user?.role == Role.User));
-  // }
-
   private onLogin(authResult: LoginResponse): void {
     console.log("!!login!!");
     let userRole = authResult.roles[0] as Role
@@ -93,15 +67,6 @@ export class AuthService {
     );
     localStorage.setItem('userData', JSON.stringify(newUser));
     this.userData.next(newUser)
-
-
-    // localStorage.setItem('jwt', authResult.token);
-    // localStorage.setItem('role', authResult.roles[0]);
-    // localStorage.setItem('id', authResult.id.toString());
-    //Emitters.authEmitter.emit(true)
-
-    // console.log(authResult);
-    // this.role.next(authResult.roles[0]);
   }
 
   private handleError(error: HttpErrorResponse) {

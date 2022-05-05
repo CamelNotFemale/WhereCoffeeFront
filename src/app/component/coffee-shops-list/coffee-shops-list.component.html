@@ -24,6 +24,7 @@
             <th scope="col">Адрес</th>
             <th scope="col">Расписание работы</th>
             <th scope="col">Телефон</th>
+            <th scope="col"></th>
           </tr>
     </thead>
     <tbody>
@@ -33,12 +34,6 @@
               <a href="#detailsModal" class="link-secondary" data-bs-toggle="modal" data-bs-target="#detailsCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
                 {{coffeeShop.name}}
               </a>
-              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
-                <i class="bi bi-trash"></i>
-              </button>
             </td>
             <td>{{coffeeShop.address}}</td>
             <td>
@@ -49,193 +44,200 @@
               </ul>
             </td>
             <td>{{coffeeShop.phone}}</td>
+            <td class="btn-group">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
         </tr>
     </tbody>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25]" [pageSize]="pageSize" [length]="totalElements" (page)="selectPage($event)"> </mat-paginator>
 </div>
     
-    <!-- Add coffee shop Modal -->
-    <div class="modal fade" id="addCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Добавить новую кофейню</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="coffeeShopDetails">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Название кофейни</label>
-                <input type="text" formControlName="name" class="form-control" id="name">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
-                <input type="text" formControlName="description" class="form-control" id="description">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
-                <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
-                <span>{{ location }}</span><br>
-                <!-- <div *ngIf="isMapDisplayed"> -->
-                <app-mutable-map [(location)]="location" [editable]="true" [name]="'map for add form'"></app-mutable-map>
-                <!-- </div> -->
-                <!-- <input type="text" formControlName="location" class="form-control" id="location"> -->
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label address" >Адрес</label>
-                <ngx-dadata formControlName="address" class="form-control" id="address" [config]="config" (selected)="suggestAddresses($event)"></ngx-dadata>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Телефон</label>
-                <input type="tel" formControlName="phone" class="form-control tel input-medium bfh-phone " id="phone"> 
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
-                <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
-                  <p class="workDayName">{{ workDay.weekday }}</p>
-                  <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
-                  <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" formControlName="managerId" class="form-control" id="managerId">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hideMap()">Закрыть</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addCoffeeShop()">Добавить кофейню</button>
-              </div>
-            </form>
-          </div>
-        </div>
+<!-- Add coffee shop Modal -->
+<div class="modal fade" id="addCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Добавить новую кофейню</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    </div>
-
-    <!-- Edit coffee shop Modal -->
-    <div class="modal fade" id="editCoffeeShop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Изменить информацию о кофейне</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <form [formGroup]="coffeeShopDetails">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название кофейни</label>
+            <input type="text" formControlName="name" class="form-control" id="name">
           </div>
-          <div class="modal-body">
-            <form [formGroup]="coffeeShopDetails">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Название кофейни</label>
-                <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
-                <input type="text" formControlName="description" class="form-control" id="description">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Геолокация</label>
-                <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
-                <span>{{ location }}</span>
-                <!-- <div *ngIf="isMapDisplayed"> -->
-                  <app-mutable-map [location]="location" [editable]="true" [name]="'map for edit form'"></app-mutable-map>
-                <!-- </div> -->
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label address">Адрес</label>
-                <input type="text" formControlName="address" class="form-control" id="address" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Телефон</label>
-                <input type="tel" formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
-                <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
-                  <p class="workDayName">{{ workDay.weekday }}</p>
-                  <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
-                  <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" formControlName="managerId" class="form-control" id="managerId">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="updateCoffeeShop()">Изменить информацию</button>
-              </div>
-            </form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание</label>
+            <input type="text" formControlName="description" class="form-control" id="description">
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Delete coffee shop Modal -->
-    <div class="modal fade" id="deleteCoffeeShop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Удаление кофейни</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
+            <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
+            <span>{{ location }}</span><br>
+            <!-- <div *ngIf="isMapDisplayed"> -->
+            <app-mutable-map [(location)]="location" [editable]="true" [name]="'map for add form'"></app-mutable-map>
+            <!-- </div> -->
+            <!-- <input type="text" formControlName="location" class="form-control" id="location"> -->
           </div>
-          <div class="modal-body">
-            <div class="text">Вы уверены?</div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label address" >Адрес</label>
+            <ngx-dadata formControlName="address" class="form-control" id="address" [config]="config" (selected)="suggestAddresses($event)"></ngx-dadata>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Телефон</label>
+            <input type="tel" formControlName="phone" class="form-control tel input-medium bfh-phone " id="phone"> 
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
+            <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
+              <p class="workDayName">{{ workDay.weekday }}</p>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
+            <input type="text" formControlName="managerId" class="form-control" id="managerId">
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="deleteCoffeeShop()">Удалить кофейню</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hideMap()">Закрыть</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addCoffeeShop()">Добавить кофейню</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Details coffee shop Modal -->
-    <div id="detailsModal" class="modal fade" id="detailsCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Подробная информация о кофейне</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Edit coffee shop Modal -->
+<div class="modal fade" id="editCoffeeShop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Изменить информацию о кофейне</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="coffeeShopDetails">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название кофейни</label>
+            <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp">
           </div>
-          <div class="modal-body">
-            <form [formGroup]="coffeeShopDetails">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Название</label>
-                <input type="text" readonly formControlName="name" class="form-control" id="name">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
-                <input type="text" readonly formControlName="description" class="form-control" id="description">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Геолокация</label><br>
-                <span>{{ location }}</span>
-                
-                <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
-                
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Адрес</label>
-                <input type="text" readonly formControlName="address" class="form-control" id="address">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Телефон</label>
-                <input type="tel" readonly formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
-                <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
-                  <p class="workDayName">{{ workDay.weekday }}</p>
-                  <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
-                  <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
-                <input type="text" readonly formControlName="managerId" class="form-control" id="managerId">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-              </div>
-            </form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание</label>
+            <input type="text" formControlName="description" class="form-control" id="description">
           </div>
-        </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Геолокация</label>
+            <!-- <button type="button" class="btn btn-primary" (click)="displayMap()">{{coordinatesButtonText}}</button> -->
+            <!-- <span>{{ location }}</span> -->
+            <!-- <div *ngIf="isMapDisplayed"> -->
+              <app-mutable-map [location]="location" [editable]="true" [name]="'map for edit form'"></app-mutable-map>
+            <!-- </div> -->
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label address">Адрес</label>
+            <input type="text" formControlName="address" class="form-control" id="address" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Телефон</label>
+            <input type="tel" formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
+            <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
+              <p class="workDayName">{{ workDay.weekday }}</p>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
+              <input type="time" id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
+            <input type="text" formControlName="managerId" class="form-control" id="managerId">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" (click)="updateCoffeeShop()">Изменить информацию</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Delete coffee shop Modal -->
+<div class="modal fade" id="deleteCoffeeShop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Удаление кофейни</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text">Вы уверены?</div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="deleteCoffeeShop()">Удалить кофейню</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Details coffee shop Modal -->
+<div id="detailsModal" class="modal fade" id="detailsCoffeeShop" tabindex="-1" area-labellebdy="exampleModalLabel" area-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Подробная информация о кофейне</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="coffeeShopDetails">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Название</label>
+            <input type="text" readonly formControlName="name" class="form-control" id="name">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Описание</label>
+            <input type="text" readonly formControlName="description" class="form-control" id="description">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Геолокация</label>
+            <!-- <span>{{ location }}</span> -->
+            <app-immutable-map [location]="location" [editable]="false" [name]="'map for details form'"></app-immutable-map>
+            
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Адрес</label>
+            <input type="text" readonly formControlName="address" class="form-control" id="address">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Телефон</label>
+            <input type="tel" readonly formControlName="phone" class="form-control input-medium bfh-phone" id="phone" data-format="+7 (ddd) ddd-dd-dd"> 
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Расписание работы</label><br>
+            <div class="d-flex workDayInputBlock" *ngFor= "let workDay of schedule.workingHours">
+              <p class="workDayName">{{ workDay.weekday }}</p>
+              <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.start_time" [ngModelOptions]="{standalone: true}" required>
+              <input type="time" readonly id="time" name="time" min="00:01" max="23:59" [(ngModel)]="workDay.end_time" [ngModelOptions]="{standalone: true}" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Админ кофейни</label>
+            <input type="text" readonly formControlName="managerId" class="form-control" id="managerId">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
