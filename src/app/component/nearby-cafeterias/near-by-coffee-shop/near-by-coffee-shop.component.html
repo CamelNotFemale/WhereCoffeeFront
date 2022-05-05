@@ -1,7 +1,7 @@
 <div class="container">
-    <app-immutable-map [location]="userLocation" [editable]="false" [name]="'map for nearby coffee shops form'" [coffeeShops]="coffeeShops">
+    <app-immutable-map *ngIf="userLocation" [location]="userLocation" [editable]="false" [name]="'map for nearby coffee shops form'" [coffeeShops]="coffeeShops">
     </app-immutable-map>
     
-    <app-user-coffee-shops-list [location]="userLocation" [nearByCoffeeShops]="coffeeShops" (onCoffeeShopsLoaded)="acceptCoffeeShops($event)">
+    <app-user-coffee-shops-list *ngIf="userLocation" [location]="userLocation" [nearByCoffeeShops]="coffeeShops" (onCoffeeShopsLoaded)="acceptCoffeeShops($event)">
     </app-user-coffee-shops-list>
 </div>

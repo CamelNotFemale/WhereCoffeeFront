@@ -58,11 +58,8 @@ export class UserCoffeeShopsListComponent implements OnInit {
 
   @Input()
   set location(newLocation: string) {
-    this._location = newLocation;
     console.log("User coffee shop list. Location updated: ", newLocation);
-    if (this._location) {
-      this.search();
-    }
+    this._location = newLocation;
   }
 
   get location() {
@@ -84,6 +81,8 @@ export class UserCoffeeShopsListComponent implements OnInit {
       isOpened: [false]
     })
     this.hideSearch = true
+
+    this.search()
   }
 
   get getDist() {
