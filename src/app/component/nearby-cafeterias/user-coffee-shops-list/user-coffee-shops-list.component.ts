@@ -78,7 +78,8 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       name: [''],
       dist: [1],
-      isOpened: [false]
+      isOpened: [false],
+      favorites: [false]
     })
     this.hideSearch = true
 
@@ -92,6 +93,7 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.searchForm.controls['name'].setValue('');
     this.searchForm.controls['dist'].setValue(1);
     this.searchForm.controls['isOpened'].setValue(false);
+    this.searchForm.controls['favoretes'].setValue(false);
     this.rating = 0;
     this.perks[0].state = false;
     this.perks[1].state = false;
@@ -112,8 +114,9 @@ export class UserCoffeeShopsListComponent implements OnInit {
     let minRating = this.rating
     let name = this.searchForm.get('name')?.value
     let isOpened = this.searchForm.get('isOpened')?.value
+    let favorites =  this.searchForm.get('favorites')?.value
 
-    this.coffeeShopService.getCoffeeShopsBySearch(this.page, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened).subscribe(
+    this.coffeeShopService.getCoffeeShopsBySearch(this.page, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened, favorites).subscribe(
       (response) => {
         this.onCoffeeShopsLoaded.emit(response.content)
         // this.nearByCoffeeShopsMarks.removeAll();

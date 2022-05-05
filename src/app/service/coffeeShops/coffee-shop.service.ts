@@ -55,7 +55,7 @@ export class CoffeeShopService {
   }
 
   getCoffeeShopsBySearch(pageNumber: number, itemsOnPage: number, location: string, 
-    dist: number, minRating: number, name: string, perks: PerkType[], isOpened: boolean): Observable<getCoffeeShopsResponse> {
+    dist: number, minRating: number, name: string, perks: PerkType[], isOpened: boolean, favorites: boolean): Observable<getCoffeeShopsResponse> {
     return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, {
       params: {
         page: pageNumber,
@@ -65,7 +65,8 @@ export class CoffeeShopService {
         min_rating: minRating,
         name: name,
         perks: perks,
-        is_opened: isOpened
+        is_opened: isOpened,
+        favorites: favorites
       }
     }).pipe(
       map( (resp) => 
