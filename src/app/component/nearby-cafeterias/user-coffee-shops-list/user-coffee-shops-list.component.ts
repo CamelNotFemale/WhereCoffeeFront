@@ -89,7 +89,6 @@ export class UserCoffeeShopsListComponent implements OnInit {
   get getDist() {
     return this.searchForm.get('dist');
   }
-
   clearSearch() {
     this.searchForm.controls['name'].setValue('');
     this.searchForm.controls['dist'].setValue(1);
@@ -99,7 +98,6 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.perks[1].state = false;
     this.perks[2].state = false;
   }
-
   selectPage(event: PageEvent) {
     console.log("Selected page:", event.pageIndex, event.pageSize)
     this.page = event.pageIndex

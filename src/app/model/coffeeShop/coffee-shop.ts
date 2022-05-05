@@ -20,6 +20,7 @@ export class CoffeeShop {
         public workingHours: Array<WorkingHours>,
         public grades: Array<Grade>,
         public perks: Array<CafePerk>,
-        public promotions: Array<Promotion>
+        public promotions: Array<Promotion>,
+        public confirmed: boolean
         ) { }
 }

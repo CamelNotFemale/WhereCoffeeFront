@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -44,7 +45,7 @@ export class RegisterComponent implements OnInit {
       this.registerFailureDescription = 'Ошибка при регистрации';
     }
     else {
-      this.http.post('http://localhost:8080/api/register', this.form.getRawValue())
+      this.http.post(environment.apiUrl + '/api/register', this.form.getRawValue())
       .subscribe(
         (res: any) => {
           console.log(res);

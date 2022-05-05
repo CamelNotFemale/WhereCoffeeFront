@@ -11,13 +11,14 @@ import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
 import { PerkType } from 'src/app/model/perks/PerkType';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoffeeShopService {
 
-  COFFEE_SHOP_URL: string = "http://localhost:8080/cafeterias";
+  COFFEE_SHOP_URL: string = environment.apiUrl + "/cafeterias";
   COFFEE_SHOP_JSON_URL: string = "http://localhost:3000/coffeeShops";
 
   constructor(private httpClient: HttpClient) { }
@@ -35,12 +36,13 @@ export class CoffeeShopService {
       );
   }
 
-  getCoffeeShopsByName(pageNumber: number, itemsOnPage: NumberSymbol, name: string): Observable<getCoffeeShopsResponse> {
+  getCoffeeShopsByName(pageNumber: number, itemsOnPage: NumberSymbol, name: string, isConfirmed = true): Observable<getCoffeeShopsResponse> {
     return this.httpClient.get<getCoffeeShopsResponse>(this.COFFEE_SHOP_URL, {
       params: {
         page: pageNumber,
         items_on_page: itemsOnPage,
         name: name,
+        confirmed: isConfirmed,
         dist: 500
       }
     }).pipe(
@@ -101,6 +103,16 @@ export class CoffeeShopService {
     return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + id);
   }
 
+  confirmCoffeeShop(id: number): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
+    return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + id + "/confirm", {}, {headers: headers}) 
+  }
+
   addReview(coffeeShopId: number, gradeRequest: GradeRequest): Observable<any> {
     let userData = JSON.parse(localStorage.getItem('userData')!)
 
@@ -145,15 +157,6 @@ export class CoffeeShopService {
     
     return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "desire-to-own", claim, {headers: headers})
   }
-
-  getPagesCount(): Observable<number> {
-    return this.httpClient.get<number>(this.COFFEE_SHOP_URL + "/pages-count")
-      .pipe(
-        map( (resp) => {
-          return resp;
-        })
-      );
-  }
   
   getOwnershipClaims(pageNum: number, itemsOnPage: number): Observable<GetOwnershipClaimsResponse> {
     let userData = JSON.parse(localStorage.getItem('userData')!)
@@ -189,5 +192,25 @@ export class CoffeeShopService {
     })
     
     return this.httpClient.delete(this.COFFEE_SHOP_URL + "/" + "ownership-claims" + "/" + claimId, {headers: headers})
+  }
+
+  checkFavorites(coffeeShopId: number): Observable<boolean> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
+    return this.httpClient.get<boolean>(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "favorites", {headers: headers});
+  }
+
+  addToFavorites(coffeeShopId: number): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
+    return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "favorites", {}, {headers: headers});
   }
 }

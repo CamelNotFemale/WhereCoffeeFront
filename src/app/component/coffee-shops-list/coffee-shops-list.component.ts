@@ -66,13 +66,18 @@ export class CoffeeShopsListComponent implements OnInit {
       managerId: ['']
     })
     this.searchForm = this.formBuilder.group({
-      name: ['']
+      name: [''],
+      confirmed: [true]
     })
 
     this.schedule = new Schedule();
     this.location = "";
   
     this.loadCoffeeShops();
+  }
+
+  get getConfirmed() {
+    return this.searchForm.get("confirmed")
   }
 
   prepareAddForm() {
@@ -181,7 +186,8 @@ export class CoffeeShopsListComponent implements OnInit {
 
   loadCoffeeShops() {
     let name = this.searchForm.get('name')!.value
-    this.coffeeShopService.getCoffeeShopsByName(this.pageNumber, this.pageSize, name).subscribe(
+    let isConfirmed = this.searchForm.get('confirmed')!.value
+    this.coffeeShopService.getCoffeeShopsByName(this.pageNumber, this.pageSize, name, isConfirmed).subscribe(
       (response) => {
         console.log("All coffee shop: ", response);
         this.coffeeShops = response.content;
@@ -238,4 +244,17 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coordinatesButtonText = "Добавить геолокацию";
   }
 
+  confirmCoffeeShop(coffeeShop: CoffeeShop) {
+    if (confirm("Точно хотите одобрить кофенйю " + coffeeShop.name + "?")) {
+      this.coffeeShopService.confirmCoffeeShop(coffeeShop.id).subscribe(
+        (res) => {
+          console.log("Successfully confirmed coffee shop - " + coffeeShop.name)
+          this.loadCoffeeShops();
+        },
+        (err) => {
+          console.log("Error with confirm: " + err)
+        }
+      )
+    }
+  }
 }

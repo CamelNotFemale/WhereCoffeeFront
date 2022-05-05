@@ -5,13 +5,14 @@ import { GetPromotionsResponse } from "src/app/dto/getPromotionsResponse/get-pro
 import { Promotion } from "src/app/model/promotion/promotion";
 import { PromotionRequest } from "src/app/model/promotion/PromotionAddRequest";
 import { AuthService } from "../auth/auth.service";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
   })
 export class PromotionService {
     
-  PROMOTION_URL: string = "http://localhost:8080/promotions";
+  PROMOTION_URL: string = environment.apiUrl + "/promotions";
 
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
