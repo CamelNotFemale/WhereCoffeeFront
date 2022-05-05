@@ -63,12 +63,6 @@ const routes: Routes = [
     component:  OwnerClaimListComponent,
     canActivate: [AuthGuard],
     data: { roles: [Role.Admin] }
-  },
-  {
-    path: 'activePromotions', 
-    component:  PromotionForUserComponent,
-    canActivate: [AuthGuard],
-    data: { roles: [Role.User, Role.Admin, Role.Moderator] }
   }
 ];
 
