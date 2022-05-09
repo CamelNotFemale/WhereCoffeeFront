@@ -11,15 +11,15 @@ import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
 import { PerkType } from 'src/app/enum/perk-type';
-import { environment } from 'src/environments/environment';
+import { ApiUrl } from 'src/app/constants/api-url';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoffeeShopService {
 
-  COFFEE_SHOP_URL: string = environment.apiUrl + "/cafeterias";
-  COFFEE_SHOP_JSON_URL: string = "http://localhost:3000/coffeeShops";
+  COFFEE_SHOP_URL: string = ApiUrl.COFFEE_SHOP_URL;
+  COFFEE_SHOP_JSON_URL: string = ApiUrl.COFFEE_SHOP_JSON_URL; 
 
   constructor(private httpClient: HttpClient) { }
 
@@ -213,5 +213,15 @@ export class CoffeeShopService {
     })
 
     return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + coffeeShopId + "/" + "favorites", {}, {headers: headers});
+  }
+
+  updateCoffeeShopsFromYandexMapAPI(): Observable<any> {
+    let userData = JSON.parse(localStorage.getItem('userData')!)
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${userData.token}`
+    })
+
+    return this.httpClient.post(this.COFFEE_SHOP_URL + "/" + "update", {}, {headers: headers});
   }
 }

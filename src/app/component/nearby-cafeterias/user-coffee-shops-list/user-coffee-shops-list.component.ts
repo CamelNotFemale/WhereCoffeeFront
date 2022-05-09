@@ -9,6 +9,7 @@ import { PerkData } from 'src/app/model/perks/perk-data';
 import { PerkType } from 'src/app/enum/perk-type';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { CoffeeShopDetailsForUserComponent } from '../coffee-shop-details-for-user/coffee-shop-details-for-user.component';
+import { PerkList } from 'src/app/constants/perk-list';
 
 @Component({
   selector: 'app-user-coffee-shops-list',
@@ -35,71 +36,7 @@ export class UserCoffeeShopsListComponent implements OnInit {
   searchForm!: FormGroup;
 
   rating = 0;
-  perks: PerkData[] = [
-    {
-      state: false,
-      type: PerkType.FREE_WATER,
-      plainIcon: "bi bi-droplet",
-      filledIcon: "bi bi-droplet-fill",
-      isIcon: true
-    },
-    {
-      state: false,
-      type: PerkType.TOILET,
-      plainIcon: "bi bi-badge-wc",
-      filledIcon: "bi bi-badge-wc-fill",
-      isIcon: true
-    },
-    {
-      state: false,
-      type: PerkType.STREET_TERRACE,
-      plainIcon: "bi bi-tree",
-      filledIcon: "bi bi-tree-fill",
-      isIcon: true
-    },
-    {
-      state: false,
-      type: PerkType.CHARGER,
-      plainIcon: "bi bi-battery",
-      filledIcon: "bi bi-battery-charging",
-      isIcon: true
-    },
-    {
-      state: false,
-      type: PerkType.VEGETARIAN,
-      plainIcon: "/assets/images/icons8-vegan.png",
-      filledIcon: "/assets/images/icons8-vegan-filled.png",
-      isIcon: false
-    },
-    {
-      state: false,
-      type: PerkType.TOPPINGS,
-      plainIcon: "/assets/images/icons8-syrup.png",
-      filledIcon: "/assets/images/icons8-syrup-filled.png",
-      isIcon: false
-    },  
-    {
-      state: false,
-      type: PerkType.SOCKET,
-      plainIcon: "bi bi-plug",
-      filledIcon: "bi bi-plug-fill",
-      isIcon: true
-    },
-    {
-      state: false,
-      type: PerkType.GRAIN_COFFEE,
-      plainIcon: "/assets/images/icons8-coffee-beans-24.png",
-      filledIcon: "/assets/images/icons8-coffee-beans-24-filled.png",
-      isIcon: false
-    },
-    {
-      state: false,
-      type: PerkType.WIFI,
-      plainIcon: "bi bi-router",
-      filledIcon: "bi bi-router-fill",
-      isIcon: true
-    }
-  ];
+  perks: PerkData[] = PerkList.PERK_LIST;
 
   @Input()
   set location(newLocation: string) {
@@ -139,7 +76,7 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.searchForm.controls['name'].setValue('');
     this.searchForm.controls['dist'].setValue(1);
     this.searchForm.controls['isOpened'].setValue(false);
-    this.searchForm.controls['favoretes'].setValue(false);
+    this.searchForm.controls['favorites'].setValue(false);
   
     this.rating = 0;
 

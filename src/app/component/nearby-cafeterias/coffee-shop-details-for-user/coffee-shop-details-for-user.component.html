@@ -47,8 +47,8 @@
                   <div *ngFor="let cafePerk of coffeeShop.perks">
                     <div *ngFor="let p of perks">
                       <div *ngIf="cafePerk.perk.title===p.type">
-                        <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
-                        <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
+                        <i data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                        <img data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                       </div>
                     </div>
                   </div>
@@ -95,10 +95,10 @@
       <div class="writeComment">
         <span>Особенности кофейни:</span>
         <div *ngFor="let perk of perks">
-          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
+          <button class="btn" data-toggle="tooltip" data-placement="right" title="{{perk.title}}" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
           <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && perk.isIcon"><i class={{perk.filledIcon}} id="perk"></i></button>
   
-          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
+          <button class="btn" data-toggle="tooltip" data-placement="right" title="{{perk.title}}" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
           <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && !perk.isIcon"><img src={{perk.filledIcon}}></button>
         </div>
       </div>
@@ -142,8 +142,8 @@
                         <div *ngFor="let perk of userGrade.perks">
                           <div *ngFor="let p of perks">
                             <div *ngIf="perk.title===p.type">
-                              <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
-                              <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
+                              <i data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                              <img data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                             </div>
                           </div>
                         </div>
@@ -157,8 +157,8 @@
                         <div *ngFor="let perk of userGrade.perks">
                           <div *ngFor="let p of perks">
                             <div *ngIf="perk.title===p.type">
-                              <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
-                              <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
+                              <i data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                              <img data-toggle="tooltip" data-placement="right" title="{{p.title}}" *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                             </div>
                           </div>
                         </div>
@@ -170,10 +170,10 @@
                       <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
                       <div class="d-flex">
                         <div *ngFor="let perk of perks">
-                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
+                          <button data-toggle="tooltip" data-placement="right" title="{{perk.title}}" class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
                           <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && perk.isIcon"><i class={{perk.filledIcon}} id="perk"></i></button>
   
-                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
+                          <button data-toggle="tooltip" data-placement="right" title="{{perk.title}}" class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
                           <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && !perk.isIcon"><img src={{perk.filledIcon}}></button>
                         </div>
                       </div>

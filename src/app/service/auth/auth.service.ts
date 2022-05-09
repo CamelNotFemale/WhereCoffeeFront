@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Role } from '../../enum/role/role';
 import { LoginResponse } from 'src/app/dto/loginResponse/login-response';
 import { User } from 'src/app/model/user/user';
-import { environment } from 'src/environments/environment';
+import { ApiUrl } from 'src/app/constants/api-url';
 
-const AUTH_API = environment.apiUrl + '/api';
+const AUTH_API = ApiUrl.AUTH_API;
 
 @Injectable({
   providedIn: 'root'

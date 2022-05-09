@@ -3,7 +3,7 @@
 </h2>
 
 <div class="container d-flex justify-content-around">
-    <button class="btn btn-primary" type="button">
+    <button class="btn btn-primary" type="button" (click)="forcedRenewalCoffeeShops()">
       Запрос на обновление кофеен
     </button>
     <form [formGroup]="searchForm" (submit)="loadCoffeeShops()" class="form-inline justify-content-left md-form form-sm mt-0 mb-1">

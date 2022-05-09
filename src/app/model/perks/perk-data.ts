@@ -10,4 +10,6 @@ export class PerkData {
     filledIcon!: string;
 
     isIcon!: boolean;
+
+    title!: string;
 }

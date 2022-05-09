@@ -257,4 +257,18 @@ export class CoffeeShopsListComponent implements OnInit {
       )
     }
   }
+
+  forcedRenewalCoffeeShops() {
+    if (confirm("Информация о кофейнях будет принудительно обновлена из YandexMapAPI. Требуется подтвердить действие.")) {
+      this.coffeeShopService.updateCoffeeShopsFromYandexMapAPI().subscribe(
+        (res) => {
+          console.log("Сoffee shop forced refresh error")
+        },
+        (err) => {
+          console.log("Сoffee shop forced refresh error")
+          alert("Сoffee shop forced refresh error")
+        }
+      )
+    }
+  }
 }
