@@ -34,8 +34,22 @@
     margin-left: 10px;
 }
 
+.inputComment {
+    display: inline-flex;
+}
+
 .editComment {
     margin: 10px;
+}
+
+.comment {
+    height: 40px;
+    width: 500px;
+}
+
+.addComment {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 #perk {
@@ -50,4 +64,11 @@
 .card-footer {
     display: flex;
     justify-content: center;
+}
+
+fieldset {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #34495e;
+    border-radius: 5px;
 }

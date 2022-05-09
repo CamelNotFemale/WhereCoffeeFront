@@ -1,37 +1,47 @@
 <main class="form-signin">
   <form [formGroup]="form" (submit)="submit()">
-    <h2 class="text text-center mb-5">Registration Form</h2>
+    <h3 class="text text-center mb-5">Регистрация</h3>
     <div *ngIf="registerFailed" class="alert alert-danger">
       <span>{{registerFailureDescription}}</span>
     </div>
-    <input formControlName="username" class="form-control" placeholder="Name" required>
+    <input formControlName="username" class="form-control" placeholder="Логин" required>
     <div
       *ngIf="getName!.invalid && (getName!.touched || getName!.dirty)" class="alert alert-danger"
     >
       <span *ngIf="getName!.errors?.['required']"
-        >Usermane is required
+        >Требуется ввести логин
       </span>
     </div>
   
-    <input formControlName="email" type="email" class="form-control" placeholder="Email" required>
+    <input formControlName="email" type="email" class="form-control" placeholder="Почта" required>
     <div
       *ngIf="getEmail!.invalid && (getEmail!.touched || getEmail!.dirty)" class="alert alert-danger"
     >
       <span *ngIf="getEmail!.errors?.['required']"
-        >Email is required
+        >Требуется ввести адрес почты
       </span>
       <span *ngIf="getEmail!.errors?.['email']"
-        >Email is incorrect
+        >Адрес почты некорректен
       </span>
     </div>
 
-    <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+    <div class="input-group">
+      <input formControlName="password" [type]="hide ? 'text' : 'password'" class="form-control" placeholder="Пароль" required>
+      <a class="btn border">
+        <i [class]="showEye ? 'bi bi-eye' : 'bi bi-eye-slash'" (click)="showPassword()"></i>
+      </a>
+    </div>
+    
+      
+    
+
+    
     <div *ngIf="getPassword!.invalid && (getPassword!.touched || getPassword!.dirty)" class="alert alert-danger">
       <span *ngIf="getPassword!.invalid">
-        >Password must consist of at least 6 digits [0-9a-zA-Z!@#$%^&*]
+        Пароль должен состоять как минимум из 6 символов
       </span>
     </div>
 
-    <button [disabled]="!form.valid" class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    <button [disabled]="!form.valid" class="w-100 btn btn-lg btn-primary submitButton" type="submit">Submit</button>
   </form>
 </main>

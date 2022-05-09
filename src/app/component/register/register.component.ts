@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
 
   registerFailed: boolean = false;
   registerFailureDescription!: string;
+  hide: Boolean = false;
+  showEye: Boolean = false;
 
   constructor(private formBiulder: FormBuilder, private http: HttpClient, private router: Router) { }
 
@@ -59,4 +61,9 @@ export class RegisterComponent implements OnInit {
       )
     }
   }
+
+  showPassword() {
+    this.hide = !this.hide;
+    this.showEye = !this.showEye;
+  } 
 }

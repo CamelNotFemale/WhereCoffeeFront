@@ -5,15 +5,15 @@ import { BehaviorSubject } from 'rxjs';
 import { GradeRequest } from 'src/app/dto/addGradeRequest/grade-request';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { Grade } from 'src/app/model/grade/grade';
-import { PerkData } from 'src/app/model/perks/PerkData';
-import { PerkType } from 'src/app/model/perks/PerkType';
+import { PerkData } from 'src/app/model/perks/perk-data';
+import { PerkType } from 'src/app/enum/perk-type';
 import { User } from 'src/app/model/user/user';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { OwnershipClaimComponent } from 'src/app/component/nearby-cafeterias/ownership-claim/ownership-claim.component'
 import { PromotionsSlide } from '../../owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';
 import { Promotion } from 'src/app/model/promotion/promotion';
-import { PromotionRequest } from 'src/app/model/promotion/PromotionAddRequest';
+import { PromotionRequest } from 'src/app/model/promotion/promotion-add-request';
 import { PromotionService } from 'src/app/service/promotion/promotion-service';
 import { PromotionDetailsComponent } from '../../promotion-details/promotion-details.component';
 
@@ -40,24 +40,69 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
 
   editState: boolean = false;
 
-  perks: Array<PerkData> = [
+  perks: PerkData[] = [
     {
       state: false,
       type: PerkType.FREE_WATER,
       plainIcon: "bi bi-droplet",
-      filledIcon: "bi bi-droplet-fill"
+      filledIcon: "bi bi-droplet-fill",
+      isIcon: true
     },
     {
       state: false,
       type: PerkType.TOILET,
       plainIcon: "bi bi-badge-wc",
-      filledIcon: "bi bi-badge-wc-fill"
+      filledIcon: "bi bi-badge-wc-fill",
+      isIcon: true
     },
     {
       state: false,
       type: PerkType.STREET_TERRACE,
       plainIcon: "bi bi-tree",
-      filledIcon: "bi bi-tree-fill"
+      filledIcon: "bi bi-tree-fill",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.CHARGER,
+      plainIcon: "bi bi-battery",
+      filledIcon: "bi bi-battery-charging",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.VEGETARIAN,
+      plainIcon: "/assets/images/icons8-vegan.png",
+      filledIcon: "/assets/images/icons8-vegan-filled.png",
+      isIcon: false
+    },
+    {
+      state: false,
+      type: PerkType.TOPPINGS,
+      plainIcon: "/assets/images/icons8-syrup.png",
+      filledIcon: "/assets/images/icons8-syrup-filled.png",
+      isIcon: false
+    },  
+    {
+      state: false,
+      type: PerkType.SOCKET,
+      plainIcon: "bi bi-plug",
+      filledIcon: "bi bi-plug-fill",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.GRAIN_COFFEE,
+      plainIcon: "/assets/images/icons8-coffee-beans-24.png",
+      filledIcon: "/assets/images/icons8-coffee-beans-24-filled.png",
+      isIcon: false
+    },
+    {
+      state: false,
+      type: PerkType.WIFI,
+      plainIcon: "bi bi-router",
+      filledIcon: "bi bi-router-fill",
+      isIcon: true
     }
   ];
 
@@ -148,16 +193,14 @@ export class CoffeeShopDetailsForUserComponent implements OnInit {
         console.log("Имя комментирующего:", this.commentatorName);
       }
     );
-
-    
   }
 
   clearGradeInputForm() {
     this.commentForm.controls['comment'].setValue('');
     this.currentRate = 0;
-    this.perks[0].state = false;
-    this.perks[1].state = false;
-    this.perks[2].state = false;
+    for (let i = 0; i < this.perks.length; i++) {
+      this.perks[i].state = false; 
+    }
   }
 
   prepareEditGrade(userGrade: Grade) {

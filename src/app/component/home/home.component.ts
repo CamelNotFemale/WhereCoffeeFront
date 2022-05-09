@@ -1,6 +1,4 @@
-import { EmitterVisitorContext } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { Emitters } from '../../emitter/emitters';
 import { User } from '../../model/user/user';
 import { AuthService } from '../../service/auth/auth.service';
 import { UserService } from '../../service/user/user.service';
@@ -13,6 +11,7 @@ import { UserService } from '../../service/user/user.service';
 export class HomeComponent implements OnInit {
 
   message = '';
+  isLoggedIn: Boolean = false;
 
   constructor(private userService: UserService, private authService: AuthService) { }
 
@@ -21,14 +20,17 @@ export class HomeComponent implements OnInit {
       console.log("home")
       this.userService.getData(this.authService.user.id!).subscribe(
         (userData: User) => {
-          this.message = `Hi ${userData.username}`;
+          this.message = `Привет, ${userData.username} !`;
+          this.isLoggedIn = true;
         },
         (err: any) => {
           this.message = 'Failed to fetch user data';
+          this.isLoggedIn = false;
         }
       )
     } else {
-      this.message = 'You are not logged in';
+      this.message = 'Привет, Гость!';
+      this.isLoggedIn = false;
     }
   }
 

@@ -1,1 +1,18 @@
-{{message}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>{{message}}</h2>
+            <p class="bigText">Добро пожаловать в приложение WhereCoffee</p>
+            <div *ngIf="isLoggedIn">
+                <button type="button" class="btn btn-info" routerLink="/nearbyCoffeeShops">Опробовать поиск кофеен</button>
+            </div>
+            <div *ngIf="!isLoggedIn">
+                <button type="button" class="btn btn-info" routerLink="/login">Войти в приложение</button>
+            </div>  
+        </div>
+        <div class="col-sm-6">
+            <img src="assets/images/coffeeImage.jpg" class="coffeeShopImage">
+        </div>
+    </div>
+</div>
+

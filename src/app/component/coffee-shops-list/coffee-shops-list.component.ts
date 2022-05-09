@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoffeeShop } from '../../model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from '../../model/coffeeShopSummary/coffee-shop-summary';
 import { Schedule } from '../../model/hours/schedule copy';
-import { allWeekDays, WeekDay, WeekDayCodes, WeekDayCodesf } from '../../model/hours/week-day';
+import { allWeekDays, WeekDay, WeekDayCodes, WeekDayCodesf } from '../../enum/week-day';
 import { WorkingHours } from '../../model/hours/working-hours';
 import { CoffeeShopService } from '../../service/coffeeShops/coffee-shop.service';
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';

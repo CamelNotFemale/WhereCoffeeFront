@@ -1,4 +1,4 @@
-import { PerkType } from "src/app/model/perks/PerkType";
+import { PerkType } from "src/app/enum/perk-type";
 
 export class GradeRequest {
 

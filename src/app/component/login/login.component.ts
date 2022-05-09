@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../../dto/loginResponse/login-response';
-import { Emitters } from '../../emitter/emitters';
 import { AuthService } from '../../service/auth/auth.service';
 
 
@@ -17,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   loginFailed: boolean = false;
   loginFailureDescription!: string;
+  hide: Boolean = false;
+  showEye: Boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,6 +50,9 @@ export class LoginComponent implements OnInit {
       )
   }
 
-  
+  showPassword() {
+    this.hide = !this.hide;
+    this.showEye = !this.showEye;
+  } 
 
 }

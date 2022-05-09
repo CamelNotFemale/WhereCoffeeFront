@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { Role } from 'src/app/model/role/Role';
+import { Role } from '../../enum/role/role';
 import { LoginResponse } from 'src/app/dto/loginResponse/login-response';
 import { User } from 'src/app/model/user/user';
 import { environment } from 'src/environments/environment';

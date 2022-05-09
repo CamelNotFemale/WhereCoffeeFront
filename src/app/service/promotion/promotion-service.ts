@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { GetPromotionsResponse } from "src/app/dto/getPromotionsResponse/get-promotions-response";
 import { Promotion } from "src/app/model/promotion/promotion";
-import { PromotionRequest } from "src/app/model/promotion/PromotionAddRequest";
+import { PromotionRequest } from "src/app/model/promotion/promotion-add-request";
 import { AuthService } from "../auth/auth.service";
 import { environment } from 'src/environments/environment';
 

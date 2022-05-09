@@ -1,14 +1,20 @@
 <main class="form-signin">
   <form [formGroup]="form" (submit)="submit()">
-    <h2 class="h3 mb-3 fw-normal">Sign in</h2>
+    <h2 class="h3 mb-3 text-center fw-normal">Вход</h2>
     <div *ngIf="loginFailed" class="alert alert-danger">
       <span>{{loginFailureDescription}}</span>
     </div>
 
-    <input formControlName="username" type="username" class="form-control" placeholder="Username" required>
+    <input formControlName="username" type="username" class="form-control" placeholder="Имя пользователя" required>
   
-    <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+    <div class="input-group">
+      <input formControlName="password" [type]="hide ? 'text' : 'password'" class="form-control" placeholder="Пароль" required>
+      <a class="btn border">
+        <i [class]="showEye ? 'bi bi-eye' : 'bi bi-eye-slash'" (click)="showPassword()"></i>
+      </a>
+    </div>
+    
   
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary submitButton" type="submit">Войти</button>
   </form>
 </main>

@@ -38,12 +38,6 @@
               <a href="#detailsModal" class="link-secondary" data-bs-toggle="modal" data-bs-target="#detailsCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
                 {{coffeeShop.name}}
               </a>
-              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCoffeeShop" (click)="prepareEditDeleteForm(coffeeShop)">
-                <i class="bi bi-trash"></i>
-              </button>
               <button *ngIf="!coffeeShop.confirmed" type="button" class="btn btn-success btn-sm" (click)="confirmCoffeeShop(coffeeShop)">
                 <i class="bi bi-check-square"></i>
               </button>

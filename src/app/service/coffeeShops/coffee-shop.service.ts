@@ -10,7 +10,7 @@ import { OwnershipClaimSubmission } from 'src/app/dto/ownershipClaimSubmission/o
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
-import { PerkType } from 'src/app/model/perks/PerkType';
+import { PerkType } from 'src/app/enum/perk-type';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

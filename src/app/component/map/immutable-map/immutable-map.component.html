@@ -15,7 +15,8 @@
           <ya-placemark
             [geometry]="[coffeeShop.location.lat, coffeeShop.location.lng]"
             [properties]="{ iconCaption: coffeeShop.name }"
-            [options]="{ iconColor: '#ff0000' }"  
+            [options]="{ iconColor: '#ff0000' }"
+            (yaclick)="openCoffeeShopModalDetails(coffeeShop)"
           ></ya-placemark>
         </div>
         

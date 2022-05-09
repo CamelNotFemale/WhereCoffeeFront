@@ -5,7 +5,7 @@ import { ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { Promotion } from 'src/app/model/promotion/promotion';
-import { PromotionRequest } from 'src/app/model/promotion/PromotionAddRequest';
+import { PromotionRequest } from 'src/app/model/promotion/promotion-add-request';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { PromotionService } from 'src/app/service/promotion/promotion-service';

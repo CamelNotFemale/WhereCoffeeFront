@@ -32,6 +32,14 @@
               <td><b>Сайт</b></td>
               <td>{{ coffeeShop.url }}</td>
             </tr>
+            <tr *ngIf="coffeeShop.workingHours">
+              <td><b>Расписание</b></td>
+              <td>
+                <div *ngFor="let workingHour of coffeeShop.workingHours">          
+                  {{ workingHour.weekday }}: {{ workingHour.start_time }}-{{ workingHour.end_time }}
+              </div>
+              </td>
+            </tr>
             <tr *ngIf="coffeeShop.perks">
               <td><b>Особенности</b></td>
               <td>
@@ -39,13 +47,13 @@
                   <div *ngFor="let cafePerk of coffeeShop.perks">
                     <div *ngFor="let p of perks">
                       <div *ngIf="cafePerk.perk.title===p.type">
-                        <i class={{p.filledIcon}} id="perk"></i>
+                        <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                        <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                       </div>
                     </div>
                   </div>
                 </div>
               </td>
-              
             </tr>
           </tbody>
         </table>
@@ -76,16 +84,26 @@
       </ngb-carousel>
     </div>
 
-    <div class="writeComment col-sm-10">
-      <input type="text" formControlName="comment" class="form-control" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
-      <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
-
-      <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
-        
-      <div *ngFor="let perk of perks">
-        <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}} id="perk"></i></button>
-        <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}} id="perk"></i></button>
+    <div class="col-sm-10">
+      <div class="inputComment">
+        <input type="text" formControlName="comment" class="form-control comment" placeholder="Оставить комментарий" aria-label="Оставить комментарий" aria-describedby="basic-addon1">
+        <button type="button" class="btn btn-success addComment" (click)="addReview()">Отправить</button>
       </div>
+      
+      <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
+
+      <div class="writeComment">
+        <span>Особенности кофейни:</span>
+        <div *ngFor="let perk of perks">
+          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
+          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && perk.isIcon"><i class={{perk.filledIcon}} id="perk"></i></button>
+  
+          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
+          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && !perk.isIcon"><img src={{perk.filledIcon}}></button>
+        </div>
+      </div>
+      
+      
     </div>
     
   </form>
@@ -124,7 +142,8 @@
                         <div *ngFor="let perk of userGrade.perks">
                           <div *ngFor="let p of perks">
                             <div *ngIf="perk.title===p.type">
-                              <i class={{p.filledIcon}} id="perk"></i>
+                              <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                              <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                             </div>
                           </div>
                         </div>
@@ -138,7 +157,8 @@
                         <div *ngFor="let perk of userGrade.perks">
                           <div *ngFor="let p of perks">
                             <div *ngIf="perk.title===p.type">
-                              <i class={{p.filledIcon}} id="perk"></i>
+                              <i *ngIf="p.isIcon" class={{p.filledIcon}} id="perk"></i>
+                              <img *ngIf="!p.isIcon" src={{p.filledIcon}} id="perk">
                             </div>
                           </div>
                         </div>
@@ -150,8 +170,11 @@
                       <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
                       <div class="d-flex">
                         <div *ngFor="let perk of perks">
-                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}} id="perk"></i></button>
-                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}} id="perk"></i></button>
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && perk.isIcon"><i class={{perk.filledIcon}} id="perk"></i></button>
+  
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
+                          <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && !perk.isIcon"><img src={{perk.filledIcon}}></button>
                         </div>
                       </div>
                     </span>

@@ -1,5 +1,5 @@
 import { CoffeeShop } from "../coffeeShop/coffee-shop";
-import { Role } from "../role/Role";
+import { Role } from "../../enum/role/role";
 
 
 export class User {

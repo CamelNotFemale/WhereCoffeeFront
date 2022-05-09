@@ -5,8 +5,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopSummary } from 'src/app/model/coffeeShopSummary/coffee-shop-summary';
-import { PerkData } from 'src/app/model/perks/PerkData';
-import { PerkType } from 'src/app/model/perks/PerkType';
+import { PerkData } from 'src/app/model/perks/perk-data';
+import { PerkType } from 'src/app/enum/perk-type';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { CoffeeShopDetailsForUserComponent } from '../coffee-shop-details-for-user/coffee-shop-details-for-user.component';
 
@@ -35,24 +35,69 @@ export class UserCoffeeShopsListComponent implements OnInit {
   searchForm!: FormGroup;
 
   rating = 0;
-  perks: Array<PerkData> = [
+  perks: PerkData[] = [
     {
       state: false,
       type: PerkType.FREE_WATER,
       plainIcon: "bi bi-droplet",
-      filledIcon: "bi bi-droplet-fill"
+      filledIcon: "bi bi-droplet-fill",
+      isIcon: true
     },
     {
       state: false,
       type: PerkType.TOILET,
       plainIcon: "bi bi-badge-wc",
-      filledIcon: "bi bi-badge-wc-fill"
+      filledIcon: "bi bi-badge-wc-fill",
+      isIcon: true
     },
     {
       state: false,
       type: PerkType.STREET_TERRACE,
       plainIcon: "bi bi-tree",
-      filledIcon: "bi bi-tree-fill"
+      filledIcon: "bi bi-tree-fill",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.CHARGER,
+      plainIcon: "bi bi-battery",
+      filledIcon: "bi bi-battery-charging",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.VEGETARIAN,
+      plainIcon: "/assets/images/icons8-vegan.png",
+      filledIcon: "/assets/images/icons8-vegan-filled.png",
+      isIcon: false
+    },
+    {
+      state: false,
+      type: PerkType.TOPPINGS,
+      plainIcon: "/assets/images/icons8-syrup.png",
+      filledIcon: "/assets/images/icons8-syrup-filled.png",
+      isIcon: false
+    },  
+    {
+      state: false,
+      type: PerkType.SOCKET,
+      plainIcon: "bi bi-plug",
+      filledIcon: "bi bi-plug-fill",
+      isIcon: true
+    },
+    {
+      state: false,
+      type: PerkType.GRAIN_COFFEE,
+      plainIcon: "/assets/images/icons8-coffee-beans-24.png",
+      filledIcon: "/assets/images/icons8-coffee-beans-24-filled.png",
+      isIcon: false
+    },
+    {
+      state: false,
+      type: PerkType.WIFI,
+      plainIcon: "bi bi-router",
+      filledIcon: "bi bi-router-fill",
+      isIcon: true
     }
   ];
 
@@ -89,16 +134,20 @@ export class UserCoffeeShopsListComponent implements OnInit {
   get getDist() {
     return this.searchForm.get('dist');
   }
+
   clearSearch() {
     this.searchForm.controls['name'].setValue('');
     this.searchForm.controls['dist'].setValue(1);
     this.searchForm.controls['isOpened'].setValue(false);
     this.searchForm.controls['favoretes'].setValue(false);
+  
     this.rating = 0;
-    this.perks[0].state = false;
-    this.perks[1].state = false;
-    this.perks[2].state = false;
+
+    for (let i = 0; i < this.perks.length; i++) {
+      this.perks[i].state = false;
+    }
   }
+
   selectPage(event: PageEvent) {
     console.log("Selected page:", event.pageIndex, event.pageSize)
     this.page = event.pageIndex
@@ -119,35 +168,6 @@ export class UserCoffeeShopsListComponent implements OnInit {
     this.coffeeShopService.getCoffeeShopsBySearch(this.page, this.pageSize, this._location, dist, minRating, name, chosenPerks, isOpened, favorites).subscribe(
       (response) => {
         this.onCoffeeShopsLoaded.emit(response.content)
-        // this.nearByCoffeeShopsMarks.removeAll();
-        //this.nearByCoffeeShopsLoc = [];
-
-        // for (let i = 0; i < this.nearByCoffeeShops.length; i++) {
-        //   let currentCoffeeShop = this.nearByCoffeeShops[i];
-        //   let lat = currentCoffeeShop.location.lat;
-        //   let lng = currentCoffeeShop.location.lng;
-        //   console.log("Lat: ", lat, "Lng: ", lng);
-        //   //this.nearByCoffeeShopsLoc.push(lat + ',' + lng);
-        //   // let geoObject = new ymaps.GeoObject({
-        //   //   // Описание геометрии.
-        //   //   geometry: {
-        //   //       type: "Point",
-        //   //       coordinates: [lat, lng]
-        //   //   },
-        //   //   properties: {
-        //   //     // Контент метки.
-        //   //     iconColor: '#3caa3c'
-        //   //   }
-        //   // })
-
-        //   // this.nearByCoffeeShopsMarks.add(geoObject);
-        //   // let point = new ymaps.Placemark([lat, lng]);
-
-        //   // this.nearByCoffeeShopsMarks!.add(point);
-        // }
-        // console.log(this.nearByCoffeeShopsMarks);
-        //console.log(this.nearByCoffeeShopsLoc)
-
         this.totalElements = response.totalElements
         console.log(response, this.nearByCoffeeShops, this.totalElements)
         this.changeDetection.detectChanges()

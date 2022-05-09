@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Emitters } from '../../emitter/emitters';
-import { Role } from '../../model/role/Role';
 import { User } from '../../model/user/user';
 
 import { AuthService } from '../../service/auth/auth.service';

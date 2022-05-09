@@ -5,7 +5,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { LoginComponent } from './component/login/login.component';
 import { CoffeeShopsListComponent } from './component/coffee-shops-list/coffee-shops-list.component';
 import { AuthGuard } from './guards/auth-guard';
-import { Role } from './model/role/Role';
+import { Role } from './enum/role/role';
 import { NearByCoffeeShopComponent } from './component/nearby-cafeterias/near-by-coffee-shop/near-by-coffee-shop.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { OwnedModeratorCoffeeShopsComponent } from './component/owned-moderator-coffee-shops/owned-moderator-coffee-shops.component';

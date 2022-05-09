@@ -7,6 +7,6 @@
 }
 
 .inline {
-    display: flex;
+    display: block ruby;
     gap: 15px;
 }

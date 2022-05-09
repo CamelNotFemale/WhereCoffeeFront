@@ -1,0 +1,78 @@
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+/* .content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-self: space-between;
+    align-items: center;
+}
+
+.content .textBox {
+    position: relative;
+    max-width: 600px;
+}
+
+.content .textBox h2 {
+    color: #333;
+    font-size: 4em;
+    line-height: 1.4em;
+    font-weight: 500;
+}
+
+.content .textBox p {
+    color: #333;
+}
+
+.content .imageBox {
+    width: 200px;
+    float: right;
+}
+
+.content .imageBox img {
+    max-width: 400px;
+    
+} */
+/* .content h2 {
+    display: inline;
+}
+
+.content p {
+    display: inline;
+}
+
+.content img {
+    margin-left: auto;
+    display: block;
+    max-width: 400px;
+    margin-right: 10%;
+    float: right;
+} */
+
+.bigText {
+    font-size: 20px;
+    margin: 20px 0;
+    color: darkblue;
+    margin-left: 20%;
+}
+
+.coffeeShopImage {
+    max-width: 400px;
+    float: right;
+    margin-right: 20%;
+    margin-top: 10%;
+}
+
+h2 {
+    margin-left: 20%;
+    margin-top: 20%;
+}
+
+.btn {
+    margin-left: 20%;
+}
+

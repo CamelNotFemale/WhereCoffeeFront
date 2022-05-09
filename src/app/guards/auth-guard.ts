@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
-import { Role } from "../model/role/Role";
+import { Role } from "../enum/role/role";
 import { User } from "../model/user/user";
 import { AuthService } from "../service/auth/auth.service";
 import { UserService } from "../service/user/user.service";

@@ -15,8 +15,11 @@
     <div class="inline">
       <label class="form-label">Особенности:</label>
       <div  *ngFor="let perk of perks">
-        <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state"><i class={{perk.plainIcon}} id="perk"></i></button>
-        <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state"><i class={{perk.filledIcon}} id="perk"></i></button>
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && perk.isIcon"><i class={{perk.plainIcon}} id="perk"></i></button>
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && perk.isIcon"><i class={{perk.filledIcon}} id="perk"></i></button>
+
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="!perk.state && !perk.isIcon"><img src={{perk.plainIcon}}></button>
+        <button class="btn" (click)="perk.state=!perk.state" *ngIf="perk.state && !perk.isIcon"><img src={{perk.filledIcon}}></button>
       </div>
     </div>
     <div class="form-check">
