@@ -9,6 +9,7 @@ import { CoffeeShopService } from '../../service/coffeeShops/coffee-shop.service
 import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -33,9 +34,6 @@ export class CoffeeShopsListComponent implements OnInit {
   pageSize = 5;
   totalElements!: number;
 
-  // @ViewChild(MapModalComponent)
-  // map!: MapModalComponent;
-
   isMapDisplayed = false;
   coordinatesButtonText = "Добавить геолокацию";
 
@@ -54,7 +52,10 @@ export class CoffeeShopsListComponent implements OnInit {
   ]
   };
 
-  constructor(private formBuilder: FormBuilder, public coffeeShopService: CoffeeShopService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private coffeeShopService: CoffeeShopService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.coffeeShopDetails = this.formBuilder.group({
@@ -107,9 +108,11 @@ export class CoffeeShopsListComponent implements OnInit {
       value => {
         console.log("New coffee shop added");
         this.loadCoffeeShops();
+        this.toastr.success("Кофейня создана успешно")
       },
       error => {
         console.error("FAILED TO ADD COFFEE SHOP", error);
+        this.toastr.error("Возникла ошибка при создании новой кофейни")
       }
     )
   }
@@ -164,9 +167,11 @@ export class CoffeeShopsListComponent implements OnInit {
       value => {
         this.loadCoffeeShops();
         console.log(this.coffeeShops);
+        this.toastr.success("Информация о кофейне изменена успешно")
       }, 
       error => {
         console.log("FAILED TO UPDATE COFFEE SHOP", error);
+        this.toastr.error("Возникла ошибка при изменении информации о новой кофейне")
       }
     )
   }
@@ -176,8 +181,10 @@ export class CoffeeShopsListComponent implements OnInit {
     this.coffeeShopService.deleteCoffeeShop(this.selectedCoffeeShopId).subscribe(
       value => {
         this.loadCoffeeShops();
+        this.toastr.success("Кофейня удалена успешно")
       },
       error => {
+        this.toastr.error("Возникла ошибка при удалении кофейни")
         console.log("FAILED TO DELETE COFFEE SHOP WITH ID ", this.selectedCoffeeShopId, error);
       }
     )
@@ -229,16 +236,6 @@ export class CoffeeShopsListComponent implements OnInit {
     console.log(addressData);
   }
 
-  // displayMap() {
-  //   this.isMapDisplayed = !this.isMapDisplayed;
-  //   if (this.isMapDisplayed) {
-  //     this.coordinatesButtonText = "Закрыть карту";
-  //   }
-  //   else {
-  //     this.coordinatesButtonText = "Добавить геолокацию";
-  //   }
-  // }
-
   hideMap() {
     this.isMapDisplayed = false;
     this.coordinatesButtonText = "Добавить геолокацию";
@@ -250,9 +247,11 @@ export class CoffeeShopsListComponent implements OnInit {
         (res) => {
           console.log("Successfully confirmed coffee shop - " + coffeeShop.name)
           this.loadCoffeeShops();
+          this.toastr.success("Кофейня подтверждена успешно")
         },
         (err) => {
           console.log("Error with confirm: " + err)
+          this.toastr.error("Возникла ошибка при подтверждении кофейни")
         }
       )
     }
@@ -262,11 +261,12 @@ export class CoffeeShopsListComponent implements OnInit {
     if (confirm("Информация о кофейнях будет принудительно обновлена из YandexMapAPI. Требуется подтвердить действие.")) {
       this.coffeeShopService.updateCoffeeShopsFromYandexMapAPI().subscribe(
         (res) => {
-          console.log("Сoffee shop forced refresh error")
+          console.log("Сoffee shop forced refresh success")
+          this.toastr.success("Список всех кофеен успешно обновлен")
         },
         (err) => {
           console.log("Сoffee shop forced refresh error")
-          alert("Сoffee shop forced refresh error")
+          this.toastr.error("Возникла ошибка при обновлении списка кофеен")
         }
       )
     }

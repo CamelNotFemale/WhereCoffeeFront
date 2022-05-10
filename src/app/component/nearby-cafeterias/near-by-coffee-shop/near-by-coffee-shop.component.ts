@@ -11,18 +11,10 @@ import { environment } from 'src/environments/environment';
 })
 export class NearByCoffeeShopComponent implements OnInit {
 
-  // @ViewChild(UserCoffeeShopsListComponent)
-  // userCoffeeShopsList!: UserCoffeeShopsListComponent;
-
   userLocation!: string;
 
   coffeeShops!: CoffeeShop[];
 
-  // @Output()
-  // locationChange = new EventEmitter<string>();
-
-  // coffeeShopMarks: ymaps.GeoObjectCollection = new ymaps.GeoObjectCollection();
-  //coffeeShopLoc = new Array<string>();
   constructor(public coffeeShopService: CoffeeShopService) { }
 
   ngOnInit(): void {
@@ -30,7 +22,6 @@ export class NearByCoffeeShopComponent implements OnInit {
     if (!navigator.geolocation) {
       console.log('Location is not supported');
       this.userLocation = environment.defaultCoords;
-      //this.locationChange.emit(this.location)
     }
     
     navigator.geolocation.getCurrentPosition( (position) => {
@@ -38,7 +29,6 @@ export class NearByCoffeeShopComponent implements OnInit {
         `lat: ${position.coords.latitude}, lng: ${position.coords.longitude}`
       );
       this.userLocation = position.coords.latitude + "," + position.coords.longitude;
-      //this.locationChange.emit(this.location)
     },
     (err) => {
       this.userLocation = environment.defaultCoords;

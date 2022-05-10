@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { ToastrService } from 'ngx-toastr';
 import { GetOwnershipClaimsResponse } from 'src/app/dto/getOwnershipClaimsResponse/get-ownership-claims-response';
 import { Schedule } from 'src/app/model/hours/schedule copy';
 import { OwnershipClaim } from 'src/app/model/ownershipClaim/ownership-claim';
@@ -28,8 +29,9 @@ export class OwnerClaimListComponent implements OnInit {
   constructor(
     private changeDetection: ChangeDetectorRef, 
     private formBuilder: FormBuilder, 
-    public coffeeShopService: CoffeeShopService, 
-    public userService: UserService
+    private coffeeShopService: CoffeeShopService, 
+    private userService: UserService,
+    private toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -123,9 +125,10 @@ export class OwnerClaimListComponent implements OnInit {
       this.coffeeShopService.confirmOwnershipClaim(claimId).subscribe(
         (res: any) => {
           this.loadOwnershipList()
+          this.toastr.success("Заявка успешно одобрена")
         },
         (err: any) => {
-          alert("Что-то пошло не так..")
+          this.toastr.error("Что-то пошло не так..")
         }
       )
     }
@@ -136,9 +139,10 @@ export class OwnerClaimListComponent implements OnInit {
       this.coffeeShopService.rejectOwnershipClaim(claimId).subscribe(
         (res: any) => {
           this.loadOwnershipList()
+          this.toastr.success("Заявка успешно отклонена")
         },
         (err: any) => {
-          alert("Что-то пошло не так..")
+          this.toastr.error("Что-то пошло не так..")
         }
       )
     }

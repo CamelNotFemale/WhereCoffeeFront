@@ -32,7 +32,7 @@ export class MutableMapComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log("Unmutable map component reinit. Editable: ", this.editable, ". Name: ", this.name);
+    console.log("Mutable map component reinit. Editable: ", this.editable, ". Name: ", this.name);
     if (this.location) {
       console.log(this.location);
       this.lat = Number(this.location.split(',')[0]);

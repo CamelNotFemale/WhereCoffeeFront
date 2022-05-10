@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
             },
             (err) => {
-                alert('Error')
+                // alert('Error')
                 this.authService.logout()
             }
         )

@@ -10,6 +10,7 @@ import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstr
 import { CoffeeShop } from 'src/app/model/coffeeShop/coffee-shop';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { CoffeeShopDetailsForUserComponent } from '../nearby-cafeterias/coffee-shop-details-for-user/coffee-shop-details-for-user.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +31,8 @@ export class ProfileComponent implements OnInit {
     private coffeeShopService: CoffeeShopService,
     private modalService: NgbModal,
     private authService: AuthService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.showMainPage = true;
@@ -43,8 +45,8 @@ export class ProfileComponent implements OnInit {
         this.buildForm()
       },
       (err: any) => {
-        alert('Failed to fetch user data')
-        this.router.navigate(['/home']);
+        this.toastr.error('Время действия сессии истекло. Необохдимо заново авторизироваться')
+        this.router.navigate(['/login']);
       }
     )
     

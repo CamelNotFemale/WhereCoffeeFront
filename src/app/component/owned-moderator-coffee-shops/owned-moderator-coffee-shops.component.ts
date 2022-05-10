@@ -15,6 +15,7 @@ import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCof
 import { PageEvent } from '@angular/material/paginator';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PromotionDetailsComponent } from '../promotion-details/promotion-details.component';
+import { ToastrService } from 'ngx-toastr';
 
 export class PromotionsSlide {
   constructor(public promotions: Array<Promotion>) {}
@@ -45,7 +46,8 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
     private coffeeShopService: CoffeeShopService, 
     private authService: AuthService,
     private promotionService: PromotionService, 
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.coffeeShopDetails = this.formBuilder.group({
@@ -85,9 +87,11 @@ export class OwnedModeratorCoffeeShopsComponent implements OnInit {
     this.coffeeShopService.updateCoffeeShop(this.extractCoffeeShopFormData()).subscribe(
       value => {
         this.loadCoffeeShops();
+        this.toastr.success("Информация о кофейне успешно изменена")
         console.log(this.coffeeShops);
       }, 
       error => {
+        this.toastr.error("Возникла ошибка при изменении информации о кофейне")
         console.log("FAILED TO UPDATE COFFEE SHOP", error);
       }
     )

@@ -31,6 +31,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PromotionDetailsComponent } from './component/promotion-details/promotion-details.component';
 import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
+import { authInterceptorProviders } from './interceptor/auth-interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -67,9 +69,10 @@ import { PromotionForUserComponent } from './component/promotion-for-user/promot
     MatPaginatorModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
   entryComponents: [CoffeeShopDetailsForUserComponent]
 })

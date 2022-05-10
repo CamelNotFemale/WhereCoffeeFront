@@ -4,7 +4,11 @@
   <h5 class="modal-title" id="exampleModalLabel">{{ coffeeShop.name }}</h5>
   <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off" [checked]="inFavorites" (click)="addToFavorite(coffeeShop.id)">
   <label class="btn btn-outline-warning ml-2" for="btn-check-outlined"><i class="bi bi-award"></i></label>
+  <div>
+    <button type="button" class="btn btn-light iAmOwnerButton" (click)="openOwnershipClaimModal(coffeeShop.id)">Я владелец</button>
+  </div>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  
 </div>
 <div class="modal-body">
   <form [formGroup]="commentForm">
@@ -58,10 +62,6 @@
           </tbody>
         </table>
       </div>
-    </div>
-
-    <div>
-      <button type="button" class="btn btn-light" (click)="openOwnershipClaimModal(coffeeShop.id)">Я владелец</button>
     </div>
 
     <div *ngIf="promotionsSlides.length != 0">

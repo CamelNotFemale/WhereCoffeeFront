@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { User } from '../../model/user/user';
 import { AuthService } from '../../service/auth/auth.service';
 import { UserService } from '../../service/user/user.service';
@@ -13,7 +15,11 @@ export class HomeComponent implements OnInit {
   message = '';
   isLoggedIn: Boolean = false;
 
-  constructor(private userService: UserService, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private userService: UserService, 
+    private authService: AuthService, 
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     if (this.authService.user) {
@@ -24,8 +30,9 @@ export class HomeComponent implements OnInit {
           this.isLoggedIn = true;
         },
         (err: any) => {
-          this.message = 'Failed to fetch user data';
+          this.toastr.error('Время действия сессии истекло. Необохдимо заново авторизироваться', 'Ошибка')
           this.isLoggedIn = false;
+          this.router.navigate(['/login']);
         }
       )
     } else {

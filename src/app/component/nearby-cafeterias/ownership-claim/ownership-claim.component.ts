@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 
 @Component({
@@ -14,7 +15,11 @@ export class OwnershipClaimComponent implements OnInit {
   @Input() 
   cafeId!: number;
 
-  constructor(public activeModal: NgbActiveModal, public coffeeShopService: CoffeeShopService, private formBuilder: FormBuilder) { }
+  constructor(
+    public activeModal: NgbActiveModal, 
+    private coffeeShopService: CoffeeShopService, 
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.claimForm = this.formBuilder.group({
@@ -30,12 +35,12 @@ export class OwnershipClaimComponent implements OnInit {
     if (this.claimForm.valid) {
       this.coffeeShopService.sendOwnershipClaim(this.cafeId, this.claimForm.getRawValue()).subscribe(
         (res: any) => {
-          alert("Заявка успешно отправлена!")
+          this.toastr.success("Заявка успешно отправлена!")
           this.activeModal.close()
         },
         (err: HttpErrorResponse) => {
           if (err.status == 409) {
-            alert("Ошибка, заявка уже была отправлена!")
+            this.toastr.error("Ошибка! Заявка уже была отправлена!")
             this.activeModal.close()
           }
           console.log(err)

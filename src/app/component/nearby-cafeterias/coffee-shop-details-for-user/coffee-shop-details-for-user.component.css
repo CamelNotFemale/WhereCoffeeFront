@@ -72,3 +72,8 @@ fieldset {
     border: 1px solid #34495e;
     border-radius: 5px;
 }
+
+.iAmOwnerButton {
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -9,6 +9,7 @@ import { PromotionRequest } from 'src/app/model/promotion/promotion-add-request'
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CoffeeShopService } from 'src/app/service/coffeeShops/coffee-shop.service';
 import { PromotionService } from 'src/app/service/promotion/promotion-service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-promotions-list-for-moderator',
@@ -37,7 +38,8 @@ export class PromotionsListForModeratorComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private promotionService: PromotionService,
     private authService: AuthService,
-    private coffeeShopService: CoffeeShopService
+    private coffeeShopService: CoffeeShopService,
+    private toastr: ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -50,35 +52,9 @@ export class PromotionsListForModeratorComponent implements OnInit {
       cafes: this.participatingCoffeeShop,
     })
 
-    // this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
-    // console.log("FilteredCoffeeShopsMulti ", this.filteredCoffeeShopsMulti);
-
-    // this.searchCoffeeShop.valueChanges
-    //   .pipe(takeUntil(this._onDestroy))
-    //   .subscribe(() => {
-    //     this.filterBanksMulti();
-    //   });
-
       this.loadPromotions();
       this.loadCoffeeShops(0,10);
   }
-
-  // ngAfterViewInit() {
-  //   this.setInitialValue();
-  // }
-
-  // protected setInitialValue() {
-  //   this.filteredCoffeeShopsMulti
-  //     .pipe(take(1), takeUntil(this._onDestroy))
-  //     .subscribe(() => {
-  //       // setting the compareWith property to a comparison function
-  //       // triggers initializing the selection according to the initial value of
-  //       // the form control (i.e. _initializeSelection())
-  //       // this needs to be done after the filteredBanks are loaded initially
-  //       // and after the mat-option elements are available
-  //       this.multiSelect.compareWith = (a: CoffeeShop, b: CoffeeShop) => a && b && a.id === b.id;
-  //     });
-  // }
 
   ngOnDestroy() {
     this._onDestroy.next();
@@ -142,8 +118,10 @@ export class PromotionsListForModeratorComponent implements OnInit {
       value => {
         console.log("Promotion created");
         this.loadPromotions();
+        this.toastr.success("Акция успешно создана")
       },
       error => {
+        this.toastr.error("Возникла ошибка при создании акции")
         console.error("FAILED TO CREATE PROMOTION", error);
       }
     )
@@ -171,8 +149,10 @@ export class PromotionsListForModeratorComponent implements OnInit {
       value => {
         this.loadPromotions();
         console.log(this.promotions);
+        this.toastr.success("Информация об акции успешно изменена")
       }, 
       error => {
+        this.toastr.error("Возникла ошибка при изменении акции")
         console.log("FAILED TO UPDATE COFFEE SHOP", error);
       }
     )
@@ -182,29 +162,13 @@ export class PromotionsListForModeratorComponent implements OnInit {
     this.promotionService.deletePromotion(this.selectedPromotion.id).subscribe(
       value => {
         this.loadPromotions();
+        this.toastr.success("Акция успешно удалена")
       },
       error => {
+        this.toastr.error("Возникла ошибка при удалении акции")
         console.log("FAILED TO DELETE COFFEE SHOP WITH ID ", this.selectedPromotion.id, error);
       }
     )
 
   }
-
-  // protected filterBanksMulti() {
-  //   if (!this.moderatorsCoffeeShops) {
-  //     return;
-  //   }
-  //   // get the search keyword
-  //   let search = this.searchCoffeeShop.value;
-  //   if (!search) {
-  //     this.filteredCoffeeShopsMulti.next(this.moderatorsCoffeeShops.slice());
-  //     return;
-  //   } else {
-  //     search = search.toLowerCase();
-  //   }
-  //   // filter the coffee shop
-  //   this.filteredCoffeeShopsMulti.next(
-  //     this.moderatorsCoffeeShops.filter(cafe => cafe.name.toLowerCase().indexOf(search) > -1)
-  //   );
-  // }
 }
