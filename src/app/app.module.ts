@@ -33,6 +33,7 @@ import { PromotionDetailsComponent } from './component/promotion-details/promoti
 import { PromotionForUserComponent } from './component/promotion-for-user/promotion-for-user.component';
 import { authInterceptorProviders } from './interceptor/auth-interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { ConflictAddingCoffeeShopComponent } from './component/conflict-adding-coffee-shop/conflict-adding-coffee-shop.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ToastrModule } from 'ngx-toastr';
     OwnerClaimListComponent,
     PromotionsListForModeratorComponent,
     PromotionDetailsComponent,
-    PromotionForUserComponent
+    PromotionForUserComponent,
+    ConflictAddingCoffeeShopComponent
   ],
   imports: [
     BrowserModule,

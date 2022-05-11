@@ -10,6 +10,10 @@ import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolk
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AddCoffeeShopRequest } from 'src/app/dto/createCoffeeShopRequest/addCoffeeShopRequest';
 import { ToastrService } from 'ngx-toastr';
+import { PerkType } from 'src/app/enum/perk-type';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ConflictAddingCoffeeShopComponent } from '../conflict-adding-coffee-shop/conflict-adding-coffee-shop.component';
+import { BooleanLiteral } from 'typescript';
 
 @Component({
   selector: 'app-coffee-shops-list',
@@ -54,6 +58,7 @@ export class CoffeeShopsListComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder, 
+    private modalService: NgbModal,
     private coffeeShopService: CoffeeShopService,
     private toastr: ToastrService) { }
 
@@ -100,18 +105,56 @@ export class CoffeeShopsListComponent implements OnInit {
     this.hideMap();
   }
 
+  openConflictAddingCoffeeShopModal(coffeeShops: CoffeeShop[]): Promise<boolean> {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop : true,
+      keyboard : false,
+      size: 'xl'
+    }
+
+    const modalRef: NgbModalRef = this.modalService.open(ConflictAddingCoffeeShopComponent, ngbModalOptions);
+
+    modalRef.componentInstance.coffeeShops = coffeeShops;
+    
+    return modalRef.result.then( (res: boolean) => {
+      console.log("Approval of the establishment of the cafeteria")
+      return res
+    })
+    .catch((err) => {
+      console.log("Сancel adding a coffee shop")
+      return false
+    })
+  }
+
   addCoffeeShop() {
     let newCoffeeShop = this.extractFormData();  
     console.log("New coffee shop: ", newCoffeeShop);  
     
-    this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
-      value => {
-        console.log("New coffee shop added");
-        this.loadCoffeeShops();
-        this.toastr.success("Кофейня создана успешно")
+    let perks = Array<PerkType>();
+    this.coffeeShopService.getCoffeeShopsBySearch(0, 25, newCoffeeShop.location, 0.2, 0, '', perks, false, false)
+    .subscribe(
+      async (res) => {
+        if (res.totalElements > 0) {
+          if (!(await this.openConflictAddingCoffeeShopModal(res.content)).valueOf()) {
+            console.error("Добавление кофейни было отменено");
+            this.toastr.error("Добавление кофейни было отменено")
+            return
+          }
+        }
+        this.coffeeShopService.addCoffeeShop(newCoffeeShop).subscribe(
+          value => {
+            console.log("New coffee shop added");
+            this.loadCoffeeShops();
+            this.toastr.success("Кофейня создана успешно")
+          },
+          error => {
+            console.error("FAILED TO ADD COFFEE SHOP", error);
+            this.toastr.error("Возникла ошибка при создании новой кофейни")
+          }
+        )
       },
-      error => {
-        console.error("FAILED TO ADD COFFEE SHOP", error);
+      (err) => {
+        console.error("FAILED TO ADD COFFEE SHOP", err);
         this.toastr.error("Возникла ошибка при создании новой кофейни")
       }
     )
