@@ -4,23 +4,23 @@
     <div *ngIf="registerFailed" class="alert alert-danger">
       <span>{{registerFailureDescription}}</span>
     </div>
-    <input formControlName="username" class="form-control" placeholder="Логин" required>
+    <input formControlName="username" type="text" class="form-control" placeholder="Логин" required>
     <div
-      *ngIf="getName!.invalid && (getName!.touched || getName!.dirty)" class="alert alert-danger"
+      *ngIf="formControl['username']!.invalid && (formControl['username']!.touched || formControl['username']!.dirty)" class="alert alert-danger"
     >
-      <span *ngIf="getName!.errors?.['required']"
+      <span *ngIf="formControl['username']!.errors?.['required']"
         >Требуется ввести логин
       </span>
     </div>
   
     <input formControlName="email" type="email" class="form-control" placeholder="Почта" required>
     <div
-      *ngIf="getEmail!.invalid && (getEmail!.touched || getEmail!.dirty)" class="alert alert-danger"
+      *ngIf="formControl['email']!.invalid && (formControl['email']!.touched || formControl['email']!.dirty)" class="alert alert-danger"
     >
-      <span *ngIf="getEmail!.errors?.['required']"
+      <span *ngIf="formControl['email']!.errors?.['required']"
         >Требуется ввести адрес почты
       </span>
-      <span *ngIf="getEmail!.errors?.['email']"
+      <span *ngIf="formControl['email']!.errors?.['email']"
         >Адрес почты некорректен
       </span>
     </div>
@@ -32,12 +32,8 @@
       </a>
     </div>
     
-      
-    
-
-    
-    <div *ngIf="getPassword!.invalid && (getPassword!.touched || getPassword!.dirty)" class="alert alert-danger">
-      <span *ngIf="getPassword!.invalid">
+    <div *ngIf="formControl['password']!.invalid && (formControl['password']!.touched || formControl['password']!.dirty)" class="alert alert-danger">
+      <span *ngIf="formControl['password']!.invalid">
         Пароль должен состоять как минимум из 6 символов
       </span>
     </div>

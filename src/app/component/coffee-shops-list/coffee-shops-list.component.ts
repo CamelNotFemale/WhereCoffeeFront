@@ -43,7 +43,7 @@ export class CoffeeShopsListComponent implements OnInit {
 
 
   config: DadataConfig = {
-    apiKey: '343818efe09560ad70087db3519915a5421ddafd',
+    apiKey: 'ede4b4ce14845d67864abbe6614dd2a4c62dc9d1',
     type: DadataType.address,
     locations: [
       {
@@ -101,6 +101,7 @@ export class CoffeeShopsListComponent implements OnInit {
       this.schedule.workingHours.push(workingHours)
     })
     this.location = ""
+    console.log(this.location)
 
     this.hideMap();
   }

@@ -1,7 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -28,16 +28,20 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  get getName() {
-    return this.form.get('username');
-  }
+  // get username() {
+  //   return this.form.get('username');
+  // }
 
-  get getEmail() {
-    return this.form.get('email');
-  }
+  // get email() {
+  //   return this.form.get('email');
+  // }
 
-  get getPassword() {
-    return this.form.get('password');
+  // get password() {
+  //   return this.form.get('password');
+  // }
+
+  get formControl(): { [key: string]: AbstractControl } {
+    return this.form.controls;
   }
 
   submit(): void {

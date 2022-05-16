@@ -56,31 +56,11 @@ export class ImmutableMapComponent implements OnInit {
       this.lng = Number(this.location.split(',')[1]);
       console.log(this.lat, this.lng);
       console.log("Coffee shops updated for immutable map: ", this.coffeeShops);
-
-    //   if (this.locs) {
-    //     console.log(this.locs);
-    //     for (let i = 0; i < this.locs.length; i++) {
-    //       let latitude = Number(this.locs[i].split(',')[0]);
-
-    //       let longitude = Number(this.locs[i].split(',')[1]);
-    //       let geoObject = new ymaps.GeoObject({
-    //         // Описание геометрии.
-    //         geometry: {
-    //             type: "Point",
-    //             coordinates: [latitude, longitude]
-    //         },
-    //         properties: {
-    //           // Контент метки.
-    //           iconColor: '#3caa3c'
-    //         }
-    //       })
-
-    //       this.nearByCoffeeShopsMarks.add(geoObject);
-    //     }
-    //     console.log(this.nearByCoffeeShopsMarks)
-    //   }     
     }
-    
+    else {
+      this.lat = 59.9386;
+      this.lng = 30.3141;
+    }
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>): void {

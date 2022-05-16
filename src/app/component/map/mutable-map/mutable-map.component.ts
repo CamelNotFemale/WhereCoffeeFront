@@ -39,11 +39,15 @@ export class MutableMapComponent implements OnInit {
       this.lng = Number(this.location.split(',')[1]);
       console.log(this.lat, this.lng);
     }
+    else {
+      this.lat = 59.9386;
+      this.lng = 30.3141;
+    }
   }
 
   onMapReady(event: YaReadyEvent<ymaps.Map>): void {
     console.log("Mutable map component ready. Editable: ", this.editable, ". Name: ", this.name);
-
+    console.log(this.location)
     this.map = event.target;
     
     

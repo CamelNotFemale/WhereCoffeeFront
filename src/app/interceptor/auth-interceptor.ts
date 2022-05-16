@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import { AuthService } from '../service/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
-const TOKEN_HEADER_KEY = 'Authorization';
+const AUTH_HEADER_NAME = 'Authorization';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,19 +14,25 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
-    let authRequest = request;
-    let token = this.authService.user?.token;
+    let requestToSend = this.prepareRequest(request)
 
-    if (token != null) {
-        authRequest = request.clone({headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)});
-    }
-
-    return httpHandler.handle(authRequest).pipe(catchError((err: any) => {
+    return httpHandler.handle(requestToSend).pipe(catchError((err: any) => {
       if (err.status !== 403) {
         console.log("error");
       }
       return throwError(err);
     }));
+  }
+
+  private prepareRequest(request: HttpRequest<any>): HttpRequest<any> {
+    if (!request.headers.get(AUTH_HEADER_NAME)) {
+      let token = this.authService.user?.token;
+      if (token) {
+          return request.clone({headers: request.headers.set(AUTH_HEADER_NAME, 'Bearer ' + token)});
+      }
+    }
+
+    return request
   }
 }
 
