@@ -4,24 +4,13 @@
     <div *ngIf="registerFailed" class="alert alert-danger">
       <span>{{registerFailureDescription}}</span>
     </div>
+
     <input formControlName="username" type="text" class="form-control" placeholder="Логин" required>
     <div
       *ngIf="formControl['username']!.invalid && (formControl['username']!.touched || formControl['username']!.dirty)" class="alert alert-danger"
     >
       <span *ngIf="formControl['username']!.errors?.['required']"
         >Требуется ввести логин
-      </span>
-    </div>
-  
-    <input formControlName="email" type="email" class="form-control" placeholder="Почта" required>
-    <div
-      *ngIf="formControl['email']!.invalid && (formControl['email']!.touched || formControl['email']!.dirty)" class="alert alert-danger"
-    >
-      <span *ngIf="formControl['email']!.errors?.['required']"
-        >Требуется ввести адрес почты
-      </span>
-      <span *ngIf="formControl['email']!.errors?.['email']"
-        >Адрес почты некорректен
       </span>
     </div>
 
@@ -35,6 +24,18 @@
     <div *ngIf="formControl['password']!.invalid && (formControl['password']!.touched || formControl['password']!.dirty)" class="alert alert-danger">
       <span *ngIf="formControl['password']!.invalid">
         Пароль должен состоять как минимум из 6 символов
+      </span>
+    </div>
+
+    <input formControlName="email" type="email" class="form-control" placeholder="Почта" required>
+    <div
+      *ngIf="formControl['email']!.invalid && (formControl['email']!.touched || formControl['email']!.dirty)" class="alert alert-danger"
+    >
+      <span *ngIf="formControl['email']!.errors?.['required']"
+        >Требуется ввести адрес почты
+      </span>
+      <span *ngIf="formControl['email']!.errors?.['email']"
+        >Адрес почты некорректен
       </span>
     </div>
 
